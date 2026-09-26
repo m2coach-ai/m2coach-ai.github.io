@@ -213,7 +213,7 @@ if (canvas && stage && !reducedMotion) {
       ribbonGroup.add(new THREE.Mesh(surfaceBand(curve, width, 240), mat));
     });
 
-    // --- Shared soft point shader for sparkles, the galaxy, dust and bokeh.
+    // --- Shared soft point shader for sparkles, dust and bokeh.
     const pointMaterials = [];
     function makePoints({ positions, colors, sizes, seeds, bokeh = false, scaleIn = 1 }) {
       const geo = new THREE.BufferGeometry();
@@ -284,28 +284,166 @@ if (canvas && stage && !reducedMotion) {
       return { positions, colors, sizes, seeds };
     }
 
-    // Galaxy: two logarithmic-looking spiral arms plus a dotted inner ring,
-    // on a plane tilted toward the camera like the poster.
+    // Galaxy: a deliberately imperfect swirl. Lopsided arms, clumps, dust
+    // gaps and broken rings keep it from looking machine-drawn. Stars wander
+    // gently along their orbits so the pattern never repeats exactly, the
+    // disc is slightly warped, and about one star in six periodically lifts
+    // off and evaporates upward, faster while you scroll.
     const galaxy = new THREE.Group();
     galaxy.rotation.set(0.42, 0, -0.14);
     scene.add(galaxy);
     const galaxyCount = constrainedDevice ? 4500 : 7500;
-    galaxy.add(makePoints({
-      ...buildCloud(galaxyCount, (i) => {
-        if (i % 3 === 0) {
-          // thin dotted rings hugging the orb
-          const r = 2.2 + Math.floor(Math.random() * 4) * 0.28 + gauss() * 0.03;
-          const a = Math.random() * Math.PI * 2;
-          return [Math.cos(a) * r, gauss() * 0.03, Math.sin(a) * r];
-        }
-        const arm = i % 2;
-        const r = 2.15 + Math.pow(Math.random(), 1.1) * 4.6;
-        const a = arm * Math.PI + Math.log(r) * 1.3 + gauss() * (0.3 + r * 0.04);
-        return [Math.cos(a) * r, gauss() * (0.06 + r * 0.025), Math.sin(a) * r];
-      }, [[PALETTE.blue, 3], [PALETTE.cyan, 2], [PALETTE.violet, 3], [PALETTE.pink, 1], [PALETTE.white, 1.2]],
-      () => 0.25 + Math.pow(Math.random(), 4) * 1.1),
-      scaleIn: 2.4
+    const LIFT_SHARE = 1 / 6;
+
+    const arms = [
+      { offset: 0, pitch: 1.3, width: 0.26, rMax: 7.0, bright: 1.0 },
+      { offset: Math.PI + 0.35, pitch: 1.55, width: 0.42, rMax: 5.4, bright: 0.72 }
+    ];
+    const clumps = Array.from({ length: 12 }, (_, k) => {
+      const arm = arms[k % 2];
+      const r = 2.5 + Math.random() * (arm.rMax - 2.8);
+      return { r, a: arm.offset + Math.log(r) * arm.pitch + gauss() * 0.15, size: 0.1 + Math.random() * 0.16 };
+    });
+    const gaps = Array.from({ length: 5 }, () => ({
+      r: 2.6 + Math.random() * 3.5, a: Math.random() * Math.PI * 2, size: 0.35 + Math.random() * 0.45
     }));
+    const ringRadii = [2.22, 2.47, 2.86, 3.28, 3.47].map(r => ({
+      r, k1: 2 + Math.floor(Math.random() * 3), k2: 5 + Math.floor(Math.random() * 4),
+      p1: Math.random() * 6.28, p2: Math.random() * 6.28, cut: -0.75 + Math.random() * 0.45
+    }));
+    const inGap = (x, z) => gaps.some(g => {
+      const dx = x - Math.cos(g.a) * g.r, dz = z - Math.sin(g.a) * g.r;
+      return dx * dx + dz * dz < g.size * g.size;
+    });
+
+    function galaxyStar() {
+      for (let tries = 0; tries < 12; tries++) {
+        const roll = Math.random();
+        let r, a, y, bright = 1;
+        if (roll < 0.36) {
+          // Broken rings: arcs with uneven gaps and a slight wobble.
+          const ring = ringRadii[Math.floor(Math.random() * ringRadii.length)];
+          a = Math.random() * Math.PI * 2;
+          if (Math.sin(a * ring.k1 + ring.p1) + 0.6 * Math.sin(a * ring.k2 + ring.p2) < ring.cut) continue;
+          r = ring.r * (1 + 0.02 * Math.sin(3 * a + ring.p1)) + gauss() * 0.03;
+          y = gauss() * 0.03;
+        } else if (roll < 0.42) {
+          // Clumps of stars sitting along the arms.
+          const c = clumps[Math.floor(Math.random() * clumps.length)];
+          const cx = Math.cos(c.a) * c.r + gauss() * c.size * 1.3, cz = Math.sin(c.a) * c.r + gauss() * c.size * 1.3;
+          r = Math.hypot(cx, cz); a = Math.atan2(cz, cx); y = gauss() * 0.08; bright = 1.0;
+        } else if (roll < 0.5) {
+          // Loose halo scatter between the arms.
+          r = 2.15 + Math.random() * 5.2; a = Math.random() * Math.PI * 2; y = gauss() * 0.25; bright = 0.6;
+        } else {
+          const arm = arms[Math.random() < 0.58 ? 0 : 1];
+          r = 2.15 + Math.pow(Math.random(), 1.1) * (arm.rMax - 2.15);
+          const ragged = arm.width * (1 + 0.6 * Math.sin(r * 2.3 + arm.offset * 3));
+          a = arm.offset + Math.log(r) * arm.pitch + gauss() * (ragged + r * 0.03);
+          y = gauss() * (0.06 + r * 0.025); bright = arm.bright;
+        }
+        const x = Math.cos(a) * r, z = Math.sin(a) * r;
+        if (r > 2.5 && inGap(x, z) && Math.random() < 0.85) continue;
+        return { r, a, y, bright };
+      }
+      return { r: 3 + Math.random() * 3, a: Math.random() * Math.PI * 2, y: 0, bright: 0.6 };
+    }
+
+    const galaxyMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 }, uIntro: { value: 0 }, uLiftClock: { value: 0 }, uStretch: { value: 0 },
+        uPixelRatio: { value: renderer.getPixelRatio() }
+      },
+      vertexShader: `
+        attribute vec3 aOrbit;   // radius, angle, height in the disc
+        attribute float aSize; attribute float aSeed; attribute float aLift; attribute float aBright;
+        uniform float uTime, uIntro, uLiftClock, uPixelRatio;
+        varying vec3 vColor; varying float vAlpha; varying float vRising;
+        void main() {
+          float t = clamp(uIntro * 1.6 - aSeed * 0.6, 0.0, 1.0);
+          t = 1.0 - pow(1.0 - t, 3.0);
+          float r = aOrbit.x;
+          // Bounded wander along the orbit: inner stars sway faster, so the
+          // pattern keeps shifting without winding itself up.
+          float wander = sin(uTime * (0.35 / r + 0.02) + aSeed * 50.0) * (0.22 / sqrt(r));
+          float ang = aOrbit.y + wander + (1.0 - t) * 1.8;
+          float rr = r * (1.0 + 0.015 * sin(uTime * 0.2 + aSeed * 30.0)) * mix(2.4, 1.0, t);
+          vec3 p = vec3(cos(ang) * rr, aOrbit.z, sin(ang) * rr);
+          // Gentle warp: the disc's outer edge bends up on one side, down on the other.
+          p.y += 0.35 * pow(r / 7.0, 2.0) * sin(ang + 0.8);
+
+          // Evaporation cycle for lifters: rest in the disc for most of the
+          // cycle, then rise, sway, swell and fade before settling back.
+          float h = 0.0; float settle = 1.0;
+          if (aLift > 0.5) {
+            float c = fract(uLiftClock * (0.6 + aSeed * 0.8) + aSeed * 13.0);
+            if (c < 0.7) settle = smoothstep(0.0, 0.12, c);
+            else h = (c - 0.7) / 0.3;
+          }
+          vec4 wp = modelMatrix * vec4(p, 1.0);
+          wp.y += h * h * 5.5 + h * 1.2;
+          wp.x += sin(uTime * 0.6 + aSeed * 40.0 + h * 6.0) * 0.4 * h;
+          vec4 mv = viewMatrix * wp;
+          gl_Position = projectionMatrix * mv;
+          float size = aSize * (1.0 + h * 1.4);
+          gl_PointSize = min(size * uPixelRatio * (60.0 / max(-mv.z, 0.1)), 48.0 * uPixelRatio);
+          vColor = mix(color, vec3(0.78, 0.8, 1.0), h * 0.5) * aBright;
+          float twinkle = 0.65 + 0.35 * sin(uTime * (0.8 + aSeed * 2.5) + aSeed * 40.0);
+          vAlpha = t * twinkle * settle * (1.0 - smoothstep(0.35, 1.0, h));
+          vRising = step(0.001, h);
+        }`,
+      fragmentShader: `
+        uniform float uStretch;
+        varying vec3 vColor; varying float vAlpha; varying float vRising;
+        void main() {
+          vec2 c = gl_PointCoord - 0.5;
+          c.x *= 1.0 + uStretch * 1.5 * vRising;   // rising stars streak while you scroll
+          float d = length(c);
+          if (d > 0.5) discard;
+          float a = exp(-d * d * 30.0) + exp(-d * d * 6.0) * 0.25;
+          gl_FragColor = vec4(vColor * a * vAlpha, 1.0);
+        }`,
+      vertexColors: true,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    pointMaterials.push(galaxyMaterial);
+
+    {
+      const orbit = new Float32Array(galaxyCount * 3);
+      const pos = new Float32Array(galaxyCount * 3);
+      const colors = new Float32Array(galaxyCount * 3);
+      const sizes = new Float32Array(galaxyCount);
+      const seeds = new Float32Array(galaxyCount);
+      const lift = new Float32Array(galaxyCount);
+      const bright = new Float32Array(galaxyCount);
+      const colourWeights = [[PALETTE.blue, 3], [PALETTE.cyan, 2], [PALETTE.violet, 3], [PALETTE.pink, 1], [PALETTE.white, 1.2]];
+      for (let i = 0; i < galaxyCount; i++) {
+        const s = galaxyStar();
+        orbit.set([s.r, s.a, s.y], i * 3);
+        pos.set([Math.cos(s.a) * s.r, s.y, Math.sin(s.a) * s.r], i * 3);
+        const c = pick(colourWeights);
+        colors.set([c.r, c.g, c.b], i * 3);
+        sizes[i] = 0.25 + Math.pow(Math.random(), 4) * 1.1;
+        seeds[i] = Math.random();
+        lift[i] = Math.random() < LIFT_SHARE ? 1 : 0;
+        bright[i] = s.bright;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('aOrbit', new THREE.BufferAttribute(orbit, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+      geo.setAttribute('aLift', new THREE.BufferAttribute(lift, 1));
+      geo.setAttribute('aBright', new THREE.BufferAttribute(bright, 1));
+      const galaxyPoints = new THREE.Points(geo, galaxyMaterial);
+      galaxyPoints.frustumCulled = false;
+      galaxy.add(galaxyPoints);
+    }
+    const LIFT_IDLE = 0.035;    // evaporation rate when not scrolling
+    const LIFT_SCROLL = 1.6;    // extra evaporation while scrolling
 
     // Sparkles inside the glass, weighted toward the lower half.
     orbGroup.add(makePoints({
@@ -412,6 +550,9 @@ if (canvas && stage && !reducedMotion) {
     let pointerY = 0;
     let running = true;
     let framesRendered = 0;
+    let lastProgress = 0;
+    let stretch = 0;
+    let liftClock = 0;
     let sampledFrames = 0;
     let sampledTime = 0;
     const INTRO_SECONDS = 2.4;
@@ -466,6 +607,12 @@ if (canvas && stage && !reducedMotion) {
       ribbonGroup.rotation.y = elapsed * 0.05;
       ribbonGroup.rotation.z = Math.sin(elapsed * 0.13) * 0.12;
       galaxy.rotation.y = -elapsed * 0.02 + pathT * 0.45;
+      const scrollSpeed = Math.abs(easedProgress - lastProgress) / Math.max(delta, 0.001);
+      lastProgress = easedProgress;
+      liftClock += delta * (LIFT_IDLE + Math.min(scrollSpeed, 0.6) * LIFT_SCROLL);
+      stretch = THREE.MathUtils.damp(stretch, Math.min(scrollSpeed * 4, 1.2), 6, delta);
+      galaxyMaterial.uniforms.uLiftClock.value = liftClock;
+      galaxyMaterial.uniforms.uStretch.value = stretch;
 
       ribbonMaterials.forEach((m, i) => {
         m.uniforms.uTime.value = elapsed;
