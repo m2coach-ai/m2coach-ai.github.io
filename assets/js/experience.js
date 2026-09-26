@@ -293,7 +293,7 @@ if (canvas && stage && !reducedMotion) {
     galaxy.rotation.set(0.42, 0, -0.14);
     scene.add(galaxy);
     const galaxyCount = constrainedDevice ? 4500 : 7500;
-    const LIFT_SHARE = 1 / 6;
+    const LIFT_SHARE = 1 / 10;
 
     const arms = [
       { offset: 0, pitch: 1.3, width: 0.26, rMax: 7.0, bright: 1.0 },
@@ -442,8 +442,8 @@ if (canvas && stage && !reducedMotion) {
       galaxyPoints.frustumCulled = false;
       galaxy.add(galaxyPoints);
     }
-    const LIFT_IDLE = 0.035;    // evaporation rate when not scrolling
-    const LIFT_SCROLL = 1.6;    // extra evaporation while scrolling
+    const LIFT_IDLE = 0.018;    // evaporation rate when not scrolling
+    const LIFT_SCROLL = 0.7;    // extra evaporation while scrolling
 
     // Sparkles inside the glass, weighted toward the lower half.
     orbGroup.add(makePoints({
@@ -610,7 +610,7 @@ if (canvas && stage && !reducedMotion) {
       const scrollSpeed = Math.abs(easedProgress - lastProgress) / Math.max(delta, 0.001);
       lastProgress = easedProgress;
       liftClock += delta * (LIFT_IDLE + Math.min(scrollSpeed, 0.6) * LIFT_SCROLL);
-      stretch = THREE.MathUtils.damp(stretch, Math.min(scrollSpeed * 4, 1.2), 6, delta);
+      stretch = THREE.MathUtils.damp(stretch, Math.min(scrollSpeed * 2.5, 0.8), 4, delta);
       galaxyMaterial.uniforms.uLiftClock.value = liftClock;
       galaxyMaterial.uniforms.uStretch.value = stretch;
 
