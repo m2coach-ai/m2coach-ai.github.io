@@ -293,7 +293,7 @@ if (canvas && stage && !reducedMotion) {
     galaxy.rotation.set(0.42, 0, -0.14);
     scene.add(galaxy);
     const galaxyCount = constrainedDevice ? 4500 : 7500;
-    const LIFT_SHARE = 1 / 10;
+    const LIFT_SHARE = 1 / 30;
 
     const arms = [
       { offset: 0, pitch: 1.3, width: 0.26, rMax: 7.0, bright: 1.0 },
@@ -442,8 +442,8 @@ if (canvas && stage && !reducedMotion) {
       galaxyPoints.frustumCulled = false;
       galaxy.add(galaxyPoints);
     }
-    const LIFT_IDLE = 0.018;    // evaporation rate when not scrolling
-    const LIFT_SCROLL = 0.7;    // extra evaporation while scrolling
+    const LIFT_IDLE = 0.010;    // evaporation rate when not scrolling
+    const LIFT_SCROLL = 0.35;    // extra evaporation while scrolling
 
     // Sparkles inside the glass, weighted toward the lower half.
     orbGroup.add(makePoints({
