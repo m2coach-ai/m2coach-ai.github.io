@@ -24,4 +24,4 @@ The current build intentionally does not invent academic evidence. Before submis
 
 ## Technical notes
 
-The landing page loads Three.js from jsDelivr. If WebGL or the network request fails, a static poster remains visible and all navigation and assessed content still work. Module and entry pages do not load Three.js.
+The landing page loads Three.js from jsDelivr and draws a desk scene: a record book under a lamp that opens and turns one page per section as the visitor scrolls (`assets/js/experience.js`). The page artwork is drawn in code, so chapter text on the pages comes from that file. If WebGL or the network request fails, or the visitor prefers reduced motion, the static poster (`assets/img/desk-poster.webp`) stays visible and all navigation and assessed content still work. Module and entry pages do not load Three.js.
