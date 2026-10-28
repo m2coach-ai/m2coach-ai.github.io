@@ -15,11 +15,17 @@ try{
   const nav=(performance.getEntriesByType('navigation')[0]||{}).type;
   let fromInner=false;try{const r=new URL(document.referrer);fromInner=r.origin===location.origin&&r.pathname!==location.pathname}catch(e){}
   const fresh=ret&&Date.now()-ret.t<3600000&&chapters[ret.i];
-  if(fresh&&(nav==='back_forward'||fromInner)){
-    sessionStorage.setItem('desk-return-done',String(ret.i));
-    history.scrollRestoration='manual';window.scrollTo({top:chapters[ret.i].offsetTop,behavior:'instant'});
-  }else if(nav!=='back_forward'&&!location.hash){
-    history.scrollRestoration='manual';window.scrollTo({top:0,behavior:'instant'});
+  // a link home like ../#portfolio names a chapter; only honour it when coming from an inner page
+  const named=location.hash?chapters.findIndex(c=>'#'+c.id===location.hash):-1;
+  const jump=i=>{sessionStorage.setItem('desk-return-done',String(i));history.scrollRestoration='manual';window.scrollTo({top:chapters[i].offsetTop,behavior:'instant'})};
+  if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+  const target=fresh&&(nav==='back_forward'||fromInner)?ret.i:(fromInner&&named>=0?named:(nav!=='back_forward'?0:-1));
+  if(target>0)jump(target);
+  if(target>=0){
+    history.scrollRestoration='manual';
+    // the browser may still try to restore an old position or jump to a #chapter after loading; hold the decided spot
+    const hold=()=>{const y=chapters[target].offsetTop;if(Math.abs(scrollY-y)>2)window.scrollTo({top:y,behavior:'instant'})};
+    hold();addEventListener('load',()=>{hold();setTimeout(hold,60)},{once:true});
   }
 }catch(e){}
 // A page restored from the browser's memory is already where it was left.

@@ -875,7 +875,7 @@ async function start() {
   // portfolio, it is already on.
   let seen = false;
   try { seen = sessionStorage.getItem('desk-lamp-on') === '1'; sessionStorage.setItem('desk-lamp-on', '1'); } catch {}
-  const introOn = scrollY < 40 && !seen;
+  const introOn = scrollY < 40 && target < 0.1 && !seen;   // never switch the lamp on over an already open journal
   const lampCurve = t => {
     if (t < 0) return 0;
     if (t < 0.07) return 0.9; if (t < 0.15) return 0.08; if (t < 0.21) return 0.7; if (t < 0.3) return 0.2;
