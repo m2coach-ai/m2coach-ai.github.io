@@ -6,11 +6,26 @@ toggle?.addEventListener('click',()=>setNav(!nav.classList.contains('open')));cl
 // scrolls the page and turns the book. Works with or without the 3D scene.
 const chapters=[...document.querySelectorAll('[data-chapter]')];const pageLabel=document.querySelector('[data-page-label]');
 if(chapters.length&&pageLabel){
-// Leaving the book for an inner page remembers the chapter; coming back opens
-// the book at that chapter instead of the closed cover.
-try{const back=sessionStorage.getItem('desk-return');if(back!==null){sessionStorage.removeItem('desk-return');sessionStorage.setItem('desk-return-done',back);const c=chapters[+back];if(c){history.scrollRestoration='manual';window.scrollTo({top:c.offsetTop,behavior:'instant'})}}else sessionStorage.removeItem('desk-return-done')}catch(e){}
+// Leaving the book for an inner page remembers the chapter. Coming back from
+// that page (Back, or a link home) opens the book at the same chapter. Any
+// other visit starts at the closed cover with the lamp switching on.
+try{
+  let ret=null;try{ret=JSON.parse(sessionStorage.getItem('desk-return')||'null')}catch(e){}
+  sessionStorage.removeItem('desk-return');sessionStorage.removeItem('desk-return-done');
+  const nav=(performance.getEntriesByType('navigation')[0]||{}).type;
+  let fromInner=false;try{const r=new URL(document.referrer);fromInner=r.origin===location.origin&&r.pathname!==location.pathname}catch(e){}
+  const fresh=ret&&Date.now()-ret.t<3600000&&chapters[ret.i];
+  if(fresh&&(nav==='back_forward'||fromInner)){
+    sessionStorage.setItem('desk-return-done',String(ret.i));
+    history.scrollRestoration='manual';window.scrollTo({top:chapters[ret.i].offsetTop,behavior:'instant'});
+  }else if(nav!=='back_forward'&&!location.hash){
+    history.scrollRestoration='manual';window.scrollTo({top:0,behavior:'instant'});
+  }
+}catch(e){}
+// A page restored from the browser's memory is already where it was left.
+addEventListener('pageshow',e=>{if(e.persisted)try{sessionStorage.removeItem('desk-return')}catch(x){}});
 document.addEventListener('click',e=>{const a=e.target.closest('.story a[href]');if(!a)return;const u=new URL(a.href,location.href);if(u.origin!==location.origin||(u.pathname===location.pathname&&u.hash))return;
-const mid=scrollY+innerHeight/2;let i=0;chapters.forEach((c,k)=>{if(c.offsetTop<=mid)i=k});try{sessionStorage.setItem('desk-return',String(i))}catch(e){}},true);const prev=document.querySelector('[data-page="prev"]'),next=document.querySelector('[data-page="next"]');
+const mid=scrollY+innerHeight/2;let i=0;chapters.forEach((c,k)=>{if(c.offsetTop<=mid)i=k});try{sessionStorage.setItem('desk-return',JSON.stringify({i,t:Date.now()}))}catch(e){}},true);const prev=document.querySelector('[data-page="prev"]'),next=document.querySelector('[data-page="next"]');
 const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const current=()=>{const mid=scrollY+innerHeight/2;let i=0;chapters.forEach((c,k)=>{if(c.offsetTop<=mid)i=k});return i};
 const go=i=>{i=Math.max(0,Math.min(chapters.length-1,i));chapters[i].scrollIntoView({behavior:calm?'auto':'smooth',block:'start'})};
