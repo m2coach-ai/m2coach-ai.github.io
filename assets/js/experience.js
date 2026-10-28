@@ -438,15 +438,16 @@ async function start() {
   // Page artwork needs the web fonts before drawing.
   try { await Promise.all(['500 100px Newsreader', 'italic 400 40px Newsreader', '400 40px Newsreader'].map(f => document.fonts.load(f))); } catch {}
 
-  const [woodD, woodN, woodR, leatherD, leatherN, leatherR, lampModel, penModel, journalScene] = await Promise.all([
+  const [woodD, woodN, woodR, leatherD, leatherN, leatherR, lampModel, penModel, journalScene, coverD, coverN, coverA] = await Promise.all([
     loadTexture('textures/wood_diff.jpg', true), loadTexture('textures/wood_nor.jpg'), loadTexture('textures/wood_rough.jpg'),
     null, null, null,
-    loadModel('models/lamp.glb'), loadModel('models/pen.glb'), loadModel('models/journal.glb')]);
+    loadModel('models/lamp.glb'), loadModel('models/pen.glb'), loadModel('models/journal.glb'),
+    loadTexture('textures/cover_diff.jpg', true), loadTexture('textures/cover_nor.jpg'), loadTexture('textures/cover_arm.jpg')]);
   if (leatherD) LEATHER = leatherD.image;
 
   const mobile = matchMedia('(max-width: 700px)').matches;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));   // full sharpness on high-density screens
   renderer.setSize(innerWidth, innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -690,15 +691,16 @@ async function start() {
   // on its ring pad and turn over the rings.
   const J = 11.7;                       // journal scale: its pad matches our page size
   const LEAF_X = 0.011 * J;             // pages start just right of the rings
-  const PAD_Y = 0.0133 * J + 0.004;     // top of the paper pad
-  const LEFT_Y = 0.0162 * J + 0.004;    // turned pages rest over the pockets
+  const LIFT = 0.0023 * J;              // the scans dip 2 mm below their base; lift them onto the desk
+  const PAD_Y = 0.0133 * J + 0.004 + LIFT;     // top of the paper pad
+  const LEFT_Y = 0.0162 * J + 0.004 + LIFT;    // turned pages rest over the pockets
   let journal = null;
   if (journalScene) {
     const openM = journalScene.getObjectByName('binder_notebook'), closedM = journalScene.getObjectByName('binder_notebook_closed');
     if (openM && closedM) {
       journal = { open: openM, closed: closedM, k: 0 };
       for (const m of [openM, closedM]) {
-        m.removeFromParent(); m.position.set(0, 0, 0); m.rotation.set(0, 0, 0); m.scale.setScalar(J);
+        m.removeFromParent(); m.position.set(0, LIFT, 0); m.rotation.set(0, 0, 0); m.scale.setScalar(J);
         m.castShadow = m.receiveShadow = true; book.add(m);
       }
       [backCover, rightBlock, leftBlock, spine, coverHinge].forEach(o => { o.visible = false; });
@@ -706,6 +708,31 @@ async function start() {
       lastRight.position.x = LEAF_X;
       bendLeaf(lastGeo, 0, 0, 0, 0, () => PAD_Y + 0.0006);
       spreads[1].pages = [pages.about];   // the left of the first spread is the journal's own pockets
+      // The front panel of the closed journal gets its own sharper texture so
+      // the gold lettering stays crisp up close. Triangles whose texture
+      // coordinates fall on that panel are drawn with the panel material.
+      if (coverD && coverN && coverA && closedM.material) {
+        const U0 = 430 / 4096, V0 = 143 / 4096, U1 = 1208 / 4096, V1 = 1536 / 4096;
+        for (const t of [coverD, coverN, coverA]) {
+          t.flipY = false; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+          t.repeat.set(1 / (U1 - U0), 1 / (V1 - V0)); t.offset.set(-U0 / (U1 - U0), -V0 / (V1 - V0));
+          t.anisotropy = renderer.capabilities.getMaxAnisotropy(); t.needsUpdate = true;
+        }
+        const geo = closedM.geometry, uv = geo.attributes.uv, idx = geo.index;
+        const inside = i => { const u = uv.getX(i), v = uv.getY(i); return u > U0 && u < U1 && v > V0 && v < V1; };
+        const rest = [], panel = [];
+        for (let f = 0; f < idx.count; f += 3) {
+          const a = idx.getX(f), b = idx.getX(f + 1), c = idx.getX(f + 2);
+          (inside(a) && inside(b) && inside(c) ? panel : rest).push(a, b, c);
+        }
+        if (panel.length) {
+          geo.setIndex([...rest, ...panel]); geo.clearGroups();
+          geo.addGroup(0, rest.length, 0); geo.addGroup(rest.length, panel.length, 1);
+          const panelMat = closedM.material.clone();
+          panelMat.map = coverD; panelMat.normalMap = coverN; panelMat.roughnessMap = coverA; panelMat.metalnessMap = coverA;
+          closedM.material = [closedM.material, panelMat];
+        }
+      }
     }
   }
 
@@ -718,6 +745,12 @@ async function start() {
     sections.forEach((s, i) => { const top = s.offsetTop, h = s.offsetHeight; if (mid >= top) p = i + Math.min(1, (mid - top) / h) - 0.5; });
     target = Math.max(0, Math.min(sections.length - 1, p));
   }
+  // Returning from an inner page: open straight at the chapter that was left,
+  // with no page turns replayed.
+  try {
+    const back = parseInt(sessionStorage.getItem('desk-return-done') || '', 10);
+    if (!Number.isNaN(back) && sections[back]) { history.scrollRestoration = 'manual'; scrollTo({ top: sections[back].offsetTop, behavior: 'instant' }); }
+  } catch {}
   addEventListener('scroll', readScroll, { passive: true }); readScroll(); progress = target;
   const pointer = { x: 0, y: 0 };
   addEventListener('pointermove', e => { pointer.x = e.clientX / innerWidth - 0.5; pointer.y = e.clientY / innerHeight - 0.5; }, { passive: true });
@@ -861,6 +894,10 @@ async function start() {
   // in over REVEAL seconds. It plays once per visit: coming back to a
   // chapter shows the finished page.
   const REVEAL = 1.2;
+  try {
+    const back = parseInt(sessionStorage.getItem('desk-return-done') || '', 10);
+    if (!Number.isNaN(back)) spreads.forEach((sp, k) => { if (sp && k <= back) sp.r = 1; });
+  } catch {}
   function updateReveals(dt) {
     spreads.forEach((sp, k) => {
       if (!sp) return;
