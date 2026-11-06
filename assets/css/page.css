@@ -115,7 +115,7 @@ body.page {
 .page--bands .chapter-body { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
 .chapter-body > * { max-width: var(--measure); }
 .chapter-body > * + * { margin-top: 1.4rem; }
-.chapter-body > .cards, .chapter-body > .block { max-width: none; }
+.chapter-body > .cards, .chapter-body > .outcomes, .chapter-body > .block { max-width: none; }
 .chapter-body p, .chapter-body li { color: var(--ink-body); }
 .chapter-body :is(ul, ol):not(.cards) { padding-left: 1.3rem; margin-bottom: 0; }
 .chapter-body :is(ul, ol):not(.cards) li + li { margin-top: .55rem; }
@@ -169,6 +169,75 @@ body.page {
 .card .card-link:focus-visible { outline: none; }
 .card:has(.card-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .tag { display: inline-block; margin-bottom: .6rem; padding: .1rem .6rem; border: 1px solid var(--line); border-radius: 99px; font-size: .8rem; line-height: 1.6; color: var(--ink-muted); }
+
+/* ==========================================================================
+   COMPONENT LIBRARY (see COMPONENTS.md for when to use each, exact markup and rules)
+   Nothing here changes a page until its markup is used. Each component works without JavaScript.
+   ========================================================================== */
+
+/* 1. Official learning-outcome cards ------------------------------------------------------------ */
+.outcomes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; }
+.outcome { display: flex; flex-direction: column; padding: 1.2rem 1.3rem; border: 1px solid var(--line); border-radius: .5rem; background: rgba(255, 255, 255, .32); box-shadow: 0 1px 0 rgba(42, 38, 32, .08); }
+.outcome-ref { margin: 0 0 .5rem; font: italic 400 1.05rem / 1.2 var(--serif); color: var(--ink-muted); }
+.outcome-text { margin: 0; font: 500 1.2rem / 1.45 var(--serif); color: var(--ink); }
+.outcome-evidence { margin-top: auto; padding-top: .9rem; border-top: 1px solid var(--line); }
+.outcome-text + .outcome-evidence { margin-top: 1.1rem; }
+.outcome-evidence-label { margin: 0 0 .35rem; font: italic 400 1rem / 1.2 var(--serif); color: var(--ink-muted); }
+.chapter-body .outcome-evidence ul { margin: 0; padding-left: 1.1rem; }
+.outcome-evidence--empty p:not(.outcome-evidence-label) { margin: 0; color: var(--ink-muted); }
+
+/* 2. Pull-out evidence blocks -------------------------------------------------------------------- */
+.pullout { margin: 0; padding: 1.2rem 1.5rem; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--line); }
+.pullout blockquote { margin: 0; font: italic 400 clamp(1.2rem, 2.4vw, 1.5rem) / 1.45 var(--serif); color: var(--ink); }
+.pullout blockquote p { margin: 0; max-width: var(--measure); }
+.pullout blockquote p + p { margin-top: .8rem; }
+.pullout--extract blockquote { font-style: normal; font-size: clamp(1.1rem, 2vw, 1.3rem); }
+.pullout figcaption { margin-top: .9rem; font-size: .9rem; color: var(--ink-muted); max-width: var(--measure); }
+.pullout cite { font-style: normal; color: var(--ink); }
+
+/* 3 and 4. Timelines: feedback and revision, meetings and study ---------------------------------- */
+.timeline { list-style: none; margin: 0; padding: 0 0 0 1.4rem; border-left: 1px solid var(--accent); }
+.timeline-item { position: relative; display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .25rem 1.25rem; padding: .85rem 0; }
+.timeline-item::before { content: ""; position: absolute; left: calc(-1.4rem - 4px); top: 1.3rem; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.timeline-when { font-size: .9rem; color: var(--ink-muted); font-variant-numeric: tabular-nums; padding-top: .15rem; }
+.timeline-main { min-width: 0; max-width: var(--measure); }
+.timeline-kind { display: inline-block; margin: 0 0 .35rem; padding: .05rem .6rem; border: 1px solid var(--line); border-radius: 99px; font-size: .8rem; line-height: 1.6; color: var(--ink-muted); }
+.timeline-title { margin: 0; font: 500 1.2rem / 1.3 var(--serif); color: var(--ink); }
+.timeline-body { margin: .35rem 0 0; }
+.timeline-details { margin: .6rem 0 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .3rem 1rem; }
+.timeline-details dt { font-size: .9rem; color: var(--ink-muted); }
+.timeline-details dd { margin: 0; color: var(--ink-body); }
+.timeline-details dd > ul { margin: 0; padding-left: 1.1rem; }
+.timeline-main > .pullout { margin-top: .6rem; padding: .8rem 1rem; }
+
+/* 5. Captioned full-width figures ---------------------------------------------------------------- */
+.figure { margin: 0; }
+.figure img, .figure svg { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 3px; background: rgba(255, 255, 255, .3); }
+.figure figcaption { margin-top: .7rem; font-size: .9rem; color: var(--ink-muted); max-width: var(--measure); }
+.figure-label { font-weight: 600; color: var(--ink); }
+.figure-text { margin-top: .6rem; max-width: var(--measure); }
+.figure-text summary { display: inline-flex; align-items: center; min-height: 2.8rem; cursor: pointer; color: var(--accent); text-decoration: underline; text-underline-offset: .24em; text-decoration-thickness: 1px; }
+.figure-text[open] summary { margin-bottom: .2rem; }
+.figure-text > :not(summary) { color: var(--ink-body); }
+
+/* 6. Accessible download and source links -------------------------------------------------------- */
+.resources { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.resource { margin: 0; }
+.page .resource-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem 1rem; min-height: 2.8rem; padding: .7rem 1rem; border: 1px solid var(--accent); border-radius: .5rem; color: var(--accent); text-decoration: none; transition: background-color .2s, color .2s; }
+.page .resource-link:hover { background: var(--accent); color: var(--paper); }
+.resource-title { font-weight: 600; }
+.resource-meta { font-size: .85rem; opacity: .85; }
+.resource-meta > * + *::before { content: "\00b7"; margin: 0 .45em; }
+.resource--source .resource-link { border-color: var(--line); color: var(--ink); }
+.page .resource--source .resource-link:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* Narrow screens: timelines and detail lists stack, so reading order is date, kind, title, body, details */
+@media (max-width: 48rem) {
+  .timeline-item { grid-template-columns: minmax(0, 1fr); }
+  .timeline-details { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
+  .timeline-details dd { margin-bottom: .5rem; }
+  .pullout { padding: 1rem 1rem; }
+}
 
 /* Where next: only where a sequence already exists */
 .pagenav { width: min(var(--page-width), calc(100% - 2rem)); margin: 1rem auto 0; padding: 1.25rem var(--gutter) 0; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; }
