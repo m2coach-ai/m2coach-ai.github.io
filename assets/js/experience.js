@@ -9,6 +9,18 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // Scanned assets (CC0, Poly Haven). Each one is optional: if a file is
 // missing or slow, the coded version is used instead.
 const SCALE = 9.1;   // scene units per metre (the book is about 24 cm tall)
+// Hinged cover: fold angle (0 = lying open, PI = folded shut over the pad) and the spine line in journal units
+const FOLD = { value: 0 }, STRAP = { value: 0 };
+const FOLD_X0 = -0.004, FOLD_Y0 = 0.0115;     // spine line the cover folds about
+const STRAP_X0 = 0.162, STRAP_Y0 = 0.0165;    // edge the clasp tab folds about
+// Cover focus: the first DWELL of scroll progress only moves the camera in on the closed cover;
+// the cover starts to open after that. The camera ends FOCUS_IN closer, looking at (FOCUS_X, FOCUS_Y).
+const MENU_AT = 0.55;   // scroll progress at which the Menu button appears
+const DWELL = 0.3, FOCUS_IN = 0.26, FOCUS_RISE = 0.16, FOCUS_X = 0.82, FOCUS_Y = 0.2, FOCUS_DROP_EASE = 0.55;
+// Landing framing (closed book only; both ease to 0 as the book opens)
+const LAND_BACK = 0.08;            // landscape: camera starts 8% farther back
+const LAND_DROP = 0.17;            // landscape: scene slides down 17% of the viewport height so the lamp head enters the frame
+const LAND_DROP_PORTRAIT = 0.0;    // portrait: unchanged for now
 const assetURL = p => (window.__DESK_ASSETS && window.__DESK_ASSETS[p]) || new URL('../' + p, import.meta.url).href;
 const withTimeout = (promise, ms) => Promise.race([promise, new Promise(r => setTimeout(() => r(null), ms))]);
 function loadTexture(p, srgb) {
@@ -139,6 +151,44 @@ function clothCanvas(w, h) {
   return c;
 }
 
+// The scanned journal's textures have the cover lettering baked in (assets/models/journal.glb, which stays as it is);
+// the gold foil is in the colour map and also in the normal and metal/roughness maps. These helpers return copies of
+// those textures with the word "Online" removed from "University of Essex Online": the line is cleared with leather
+// copied from just below it, then "University of Essex" is redrawn re-centred. Coordinates are for a 2048-pixel
+// texture. If anything about the images is unexpected, the original textures are used unchanged.
+function coverTextFlipped(img) {   // null when the lettering cannot be found; otherwise true if the bitmap is upside down
+  try {
+    if (!img || !img.width || Math.abs(img.width / img.height - 1) > 0.01) return null;
+    const S = img.width / 2048, c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(img, 0, 0);
+    const gold = y0 => { const d = g.getImageData(Math.round(306 * S), Math.round(y0 * S), Math.round(90 * S), Math.round(14 * S)).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] > 120 && d[i + 1] > 100) n++; return n; };
+    const H = img.height / S, up = gold(498), flipped = gold(H - 512), area = 90 * S * 14 * S;
+    const looksLikeText = n => n >= 40 && n <= area * 0.5;   // lettering covers a modest share of its strip; pale paper covers nearly all of it
+    if (looksLikeText(up)) return false;
+    return looksLikeText(flipped) ? true : null;
+  } catch (e) { return null; }
+}
+function withoutOnline(map, f) {
+  try {
+    const img = map && map.image;
+    if (!img || !img.width) return map;
+    const S = img.width / 2048, H = img.height / S, c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+    const R = (x, y, w, h) => [Math.round(x * S), Math.round((f ? H - y - h : y) * S), Math.round(w * S), Math.round(h * S)];
+    const inset = Math.max(2, Math.round(4 * S));
+    const soft = (w, h, hardRight) => { const m = document.createElement('canvas'); m.width = w; m.height = h; const mg = m.getContext('2d'); mg.filter = `blur(${Math.max(1, inset / 2)}px)`; mg.fillRect(inset, inset, hardRight ? w + 20 : w - inset * 2, h - inset * 2); return m; };   // hardRight: a clean cut on the right edge
+    const copy = (sx, sy, sw, sh, hardRight) => { const t = document.createElement('canvas'); t.width = sw; t.height = sh; const tg = t.getContext('2d'); tg.drawImage(c, sx, sy, sw, sh, 0, 0, sw, sh); tg.globalCompositeOperation = 'destination-in'; tg.drawImage(soft(sw, sh, hardRight), 0, 0); return t; };
+    const line = R(296, 488, 150, 38), below = R(296, 532, 150, 38), words = R(300, 494, 98, 26);
+    const leather = copy(below[0], below[1], below[2], below[3]), kept = copy(words[0], words[1], words[2], words[3], true);   // both taken before anything is changed
+    g.drawImage(leather, line[0], line[1]);                          // leather over the whole line
+    g.drawImage(kept, words[0] + Math.round(18 * S), words[1]);      // "University of Essex", re-centred
+    const out = new THREE.CanvasTexture(c);
+    out.flipY = map.flipY; out.colorSpace = map.colorSpace; out.wrapS = map.wrapS; out.wrapT = map.wrapT;
+    out.anisotropy = map.anisotropy; out.channel = map.channel; out.needsUpdate = true;
+    return out;
+  } catch (e) { return map; }
+}
+
 function coverCanvas() {
   const H = Math.round(TW * CH / CW);
   const c = clothCanvas(TW, H), g = c.getContext('2d');
@@ -157,7 +207,7 @@ function coverCanvas() {
     fgc.font = '400 52px Newsreader, Georgia, serif'; fgc.fillText('Mark Martin', TW / 2, 830);
     fgc.font = 'italic 400 36px Newsreader, Georgia, serif';
     fgc.fillText('MSc Computer Science (Artificial Intelligence)', TW / 2, H - 220);
-    fgc.fillText('University of Essex Online', TW / 2, H - 170);
+    fgc.fillText('University of Essex', TW / 2, H - 170);
   };
   // the stamp presses the letters slightly into the leather
   g.save(); g.fillStyle = 'rgba(30,4,4,0.55)'; g.translate(2, 3); lines(g); g.restore();
@@ -457,7 +507,7 @@ async function start() {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0e0a07);
-  scene.fog = new THREE.Fog(0x0e0a07, 6, 13);
+  scene.fog = new THREE.Fog(0x0e0a07, 6.6, 14.3);   // pushed out to match the farther camera
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.12;
@@ -699,6 +749,57 @@ async function start() {
     const openM = journalScene.getObjectByName('binder_notebook'), closedM = journalScene.getObjectByName('binder_notebook_closed');
     if (openM && closedM) {
       journal = { open: openM, closed: closedM, k: 0 };
+      // the open journal's left half (the front cover) can fold over the pad about the spine,
+      // so opening the book is a real hinge instead of a cross-fade between two scans.
+      openM.material = openM.material.clone();
+      {
+        const mat = openM.material, f = coverTextFlipped(mat.map && mat.map.image);
+        if (f !== null) {
+          mat.map = withoutOnline(mat.map, f);
+          if (mat.normalMap) mat.normalMap = withoutOnline(mat.normalMap, f);
+          const shared = mat.roughnessMap === mat.metalnessMap;   // glTF stores both in one texture
+          if (mat.metalnessMap) { const t = withoutOnline(mat.metalnessMap, f); mat.metalnessMap = t; if (shared) mat.roughnessMap = t; }
+          if (mat.roughnessMap && !shared) mat.roughnessMap = withoutOnline(mat.roughnessMap, f);
+        }
+      }
+      // The cover folds clockwise about the spine; the clasp tab folds counter-clockwise about the pad's right edge.
+      openM.material.onBeforeCompile = sh => {
+        sh.uniforms.uFold = FOLD; sh.uniforms.uStrap = STRAP;
+        sh.vertexShader = 'uniform float uFold; uniform float uStrap;\n' + sh.vertexShader
+          .replace('#include <beginnormal_vertex>', `#include <beginnormal_vertex>
+            float fw = 1.0 - smoothstep(FOLD_X0 - 0.010, FOLD_X0 + 0.006, position.x);
+            float fa = uFold * fw; float fc = cos(fa), fs = sin(fa);
+            float sw = smoothstep(STRAP_X0 - 0.004, STRAP_X0 + 0.004, position.x);
+            float sa = uStrap * sw; float sc = cos(sa), ss = sin(sa);
+            objectNormal = vec3(objectNormal.x * fc + objectNormal.y * fs, -objectNormal.x * fs + objectNormal.y * fc, objectNormal.z);
+            objectNormal = vec3(objectNormal.x * sc - objectNormal.y * ss, objectNormal.x * ss + objectNormal.y * sc, objectNormal.z);`)
+          .replace('#include <begin_vertex>', `#include <begin_vertex>
+            if (fw > 0.0) { float dx = position.x - FOLD_X0; float dy = position.y - FOLD_Y0;
+              transformed.x = FOLD_X0 + dx * fc + dy * fs; transformed.y = FOLD_Y0 - dx * fs + dy * fc; }
+            if (sw > 0.0) { float ex = position.x - STRAP_X0; float ey = position.y - STRAP_Y0;
+              transformed.x = STRAP_X0 + ex * sc - ey * ss; transformed.y = STRAP_Y0 + ex * ss + ey * sc; }`)
+          .replace('void main() {', `const float FOLD_X0 = ${FOLD_X0.toFixed(4)}; const float FOLD_Y0 = ${FOLD_Y0.toFixed(4)}; const float STRAP_X0 = ${STRAP_X0.toFixed(4)}; const float STRAP_Y0 = ${STRAP_Y0.toFixed(4)};\nvoid main() {`);
+      };
+      openM.material.customProgramCacheKey = () => 'journal-fold-2';
+      // The shadow pass draws with its own depth material, so it needs the same fold. Without it the lamp casts
+      // the shadow of the unfolded, open book while the visible book is still shut.
+      const depthMat = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, side: THREE.DoubleSide });
+      depthMat.onBeforeCompile = sh => {
+        sh.uniforms.uFold = FOLD; sh.uniforms.uStrap = STRAP;
+        sh.vertexShader = 'uniform float uFold; uniform float uStrap;\n' + sh.vertexShader
+          .replace('#include <begin_vertex>', `#include <begin_vertex>
+            float fw = 1.0 - smoothstep(FOLD_X0 - 0.010, FOLD_X0 + 0.006, position.x);
+            float fa = uFold * fw; float fc = cos(fa), fs = sin(fa);
+            float sw = smoothstep(STRAP_X0 - 0.004, STRAP_X0 + 0.004, position.x);
+            float sa = uStrap * sw; float sc = cos(sa), ss = sin(sa);
+            if (fw > 0.0) { float dx = position.x - FOLD_X0; float dy = position.y - FOLD_Y0;
+              transformed.x = FOLD_X0 + dx * fc + dy * fs; transformed.y = FOLD_Y0 - dx * fs + dy * fc; }
+            if (sw > 0.0) { float ex = position.x - STRAP_X0; float ey = position.y - STRAP_Y0;
+              transformed.x = STRAP_X0 + ex * sc - ey * ss; transformed.y = STRAP_Y0 + ex * ss + ey * sc; }`)
+          .replace('void main() {', `const float FOLD_X0 = ${FOLD_X0.toFixed(4)}; const float FOLD_Y0 = ${FOLD_Y0.toFixed(4)}; const float STRAP_X0 = ${STRAP_X0.toFixed(4)}; const float STRAP_Y0 = ${STRAP_Y0.toFixed(4)};\nvoid main() {`);
+      };
+      depthMat.customProgramCacheKey = () => 'journal-fold-depth-1';
+      openM.customDepthMaterial = depthMat;
       for (const m of [openM, closedM]) {
         m.removeFromParent(); m.position.set(0, LIFT, 0); m.rotation.set(0, 0, 0); m.scale.setScalar(J);
         m.castShadow = m.receiveShadow = true; book.add(m);
@@ -757,27 +858,54 @@ async function start() {
 
   // ---------- Camera framing ----------
   const look = new THREE.Vector3(), camPos = new THREE.Vector3(), dir = new THREE.Vector3();
-  function frame(p) {
+  function frame(p, fRaw = 0, pr = 0) {
     const portrait = innerWidth / innerHeight < 0.85, aspect = innerWidth / innerHeight;
     const open = smooth(0.05, 0.9, p);
+    // Smooth camera path: while the cover is closed and opening (raw progress 0..1) the camera only ever moves
+    // inward. fRaw is the cover-focus amount; it fades out over the opening (b) so the look-at and tilt blend on.
+    const b = pr < 1 ? smooth(0, 1, p) : 1;
+    const fk = fRaw * (1 - b);
     // Where to look and how much width must fit on screen.
-    const lookX = journal ? (portrait ? lerp(0.85, 0.88, open) : lerp(0.45, 0.05, open)) : (portrait ? lerp(0.6, 0.8, open) : lerp(0.35, 0.0, open));
-    const fitW = journal ? (portrait ? lerp(3.0, 1.75, open) : lerp(4.9, 4.4, open)) : (portrait ? lerp(2.6, 1.75, open) : lerp(4.3, 3.8, open));
-    const fitH = journal ? (portrait ? lerp(3.6, 3.0, open) : lerp(3.9, 2.6, open)) : (portrait ? lerp(3.4, 3.0, open) : lerp(3.6, 2.4, open));
+    // Reading zoom: once the book is open the camera moves in so the written pages are easy to read.
+    // Chapter one shows a single page beside the pockets, so it zooms in further and looks at that page.
+    const read = portrait ? 0 : smooth(0.55, 1.0, p);
+    const s1 = read * (1 - smooth(1.25, 1.75, p));
+    const lookX = journal ? (portrait ? lerp(0.85, 0.88, open) : lerp(0.45, 0.05, open) + 0.38 * s1) : (portrait ? lerp(0.6, 0.8, open) : lerp(0.35, 0.0, open));
+    const fitW = journal ? (portrait ? lerp(3.0, 1.75, open) : lerp(lerp(4.9, 4.4, open), lerp(3.5, 2.5, s1), read)) : (portrait ? lerp(2.6, 1.75, open) : lerp(4.3, 3.8, open));
+    const fitH = journal ? (portrait ? lerp(3.6, 3.0, open) : lerp(lerp(3.9, 2.6, open), lerp(2.4, 2.25, s1), read)) : (portrait ? lerp(3.4, 3.0, open) : lerp(3.6, 2.4, open));
     // Low, wide view of the desk first, then nearly overhead over the open book.
     dir.set(lerp(0.3, 0.0, open), lerp(0.5, 1.0, open), lerp(1.0, 0.42, open)).normalize();
-    const usable = portrait ? 1 : 0.62;        // part of the screen width the book may use
+    const usable = portrait ? 1 : lerp(0.62, lerp(0.92, 0.62, smooth(1.0, 1.6, aspect)), read);   // part of the screen width the book may use
     const tanH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     const d = Math.max(fitW / usable / (2 * tanH * aspect), fitH / (2 * tanH));
     const diveK = dive ? smooth(0, DIVE, elapsed - dive.start) : 0;
-    const dd = d * lerp(1, 0.42, diveK);
-    look.set(lookX, lerp(0.3, 0.12, open), lerp(-0.1, 0.18, open));
+    let dd;
+    if (!portrait && journal && pr < 1) {
+      // landscape, before chapter one: far (lamp in frame) -> in on the cover -> in on the open page, never back out
+      const useAt = rd => lerp(0.62, lerp(0.92, 0.62, smooth(1.0, 1.6, aspect)), rd);
+      const distFor = (fw, fh, rd) => Math.max(fw / useAt(rd) / (2 * tanH * aspect), fh / (2 * tanH));
+      const dStart = distFor(4.9, 3.9, 0) * (1 + LAND_BACK);
+      const dEnd = distFor(2.5, 2.25, 1);
+      // the last approach waits until the cover is mostly over, so the swinging cover stays in view and clear of the lens
+      dd = lerp(lerp(dStart, dStart * (1 - FOCUS_IN), fRaw), dEnd, smooth(0.3, 1, p)) * lerp(1, 0.8, diveK);
+    } else {
+      // start farther back so the whole lamp, bulb included, is in frame; focus eases in on the cover.
+      dd = d * (1 + (portrait ? 0 : LAND_BACK) * (1 - open)) * (1 - FOCUS_IN * fk) * lerp(1, 0.8, diveK);
+    }
+    dir.y += FOCUS_RISE * fk; dir.normalize();
+    // keep the fog in proportion to how far back the camera sits. In a window closer to square the
+    // camera has to retreat to fit the book, and fixed fog distances swallowed the whole scene in darkness.
+    scene.fog.near = Math.max(6.9, dd * 0.83); scene.fog.far = Math.max(15, dd * 1.8);
+    // landscape before chapter one: one blend start -> cover -> open page (the generic blend below would dip sideways)
+    const lx = (!portrait && journal && pr < 1) ? lerp(lerp(0.45, FOCUS_X, fRaw), 0.05 + 0.38, b) : lerp(lookX, FOCUS_X, fk);
+    look.set(lx, lerp(lerp(0.3, 0.12, open), FOCUS_Y, fk), lerp(-0.1, 0.18, open));
     camPos.copy(look).addScaledVector(dir, dd);
     camPos.x += pointer.x * 0.12; camPos.y -= pointer.y * 0.08;
     camera.position.copy(camPos); camera.lookAt(look);
     const W = innerWidth, H = innerHeight;
-    if (portrait) camera.setViewOffset(W, H, 0, H * 0.11, W, H);    // book in the upper part, text below
-    else camera.setViewOffset(W, H, W * 0.19, 0, W, H);            // book on the left, text on the right
+    // a negative y offset slides the scene down, so the lamp head enters the top of the frame.
+    if (portrait) camera.setViewOffset(W, H, 0, H * lerp(LAND_DROP_PORTRAIT, 0.11, open), W, H);    // book in the upper part, text below
+    else camera.setViewOffset(W, H, W * lerp(0.19, 0.19 * smooth(1.0, 1.6, aspect), read), -H * LAND_DROP * (1 - open) * (1 - FOCUS_DROP_EASE * fk), W, H);   // book on the left, text on the right
   }
 
   let lastBlockKey = '';
@@ -786,7 +914,13 @@ async function start() {
     if (journal) {
       const tc = turn(0);
       cover.t = tc;
-      journal.k = smooth(0.12, 0.88, tc);                  // 0 closed, 1 open
+      // a very short hand-over from the closed scan to the open scan, which starts folded shut so the
+      // two poses nearly coincide (no double exposure). Then the clasp tab unfolds and the cover swings open.
+      // The closed scan is never shown: the book starts as the open journal folded shut (rings, strap and all),
+      // so there is no swap and no second, similar-looking book.
+      journal.k = 1;
+      STRAP.value = Math.PI * (1 - smooth(0.06, 0.30, tc));
+      FOLD.value = Math.PI * (1 - smooth(0.26, 0.92, tc));
       journal.closed.visible = journal.k < 1; journal.open.visible = journal.k > 0;
       const pagesOn = journal.k > 0;
       leaves.forEach(L => { L.group.visible = pagesOn; }); lastRight.visible = pagesOn;
@@ -849,11 +983,64 @@ async function start() {
   let running = true;
   document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) { clock.getDelta(); requestAnimationFrame(tick); } });
   // ---------- Leaving the book ----------
-  // Clicking a link to another page of the portfolio first moves the camera
-  // down into the book, then the next page loads. New tabs, modified clicks
-  // and links to other sites behave normally.
-  const DIVE = 0.55;
+  // Clicking a link to another page of the portfolio hands the selected written page over to the real page.
+  // The camera eases toward the paper, the desk dims, and a flat paper layer that carries the chapter title takes
+  // the written page's place, grows to where the destination's sheet sits, and the next page loads from there.
+  // Cross-document view transitions (names "paper" and "pagetitle", here and in global.css) carry the handoff across
+  // the navigation in browsers that support them. Without them, or without JavaScript, the link simply works.
+  // New tabs, modified clicks and links to other sites behave normally, and a guard timer always navigates.
+  const DIVE = 0.34;                                  // seconds the camera eases toward the paper
+  const HO = { hold: 0.06, grow: 0.16, go: 0.46 };     // seconds: paper layer appears, begins to grow (0.3s), navigation
   let dive = null;
+  const ho = { el: null, paper: null, title: null, page: null, grown: false, timers: [] };
+  const sceneEls = [...document.querySelectorAll('.story .scene')];
+  // Which written page each chapter's link belongs to, and the title the page shows there (canvas pixels).
+  const handoffPage = i => i === 1 ? { side: 'right', x: 104, y: 450, size: 112, step: 118, lines: about.title }
+    : i === 2 ? { side: 'right', x: 180, y: 440, size: 64, step: 64, lines: ['Numerical Analysis'], carry: true }
+    : i === 3 ? { side: 'left', x: 104, y: 450, size: 112, step: 118, lines: loop.title } : null;
+  const projectBook = (x, y, z) => {
+    const v = new THREE.Vector3(x, y, z); book.localToWorld(v); v.project(camera);
+    return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (0.5 - v.y * 0.5) * innerHeight };
+  };
+  function pageQuad(side) {
+    const y = (side === 'right' ? PAD_Y : LEFT_Y) + 0.01, x0 = side === 'right' ? LEAF_X : LEAF_X - PW, x1 = x0 + PW;
+    return { tl: projectBook(x0, y, -PH / 2), tr: projectBook(x1, y, -PH / 2), bl: projectBook(x0, y, PH / 2), br: projectBook(x1, y, PH / 2) };
+  }
+  // Keep the flat paper layer exactly over the written page while the camera moves.
+  function placeHandoff() {
+    if (!ho.el || ho.grown) return;
+    const q = pageQuad(ho.page.side), len = (a, b) => Math.hypot(b.x - a.x, b.y - a.y);
+    const w = (len(q.tl, q.tr) + len(q.bl, q.br)) / 2, h = (len(q.tl, q.bl) + len(q.tr, q.br)) / 2;
+    const cx = (q.tl.x + q.tr.x + q.bl.x + q.br.x) / 4, cy = (q.tl.y + q.tr.y + q.bl.y + q.br.y) / 4;
+    const ang = Math.atan2(q.tr.y - q.tl.y, q.tr.x - q.tl.x);
+    if (![w, h, cx, cy, ang].every(Number.isFinite) || w < 40) return;
+    Object.assign(ho.paper.style, { left: cx - w / 2 + 'px', top: cy - h / 2 + 'px', width: w + 'px', height: h + 'px', transform: `rotate(${ang}rad)` });
+    const u = ho.page.x / TW, v = (ho.page.y - ho.page.size * 0.85) / TH;
+    const px = q.tl.x * (1 - u) * (1 - v) + q.tr.x * u * (1 - v) + q.bl.x * (1 - u) * v + q.br.x * u * v;
+    const py = q.tl.y * (1 - u) * (1 - v) + q.tr.y * u * (1 - v) + q.bl.y * (1 - u) * v + q.br.y * u * v;
+    Object.assign(ho.title.style, { left: px + 'px', top: py + 'px', fontSize: w * ho.page.size / TW + 'px', transform: `rotate(${ang}rad)` });
+  }
+  // Where the destination's opening sits (see .site-header and .opening in assets/css/page.css): the paper layer grows to
+  // the page's edges below the header, and the title lands where the page's heading is. The view transition trims
+  // any small difference.
+  function growHandoff() {
+    ho.grown = true; ho.el.classList.add('grow');
+    const narrow = innerWidth <= 720, vw = document.documentElement.clientWidth, vh = innerHeight;   // beside any scrollbar
+    const headerH = narrow ? 124 : 71;
+    const openW = narrow ? vw - 16 : Math.min(1180, vw - 32), gutter = Math.min(32, Math.max(8, vw * 0.03));
+    const titleLeft = (vw - openW) / 2 + gutter;
+    const titleTop = headerH + Math.min(72, Math.max(32, vw * 0.06)) + (narrow ? 64 : 42);
+    Object.assign(ho.paper.style, { left: '0px', top: headerH + 'px', width: vw + 'px', height: vh - headerH + 80 + 'px', transform: 'rotate(0rad)' });
+    Object.assign(ho.title.style, { left: titleLeft + 'px', top: titleTop + 'px', fontSize: Math.min(88, Math.max(44, vw * 0.07)) + 'px', transform: 'rotate(0rad)' });
+    // The title is carried into the destination only when it is the same words; otherwise it fades out as the paper
+    // reaches the page and the real heading rises in, so two different headings never ghost over each other.
+    if (!ho.page.carry) ho.title.classList.add('fade'); else ho.title.style.lineHeight = '1';
+  }
+  function clearHandoff() {
+    ho.timers.forEach(clearTimeout); ho.timers = [];
+    ho.el?.remove(); ho.el = ho.paper = ho.title = null; ho.grown = false; dive = null;
+    document.documentElement.classList.remove('diving');
+  }
   document.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const a = e.target.closest('.story a[href]');
@@ -861,12 +1048,28 @@ async function start() {
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
     e.preventDefault();
-    dive = { start: elapsed, href: url.href };
-    document.documentElement.classList.add('diving');
-    setTimeout(() => { location.href = url.href; }, DIVE * 1000 + 60);
+    const go = () => { location.href = url.href; };
+    ho.timers.push(setTimeout(go, (HO.go + 0.4) * 1000));        // whatever happens, the visitor is never trapped
+    try {
+      dive = { start: elapsed };
+      document.documentElement.classList.add('diving');
+      ho.page = handoffPage(sceneEls.indexOf(a.closest('.scene')));
+      if (ho.page) {
+        ho.el = document.createElement('div'); ho.el.className = 'paper-handoff'; ho.el.setAttribute('aria-hidden', 'true');
+        ho.el.innerHTML = '<div class="ph-scrim"></div><div class="ph-paper"></div><div class="ph-title"></div>';
+        ho.paper = ho.el.querySelector('.ph-paper'); ho.title = ho.el.querySelector('.ph-title');
+        ho.title.innerHTML = ho.page.lines.join('<br>'); ho.title.style.lineHeight = String(ho.page.step / ho.page.size);
+        document.body.appendChild(ho.el); placeHandoff();
+        try { sessionStorage.setItem('book-handoff', '1'); } catch {}   // tells the next page it was reached from the book
+        requestAnimationFrame(() => ho.el?.classList.add('dim'));
+        ho.timers.push(setTimeout(() => ho.el?.classList.add('on'), HO.hold * 1000));
+        ho.timers.push(setTimeout(() => { if (ho.el) growHandoff(); }, HO.grow * 1000));
+      }
+      ho.timers.push(setTimeout(go, HO.go * 1000));
+    } catch (err) { clearHandoff(); go(); }
   });
-  // Coming back with the browser's Back button restores the page as it was.
-  addEventListener('pageshow', e => { if (e.persisted) { dive = null; document.documentElement.classList.remove('diving'); } });
+  // Coming back with the browser's Back button restores the page as it was, with no animation replayed.
+  addEventListener('pageshow', e => { if (e.persisted) clearHandoff(); try { sessionStorage.removeItem('book-handoff'); } catch {} });
 
   // ---------- Lamp switching on ----------
   // A click, a flicker, then the warm light settles. Skipped if the visitor
@@ -934,14 +1137,30 @@ async function start() {
   }
 
   const clock = new THREE.Clock();
-  let first = true, introStart = -1, elapsed = 0, steamSway = 0;
+  let first = true, introStart = -1, elapsed = 0, steamSway = 0, focusAuto = 0, focusGoal = 0, menuHidden = false;
+  // "Open the book" first lingers on the front cover, then turns it. Only when the book is still shut.
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-page="next"]');
+    if (!b || e.defaultPrevented || target > 0.05 || focusGoal > 0) return;
+    e.preventDefault(); e.stopImmediatePropagation(); focusGoal = 1;
+    setTimeout(() => { document.querySelectorAll('.story .scene')[1]?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 1500);
+  }, true);
   function tick() {
     if (!running) return;
     const dt = Math.min(0.05, clock.getDelta()); elapsed += dt;
     progress += (target - progress) * 0.09;
     if (Math.abs(target - progress) < 1e-4) progress = target;
     const vel = target - progress;
-    updateBook(progress); updateReveals(dt); frame(progress);
+    // book logic runs on q (the cover waits out the dwell); the camera also gets the focus amount.
+    const q = progress <= 1 ? Math.max(0, (progress - DWELL) / (1 - DWELL)) : progress;
+    if (q > 0.4) focusGoal = 0;
+    focusAuto += (focusGoal - focusAuto) * (1 - Math.exp(-dt * 2.6));
+    const fk = Math.max(smooth(0, DWELL, progress), focusAuto);   // raw cover-focus amount; frame() fades it out as the cover opens
+    // the Menu button stays out of the cover scene and appears once the book is being opened.
+    // Only this script adds the class, so without WebGL (or with reduced motion) the Menu is always visible.
+    const hideMenu = progress < MENU_AT && focusGoal === 0;
+    if (hideMenu !== menuHidden) { menuHidden = hideMenu; document.documentElement.classList.toggle('menu-hidden', hideMenu); }
+    updateBook(q); updateReveals(dt); frame(q, fk, progress);
     steamSway += (THREE.MathUtils.clamp(vel * 6, -1, 1) - steamSway) * 0.05;
     steam.forEach((pl, i) => {
       pl.material.uniforms.uTime.value = elapsed + i * 1.3;
@@ -950,6 +1169,7 @@ async function start() {
     });
     if (introOn && introStart >= 0) setLamp(lampCurve(elapsed - introStart));
     render();
+    placeHandoff();
     if (first) { first = false; document.documentElement.classList.add('webgl-ready'); introStart = elapsed + 0.7; }
     requestAnimationFrame(tick);
   }

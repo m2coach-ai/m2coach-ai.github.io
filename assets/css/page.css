@@ -1,0 +1,226 @@
+/* Inner pages: a page of the journal, made readable.
+   One shared system for every page except the landing experience and the 404.
+   Same paper, ink and ink-blue as the pages on the desk; a restrained dark desk-toned header; a faint spine shade.
+   Structure (see modules/numerical-analysis/index.html for the reference markup):
+     body.page > .skip-link, .site-header, main > .opening, .sheet > (.rail?) + .chapters > .chapter(s), .pagenav, footer
+   Optional modifier: body.page--bands gives chapters a flat ink-blue band instead of a rule (used on module hubs). */
+
+:root {
+  /* paper and ink: the same values the pages on the desk are drawn with (assets/js/experience.js) */
+  --paper: #efe8d8;
+  --ink: #2a2620;
+  --ink-body: #3b352d;
+  --ink-muted: #6b6358;
+  --accent: #28466a;          /* ink blue */
+  --accent-deep: #1a2f4a;
+  --signal: #8a3b2a;          /* oxide: difficulty or mistake only */
+  /* the desk */
+  --desk: #120d09;
+  --desk-ink: #f1eadc;
+  --lamp: #e0b46e;
+  /* structure */
+  --line: rgba(42, 38, 32, .18);
+  --serif: Newsreader, Georgia, serif;
+  --sans: Inter, Arial, sans-serif;
+  --measure: 52ch;            /* about 70 characters of running Inter per line */
+  --page-width: 1180px;
+  --gutter: clamp(.5rem, 3vw, 2rem);
+  /* motion */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --t-enter: .45s;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; }
+body.page {
+  margin: 0; color: var(--ink); font: 400 1rem/1.65 var(--sans); overflow-wrap: break-word;
+  background-color: var(--paper);
+  /* a faint spine shade at the left edge and paper grain, as on the book's pages */
+  background-image: linear-gradient(90deg, rgba(60, 38, 15, .22), rgba(60, 38, 15, 0) 110px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  box-shadow: inset -14px 0 22px -18px rgba(60, 38, 15, .35);
+}
+.page img, .page svg { max-width: 100%; display: block; }
+.page a { color: var(--accent); text-underline-offset: .24em; text-decoration-thickness: 1px; }
+.page a:hover { color: var(--accent-deep); }
+.page ::selection { background: var(--accent); color: var(--paper); }
+.page :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+.skip-link { position: absolute; left: 1rem; top: -6rem; z-index: 10; background: var(--accent); color: var(--paper) !important; padding: .7rem 1rem; border-radius: 3px; }
+.skip-link:focus { top: 1rem; }
+
+/* Header: a dark desk-toned strip, static so the section list is the only sticky element */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .6rem 1rem;
+  padding: .85rem clamp(1rem, 4vw, 4rem); background: var(--desk); color: var(--desk-ink);
+  box-shadow: 0 8px 22px rgba(18, 13, 9, .22);
+}
+.page .brand { display: inline-flex; align-items: center; gap: .6em; min-height: 2.8rem; text-decoration: none; font: 500 1.15rem/1 var(--serif); color: var(--desk-ink); }
+.brand::before { content: ""; flex: none; width: .5em; height: .85em; background: var(--lamp); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%); }
+.site-header a:hover { color: var(--lamp); }
+.site-header :focus-visible { outline-color: var(--lamp); }
+.site-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; min-height: 2.8rem; min-width: 2.8rem;
+  border: 1px solid var(--accent); border-radius: 99px; padding: .55rem 1.1rem; text-decoration: none; font-size: .9rem; color: var(--accent);
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.page .pill:hover { background: var(--accent); color: var(--paper); }
+.site-header .pill { border-color: rgba(241, 234, 220, .45); color: var(--desk-ink); }
+.page .site-header .pill:hover { background: var(--lamp); border-color: var(--lamp); color: var(--desk); }
+.site-header .pill[aria-current="page"] { border-color: var(--lamp); color: var(--lamp); }
+.page .site-header .pill[aria-current="page"]:hover { color: var(--desk); }
+.page .pill-solid { background: var(--accent); color: var(--paper); }
+.page .pill-solid:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
+
+/* Opening: the title sits on the page, where the book's chapter title sits */
+.opening { width: min(var(--page-width), calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 4.5rem) var(--gutter) clamp(1.5rem, 4vw, 3rem); }
+.crumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem 0; margin: 0 0 1.2rem; font-size: .85rem; color: var(--ink-muted); }
+.breadcrumbs { margin: 0; }
+.breadcrumbs [aria-current="page"] { color: var(--ink-muted); }
+.page-label { margin: 0 0 0 .9rem; padding-left: .9rem; border-left: 1px solid var(--line); font-size: .85rem; color: var(--ink-muted); }
+.page .display { font: 500 clamp(2.75rem, 7vw, 5.5rem) / 1 var(--serif); letter-spacing: -.02em; margin: 0; text-wrap: balance; color: var(--ink); width: fit-content; max-width: 100%; }
+.opening-rule { width: 8.75rem; height: 3px; margin: 1.6rem 0 0; background: var(--accent); }
+.lede { margin: 1.4rem 0 0; max-width: var(--measure); font-size: clamp(1.05rem, 1.8vw, 1.3rem); color: var(--ink-body); }
+.opening-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin: 1.6rem 0 0; }
+
+/* The leaf: an optional section list beside the chapters */
+.sheet { width: min(var(--page-width), calc(100% - 2rem)); margin: 0 auto 2rem; display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--line); }
+.rail { padding: 1.4rem .5rem .4rem; }
+.rail-label { margin: 0 0 .5rem; font: italic 400 1.05rem/1.2 var(--serif); color: var(--ink-muted); }
+.rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem .5rem; }
+.rail a { display: flex; align-items: center; min-height: 2.8rem; padding: .5rem .8rem; border: 1px solid var(--line); border-radius: 99px; text-decoration: none; color: var(--ink); font-size: .9rem; line-height: 1.4; }
+.rail a:hover { border-color: var(--accent); color: var(--accent-deep); }
+.rail a[aria-current="true"], .rail a[aria-current="true"]:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); font-weight: 600; }
+@media (min-width: 62rem) {
+  .sheet:has(.rail) { grid-template-columns: 15rem minmax(0, 1fr); }
+  .rail { padding: 2.5rem 1.5rem 2rem 1rem; }
+  .rail ol { display: block; }
+  .rail li + li { margin-top: .15rem; }
+  .rail a { border: 0; border-top: 1px solid var(--line); border-radius: 3px; padding: .5rem .7rem; }
+  .rail a[aria-current="true"] { border-top-color: var(--accent); }
+}
+@media (min-width: 62rem) and (prefers-reduced-motion: no-preference) { .rail { align-self: start; position: sticky; top: 1rem; } }
+
+/* Chapters: a rule and heading by default; a flat band on body.page--bands */
+.chapters { min-width: 0; }
+.chapter { scroll-margin-top: 1rem; }
+.chapter-head { margin-top: 2.25rem; padding-top: 1.1rem; border-top: 3px solid var(--accent); width: 8.75rem; }
+.chapter-head h2 { width: max-content; max-width: calc(100vw - 3rem); margin: 0; padding-top: .1rem; font: 500 clamp(1.7rem, 3.4vw, 2.3rem) / 1.1 var(--serif); letter-spacing: -.01em; text-wrap: balance; color: var(--ink); }
+.page--bands .chapter-head { width: auto; margin-top: 2rem; padding: clamp(1.5rem, 3.4vw, 2.4rem) clamp(1.1rem, 4vw, 3rem); border: 0; border-radius: 3px; background: var(--accent); }
+.page--bands .chapter-head h2 { width: auto; max-width: none; padding: 0; font-size: clamp(1.8rem, 3.8vw, 2.7rem); line-height: 1.05; color: var(--paper); }
+.chapter-body { padding: 1.4rem var(--gutter) clamp(1.2rem, 3vw, 2rem); }
+.page--bands .chapter-body { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
+.chapter-body > * { max-width: var(--measure); }
+.chapter-body > * + * { margin-top: 1.4rem; }
+.chapter-body > .cards, .chapter-body > .block { max-width: none; }
+.chapter-body p, .chapter-body li { color: var(--ink-body); }
+.chapter-body :is(ul, ol):not(.cards) { padding-left: 1.3rem; margin-bottom: 0; }
+.chapter-body :is(ul, ol):not(.cards) li + li { margin-top: .55rem; }
+.chapter h3 { font: 500 1.3rem / 1.2 var(--serif); margin: 0 0 .5rem; color: var(--ink); text-wrap: balance; }
+.page code { font: .92em / 1 Consolas, monospace; background: rgba(42, 38, 32, .07); padding: .1em .35em; border-radius: 3px; }
+
+/* A note that comes before the first section (placeholder pages) */
+.chapter-lead { padding: 1.6rem var(--gutter) 0; }
+.chapter-lead > * { max-width: var(--measure); }
+
+/* Notes: placeholders, checkpoints and requirements stay visible and plainly marked */
+.note { padding: 1rem 1.25rem; border: 1px solid rgba(40, 70, 106, .35); border-radius: 3px; background: rgba(40, 70, 106, .06); color: var(--ink-body); }
+.note strong { color: var(--ink); }
+
+/* Difficulty or mistake: the one use of the signal colour */
+.difficulty { padding: 1rem 1.25rem; border: 1px solid rgba(138, 59, 42, .45); border-radius: 3px; background: rgba(138, 59, 42, .06); }
+.difficulty p { margin: 0; }
+
+/* Evidence: code and data keep their own widths and scroll inside themselves, never the page */
+.block { min-width: 0; }
+.code-block { margin: 0; overflow: auto; border: 1px solid var(--line); border-radius: .5rem; padding: 1rem 1.1rem; background: #1d1711; color: #efe6d4; font: 14px / 1.55 Consolas, monospace; }
+.page .code-block code { background: none; padding: 0; font: inherit; }
+.table-wrap {
+  overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background-color: rgba(255, 255, 255, .3);
+  /* edge shadows appear only on the side that has more to scroll to, so a scrollable table is visibly scrollable */
+  background-image:
+    linear-gradient(to right, #f3eee1, rgba(243, 238, 225, 0)), linear-gradient(to left, #f3eee1, rgba(243, 238, 225, 0)),
+    radial-gradient(farthest-side at 0 50%, rgba(42, 38, 32, .28), rgba(42, 38, 32, 0)), radial-gradient(farthest-side at 100% 50%, rgba(42, 38, 32, .28), rgba(42, 38, 32, 0));
+  background-position: 0 0, 100% 0, 0 0, 100% 0; background-size: 2.2rem 100%, 2.2rem 100%, .9rem 100%, .9rem 100%;
+  background-repeat: no-repeat; background-attachment: local, local, scroll, scroll;
+}
+.table-wrap:focus-visible { outline-offset: 2px; }
+.scroll-hint { margin: .5rem 0 0; font-size: .85rem; color: var(--ink-muted); }
+.data-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.data-table th, .data-table td { border-bottom: 1px solid var(--line); padding: .75rem .9rem; text-align: left; vertical-align: top; }
+.data-table th { color: var(--accent); font-weight: 600; }
+.data-table tr:last-child td { border-bottom: 0; }
+
+/* Artefact cards: for choosing between evidence pages */
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.cards .card:last-child { grid-column: 1 / -1; }
+@media (min-width: 62rem) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards .card:last-child { grid-column: auto; } }
+.card { position: relative; padding: 1.4rem; border: 1px solid var(--line); border-radius: .5rem; background: rgba(255, 255, 255, .32); box-shadow: 0 1px 0 rgba(42, 38, 32, .08); transition: border-color .2s; }
+.card:hover, .card:focus-within { border-color: var(--accent); }
+.card-lead { grid-column: 1 / -1 !important; padding: clamp(1.4rem, 3vw, 2rem); }
+.card-lead h3 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.card p { margin: .5rem 0 0; max-width: var(--measure); }
+.card .card-link { text-decoration: none; color: var(--ink); }
+.card .card-link::after { content: ""; position: absolute; inset: 0; border-radius: .5rem; }
+.card:hover .card-link { color: var(--accent); text-decoration: underline; }
+.card .card-link:focus-visible { outline: none; }
+.card:has(.card-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.tag { display: inline-block; margin-bottom: .6rem; padding: .1rem .6rem; border: 1px solid var(--line); border-radius: 99px; font-size: .8rem; line-height: 1.6; color: var(--ink-muted); }
+
+/* Where next: only where a sequence already exists */
+.pagenav { width: min(var(--page-width), calc(100% - 2rem)); margin: 1rem auto 0; padding: 1.25rem var(--gutter) 0; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; }
+.pagenav a { display: inline-flex; flex-direction: column; justify-content: center; min-height: 2.8rem; min-width: 2.8rem; padding: .35rem .2rem; text-decoration: none; }
+.pagenav .dir { font-size: .8rem; color: var(--ink-muted); }
+.pagenav .name { font: 500 1.15rem / 1.2 var(--serif); }
+.pagenav .next { margin-left: auto; text-align: right; }
+.page > footer { width: min(var(--page-width), calc(100% - 2rem)); margin: 0 auto; padding: 1rem var(--gutter) 3rem; color: var(--ink-muted); font-size: .9rem; }
+.page > footer p { margin: 0; }
+.page > footer a { display: inline-flex; align-items: center; min-height: 2.8rem; }
+
+/* Entrance: short and quiet. The page is readable from the first frame. */
+@media (prefers-reduced-motion: no-preference) {
+  .page .display { animation: rise .5s var(--ease-out) .05s both; }
+  .opening-rule { transform-origin: left center; animation: draw .6s var(--ease-out) .25s both; }
+  .opening > .crumbs, .opening > .lede, .opening > .opening-actions { animation: rise-s var(--t-enter) var(--ease-out) .2s both; }
+  .sheet { animation: settle var(--t-enter) var(--ease-out) .3s both; }
+  /* evidence blocks reveal once as they enter the viewport; page.js adds .reveal-ready only when it runs */
+  .reveal-ready .block:not(.seen) { opacity: 0; transform: translateY(10px); }
+  .reveal-ready .block { transition: opacity var(--t-enter) ease, transform var(--t-enter) var(--ease-out); }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes rise-s { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes settle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* Arriving from the book: the paper layer on the homepage becomes this opening, and its title becomes the heading
+   when the words match (names match assets/js/experience.js). */
+@view-transition { navigation: auto; }
+.opening { view-transition-name: paper; }
+.opening .display { view-transition-name: pagetitle; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
+::view-transition-group(paper), ::view-transition-group(pagetitle) { animation-duration: .3s; animation-timing-function: cubic-bezier(.3, .7, .2, 1); }
+/* From the book: the paper layer already covers the screen below the header, so the page replaces the desk at once. */
+:root:active-view-transition-type(handoff)::view-transition-old(root) { animation: none; opacity: 0; }
+:root:active-view-transition-type(handoff)::view-transition-new(root) { animation: none; }
+
+/* Narrow screens: one column, ordinary document flow, nothing sticky, no hover dependence */
+@media (max-width: 48rem) {
+  .page-label { margin: .2rem 0 0; padding: 0; border: 0; flex-basis: 100%; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .cards .card:last-child { grid-column: auto; }
+  .site-header { padding: .7rem 1rem; }
+  .page .brand { font-size: 1rem; }
+  .opening, .sheet, .pagenav, .page > footer { width: calc(100% - 1rem); }
+  .page--bands .chapter-head { padding-left: .9rem; padding-right: .9rem; }
+  .pagenav { flex-direction: column; }
+  .pagenav .next { margin-left: 0; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+@media (forced-colors: active) { .rail a[aria-current="true"] { outline: 2px solid CanvasText; } }

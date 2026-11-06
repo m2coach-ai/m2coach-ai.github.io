@@ -10,7 +10,7 @@
    The homepage keeps the dark desk. Every other page reads like a page from
    the book: paper, dark ink, ink-blue accents. */
 @view-transition{navigation:auto}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.45s}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
 body:not(.experience){background:#120d09}
 body:not(.experience) .site-header{position:sticky;background:#120d09;border-bottom:1px solid var(--line)}
 .content-shell{--ink:#2a2620;--body:#3b352d;--muted:#6b6358;--line:rgba(42,38,32,.16);--cyan:#28466a;--violet:#28466a;
@@ -28,6 +28,11 @@ body:not(.experience) .site-header{position:sticky;background:#120d09;border-bot
 .content-shell .code-block code{background:none;padding:0}
 body:not(.experience)>footer{border-top:0;color:#b4a994}
 /* The page title writes itself in once, like the book's pages. */
-@keyframes ink-in{from{clip-path:inset(-.2em 100% -.3em 0)}to{clip-path:inset(-.2em 0 -.3em 0)}}
-.content-hero h1{animation:ink-in 1s cubic-bezier(.3,.7,.2,1) .15s both}
+@keyframes title-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.content-hero h1{animation:title-rise .45s cubic-bezier(.16,1,.3,1) .05s both}
 @media(max-width:700px){.content-shell{width:calc(100% - 1rem);margin-top:1rem;padding:1.3rem 1.1rem 2rem}}
+/* Arriving from the book: the paper layer and its title (named on the homepage) become this sheet and heading. */
+.content-shell{view-transition-name:paper}
+.content-hero h1{view-transition-name:pagetitle;width:fit-content}
+::view-transition-group(paper),::view-transition-group(pagetitle){animation-duration:.3s;animation-timing-function:cubic-bezier(.3,.7,.2,1)}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}

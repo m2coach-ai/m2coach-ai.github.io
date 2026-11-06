@@ -2,7 +2,8 @@
 .webgl-stage{position:fixed;inset:0;z-index:0;background:#120d09}
 /* The still poster only appears if the 3D scene is slow or unavailable, so a
    normal load goes straight from dark to the lamp switching on. */
-.webgl-stage::before{content:'';position:absolute;inset:0;background:url('../img/desk-poster.webp') center/cover no-repeat;opacity:0;animation:poster-in .8s ease 1.8s forwards}
+.webgl-stage::before{content:'';position:absolute;inset:0;background:url('../img/desk-poster-landing.webp') center/cover no-repeat;opacity:0;animation:poster-in .8s ease 1.8s forwards}
+@media(max-aspect-ratio:85/100){.webgl-stage::before{background-image:url('../img/desk-poster-landing-portrait.webp')}}
 .webgl-ready .webgl-stage::before{display:none}
 @keyframes poster-in{to{opacity:1}}
 .webgl-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 40% 45%,transparent 35%,rgba(18,13,9,.35) 70%,rgba(18,13,9,.85) 100%)}
@@ -47,4 +48,21 @@ a.module-link:hover strong{color:var(--cyan)}
 /* Leaving the book: the text steps back and the scene dims as the camera moves in. */
 .story,.book-controls,.site-header{transition:opacity .3s ease}
 .diving .story,.diving .book-controls,.diving .site-header{opacity:0;pointer-events:none}
-.diving #desk-canvas{opacity:0;transition:opacity .3s ease .25s}
+
+/* The Menu button stays out of the cover scene and appears once the book is being opened. experience.js adds the
+   class, so without WebGL or with reduced motion the Menu is always visible. */
+.menu-hidden .site-header .nav-toggle:not(.nav-close){opacity:0;visibility:hidden;pointer-events:none}
+.site-header .nav-toggle:not(.nav-close){transition:opacity .5s ease}
+
+/* Leaving the book: the written page stays sharp. The desk dims, a flat paper layer carrying the chapter title takes
+   the page's place and grows to the destination's sheet (names match global.css for the view transition). */
+.paper-handoff{position:fixed;inset:0;z-index:70;pointer-events:none}
+.ph-scrim{position:absolute;inset:0;background:rgba(14,10,7,.5);opacity:0;transition:opacity .3s ease}
+.paper-handoff.dim .ph-scrim{opacity:1}
+.ph-paper{position:absolute;background:#efe8d8;border-radius:3px;box-shadow:0 10px 34px rgba(0,0,0,.4);opacity:0;transition:opacity .2s ease;view-transition-name:paper}
+.paper-handoff.on .ph-paper,.paper-handoff.on .ph-title{opacity:1}
+.ph-title{position:absolute;left:0;top:0;transform-origin:0 0;white-space:nowrap;color:#2a2620;font:500 100px/1.05 Newsreader,Georgia,serif;letter-spacing:-.02em;opacity:0;transition:opacity .12s ease;view-transition-name:pagetitle}
+.paper-handoff.grow .ph-paper{transition:left .3s cubic-bezier(.45,.05,.2,1),top .3s cubic-bezier(.45,.05,.2,1),width .3s cubic-bezier(.45,.05,.2,1),height .3s cubic-bezier(.45,.05,.2,1),transform .3s cubic-bezier(.45,.05,.2,1)}
+.paper-handoff.grow .ph-title{transition:left .3s cubic-bezier(.45,.05,.2,1),top .3s cubic-bezier(.45,.05,.2,1),font-size .3s cubic-bezier(.45,.05,.2,1),transform .3s cubic-bezier(.45,.05,.2,1),opacity .18s ease}
+.ph-title.fade{opacity:0!important;view-transition-name:none}
+@media(prefers-reduced-motion:reduce){.paper-handoff,.ph-paper,.ph-title,.ph-scrim,.site-header .nav-toggle:not(.nav-close){transition:none!important}}

@@ -1,4 +1,59 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="R analysis of COVID-19 India recovery reporting frequency, including code, output, interpretation, data quality findings, verification and reflection."><title>Recovery Frequency Analysis | E-portfolio</title><link rel="stylesheet" href="../../../assets/css/global.css"><link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="../../../">Mark Martin / E-portfolio</a><a class="button" href="../">Module hub</a></header><main id="main" class="content-shell"><div class="breadcrumbs"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / Recovery frequency</div><header class="content-hero"><p class="eyebrow">Artefact 01 / R</p><h1 class="display">Recovery reporting frequency</h1><p class="lede">An analysis of whether each COVID-19 India dataset row reported one or more cumulative recoveries between 30 January and 21 March 2020.</p></header><article class="prose"><h2>Question and method</h2><p>The analysis converts the cumulative <code>Cured</code> value into a binary variable. Zero means that the report contained no recorded recoveries. One means that the report contained at least one recorded recovery.</p><pre class="code-block"><code>covid$has_recovery &lt;- ifelse(covid$Cured &gt; 0, 1, 0)
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="R analysis of COVID-19 India recovery reporting frequency, including code, output, interpretation, data quality findings, verification and reflection.">
+<title>Recovery Frequency Analysis | E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Recovery frequency</span></nav>
+      <p class="page-label">Artefact 01 / R</p>
+    </div>
+    <h1 class="display" id="page-title">Recovery reporting frequency</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">An analysis of whether each COVID-19 India dataset row reported one or more cumulative recoveries between 30 January and 21 March 2020.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#question-and-method">Question and method</a></li>
+        <li><a href="#output">Output</a></li>
+        <li><a href="#interpretation">Interpretation</a></li>
+        <li><a href="#judgment-calls-and-data-quality">Judgment calls and data quality</a></li>
+        <li><a href="#error-and-fix">Error and fix</a></li>
+        <li><a href="#verification">Verification</a></li>
+        <li><a href="#reflection">Reflection</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+        <li><a href="#engagement-with-literature">Engagement with literature</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="question-and-method" aria-labelledby="h-question-and-method">
+        <div class="chapter-head"><h2 id="h-question-and-method">Question and method</h2></div>
+        <div class="chapter-body">
+        <p>The analysis converts the cumulative <code>Cured</code> value into a binary variable. Zero means that the report contained no recorded recoveries. One means that the report contained at least one recorded recovery.</p>
+        <pre class="code-block block" tabindex="0" aria-label="R code"><code>covid$has_recovery &lt;- ifelse(covid$Cured &gt; 0, 1, 0)
 frequency &lt;- table(covid$has_recovery, useNA = "ifany")
 proportion &lt;- prop.table(frequency)
 
@@ -7,4 +62,83 @@ proportion
 
 # Independent verification
 sum(covid$Cured &gt; 0)
-nrow(covid)</code></pre><h2>Output</h2><table class="data-table"><thead><tr><th>Category</th><th>Reports</th><th>Proportion</th></tr></thead><tbody><tr><td>No recorded recovery</td><td>215</td><td>79.6%</td></tr><tr><td>At least one recorded recovery</td><td>55</td><td>20.4%</td></tr><tr><td>Total</td><td>270</td><td>100.0%</td></tr></tbody></table><h2>Interpretation</h2><p>Fifty-five of the 270 reports contained at least one recorded recovery. This is 20.4 percent of dataset rows. The result describes reporting rows, not individual recovery events and not an equal comparison of jurisdictions.</p><h2>Judgment calls and data quality</h2><ul><li>The condition uses <code>Cured &gt; 0</code>. A value of one and a value of nine both become one, so the binary transformation deliberately discards magnitude.</li><li>The cumulative value can recur across dates. Kerala's value of three appears on 19 consecutive dates, so these rows do not represent 19 separate recovery events.</li><li>Jurisdictions reporting on more dates contribute more rows. The proportion is weighted by filing frequency rather than equally by place.</li><li>The 27 raw jurisdiction labels represent 22 actual places because several names and prefixes vary.</li><li>Uttar Pradesh changes from five to four and then back to five. A cumulative total should not fall, so the pattern is treated as a source correction rather than a coding error.</li></ul><h2>Error and fix</h2><p>An early condition used <code>Cured == 1</code>. It returned only 14 rows and silently excluded 41 reports containing two or more recoveries. Replacing equality with <code>Cured &gt; 0</code> aligned the code with the actual question.</p><h2>Verification</h2><p>The two frequencies reconcile to 270 rows. A separate calculation, <code>sum(covid$Cured &gt; 0)</code>, independently returns 55.</p><h2>Reflection</h2><p>The exercise showed that a technically correct frequency table can still support a misleading interpretation. The most important decision occurred before the table was produced: defining what a row represents. The resulting percentage is not the recovery rate. It is the proportion of reports containing a positive cumulative value.</p><h2>Feedback</h2><div class="callout"><strong>Required before assessment:</strong> Add feedback from a named peer or tutor, the date received, the change made in response, and any reason for not adopting a suggestion.</div><h2>Engagement with literature</h2><div class="callout"><strong>Required before assessment:</strong> Add at least one relevant academic source and explain how the source changes, supports or complicates the interpretation. A citation by itself is not enough.</div></article></main><footer><p><a href="../">Return to Numerical Analysis</a></p></footer></body></html>
+nrow(covid)</code></pre>
+        </div>
+      </section>
+      <section class="chapter" id="output" aria-labelledby="h-output">
+        <div class="chapter-head"><h2 id="h-output">Output</h2></div>
+        <div class="chapter-body">
+        <div class="block table-wrap" role="region" aria-label="Output table" tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col">Category</th><th scope="col">Reports</th><th scope="col">Proportion</th></tr></thead>
+            <tbody>
+              <tr><td>No recorded recovery</td><td>215</td><td>79.6%</td></tr>
+              <tr><td>At least one recorded recovery</td><td>55</td><td>20.4%</td></tr>
+              <tr><td>Total</td><td>270</td><td>100.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </section>
+      <section class="chapter" id="interpretation" aria-labelledby="h-interpretation">
+        <div class="chapter-head"><h2 id="h-interpretation">Interpretation</h2></div>
+        <div class="chapter-body">
+        <p>Fifty-five of the 270 reports contained at least one recorded recovery. This is 20.4 percent of dataset rows. The result describes reporting rows, not individual recovery events and not an equal comparison of jurisdictions.</p>
+        </div>
+      </section>
+      <section class="chapter" id="judgment-calls-and-data-quality" aria-labelledby="h-judgment-calls-and-data-quality">
+        <div class="chapter-head"><h2 id="h-judgment-calls-and-data-quality">Judgment calls and data quality</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>The condition uses <code>Cured &gt; 0</code>. A value of one and a value of nine both become one, so the binary transformation deliberately discards magnitude.</li>
+          <li>The cumulative value can recur across dates. Kerala's value of three appears on 19 consecutive dates, so these rows do not represent 19 separate recovery events.</li>
+          <li>Jurisdictions reporting on more dates contribute more rows. The proportion is weighted by filing frequency rather than equally by place.</li>
+          <li>The 27 raw jurisdiction labels represent 22 actual places because several names and prefixes vary.</li>
+          <li>Uttar Pradesh changes from five to four and then back to five. A cumulative total should not fall, so the pattern is treated as a source correction rather than a coding error.</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="error-and-fix" aria-labelledby="h-error-and-fix">
+        <div class="chapter-head"><h2 id="h-error-and-fix">Error and fix</h2></div>
+        <div class="chapter-body">
+        <div class="difficulty">
+          <p>An early condition used <code>Cured == 1</code>. It returned only 14 rows and silently excluded 41 reports containing two or more recoveries. Replacing equality with <code>Cured &gt; 0</code> aligned the code with the actual question.</p>
+        </div>
+        </div>
+      </section>
+      <section class="chapter" id="verification" aria-labelledby="h-verification">
+        <div class="chapter-head"><h2 id="h-verification">Verification</h2></div>
+        <div class="chapter-body">
+        <p>The two frequencies reconcile to 270 rows. A separate calculation, <code>sum(covid$Cured &gt; 0)</code>, independently returns 55.</p>
+        </div>
+      </section>
+      <section class="chapter" id="reflection" aria-labelledby="h-reflection">
+        <div class="chapter-head"><h2 id="h-reflection">Reflection</h2></div>
+        <div class="chapter-body">
+        <p>The exercise showed that a technically correct frequency table can still support a misleading interpretation. The most important decision occurred before the table was produced: defining what a row represents. The resulting percentage is not the recovery rate. It is the proportion of reports containing a positive cumulative value.</p>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <div class="note"><strong>Required before assessment:</strong> Add feedback from a named peer or tutor, the date received, the change made in response, and any reason for not adopting a suggestion.</div>
+        </div>
+      </section>
+      <section class="chapter" id="engagement-with-literature" aria-labelledby="h-engagement-with-literature">
+        <div class="chapter-head"><h2 id="h-engagement-with-literature">Engagement with literature</h2></div>
+        <div class="chapter-body">
+        <div class="note"><strong>Required before assessment:</strong> Add at least one relevant academic source and explain how the source changes, supports or complicates the interpretation. A citation by itself is not enough.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="next" href="../reflection.html" rel="next"><span class="dir">Next</span><span class="name">Reflective review</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>
