@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T20:41:19.067226+00:00",
+  "title": "Design System: Mark Martin E-portfolio",
+  "extensions": {
+    "colorMeta": {
+      "desk-black": {
+        "role": "neutral",
+        "displayName": "Desk Black",
+        "canonical": "#120d09",
+        "tonalRamp": [
+          "#040302",
+          "#070504",
+          "#0a0805",
+          "#0e0a07",
+          "#120d09",
+          "#46423f",
+          "#7d7a78",
+          "#b8b6b5"
+        ]
+      },
+      "desk-ink": {
+        "role": "neutral",
+        "displayName": "Desk Ink",
+        "canonical": "#f1eadc",
+        "tonalRamp": [
+          "#353330",
+          "#605e58",
+          "#8c8880",
+          "#bcb7ac",
+          "#f1eadc",
+          "#f4efe4",
+          "#f7f3ec",
+          "#fbf9f4"
+        ]
+      },
+      "desk-body": {
+        "role": "neutral",
+        "displayName": "Desk Body",
+        "canonical": "#e2d9c8",
+        "tonalRamp": [
+          "#32302c",
+          "#5a5750",
+          "#837e74",
+          "#b0a99c",
+          "#e2d9c8",
+          "#e8e1d4",
+          "#efeae1",
+          "#f6f4ee"
+        ]
+      },
+      "desk-muted": {
+        "role": "neutral",
+        "displayName": "Desk Muted",
+        "canonical": "#b4a994",
+        "tonalRamp": [
+          "#282521",
+          "#48443b",
+          "#686256",
+          "#8c8473",
+          "#b4a994",
+          "#c4bcac",
+          "#d6d0c4",
+          "#e8e5df"
+        ]
+      },
+      "lamp-amber": {
+        "role": "primary",
+        "displayName": "Lamp Amber",
+        "canonical": "#e0b46e",
+        "tonalRamp": [
+          "#312818",
+          "#5a482c",
+          "#826840",
+          "#af8c56",
+          "#e0b46e",
+          "#e7c48e",
+          "#eed6af",
+          "#f6e8d4"
+        ]
+      },
+      "brass": {
+        "role": "secondary",
+        "displayName": "Brass",
+        "canonical": "#c99a62",
+        "tonalRamp": [
+          "#2c2216",
+          "#503e27",
+          "#755939",
+          "#9d784c",
+          "#c99a62",
+          "#d5b085",
+          "#e1c7a9",
+          "#efe1d0"
+        ]
+      },
+      "slate-blue": {
+        "role": "secondary",
+        "displayName": "Slate Blue",
+        "canonical": "#8fb0c8",
+        "tonalRamp": [
+          "#1f272c",
+          "#394650",
+          "#536674",
+          "#70899c",
+          "#8fb0c8",
+          "#a8c1d4",
+          "#c1d4e1",
+          "#dde7ee"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#efe8d8",
+        "tonalRamp": [
+          "#353330",
+          "#605d56",
+          "#8b877d",
+          "#bab5a8",
+          "#efe8d8",
+          "#f3ede1",
+          "#f6f2ea",
+          "#faf8f3"
+        ]
+      },
+      "page-ink": {
+        "role": "neutral",
+        "displayName": "Page Ink",
+        "canonical": "#2a2620",
+        "tonalRamp": [
+          "#090807",
+          "#110f0d",
+          "#181613",
+          "#211e19",
+          "#2a2620",
+          "#595651",
+          "#8a8884",
+          "#bfbebc"
+        ]
+      },
+      "page-body": {
+        "role": "neutral",
+        "displayName": "Page Body",
+        "canonical": "#3b352d",
+        "tonalRamp": [
+          "#0d0c0a",
+          "#181512",
+          "#221f1a",
+          "#2e2923",
+          "#3b352d",
+          "#66615b",
+          "#93908c",
+          "#c4c2c0"
+        ]
+      },
+      "page-muted": {
+        "role": "neutral",
+        "displayName": "Page Muted",
+        "canonical": "#6b6358",
+        "tonalRamp": [
+          "#181613",
+          "#2b2823",
+          "#3e3933",
+          "#534d45",
+          "#6b6358",
+          "#8c857d",
+          "#aea9a3",
+          "#d3d0cd"
+        ]
+      },
+      "ink-blue": {
+        "role": "primary",
+        "displayName": "Ink Blue",
+        "canonical": "#28466a",
+        "tonalRamp": [
+          "#090f17",
+          "#101c2a",
+          "#17293d",
+          "#1f3753",
+          "#28466a",
+          "#576f8b",
+          "#8999ad",
+          "#bec8d2"
+        ]
+      },
+      "ink-blue-deep": {
+        "role": "primary",
+        "displayName": "Ink Blue Deep",
+        "canonical": "#1a2f4a",
+        "tonalRamp": [
+          "#060a10",
+          "#0a131e",
+          "#0f1b2b",
+          "#14253a",
+          "#1a2f4a",
+          "#4c5d72",
+          "#818d9b",
+          "#bac1c9"
+        ]
+      },
+      "oxide": {
+        "role": "secondary",
+        "displayName": "Oxide (proposed)",
+        "canonical": "#8a3b2a",
+        "tonalRamp": [
+          "#1e0d09",
+          "#371811",
+          "#502218",
+          "#6c2e21",
+          "#8a3b2a",
+          "#a46659",
+          "#bf938a",
+          "#dcc4bf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles and chapter openers."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles inside a leaf."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sub-sections and component titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose at 60 to 72 characters wide."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Italic eyebrows, captions and chapter labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet",
+        "value": "0 30px 90px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.04) inset",
+        "purpose": "The paper sheet on the desk."
+      },
+      {
+        "name": "card-hairline",
+        "value": "0 1px 0 rgba(42,38,32,.08)",
+        "purpose": "Evidence cards on paper."
+      },
+      {
+        "name": "desk-panel",
+        "value": "0 24px 60px rgba(0,0,0,.35)",
+        "purpose": "Homepage text card."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ink-in",
+        "value": "1s cubic-bezier(.3,.7,.2,1) .15s both",
+        "purpose": "One-time page-title reveal; removed under reduced motion."
+      },
+      {
+        "name": "nav-drawer",
+        "value": ".35s ease",
+        "purpose": "Menu drawer slide."
+      },
+      {
+        "name": "view-transition",
+        "value": ".45s",
+        "purpose": "Page-to-page cross-fade."
+      },
+      {
+        "name": "hover-nudge",
+        "value": ".2s",
+        "purpose": "Button 2px lift."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrowest",
+        "value": "390px"
+      },
+      {
+        "name": "mobile-switch",
+        "value": "700px"
+      },
+      {
+        "name": "sheet",
+        "value": "1040px"
+      },
+      {
+        "name": "desk-max",
+        "value": "1180px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pill Button",
+      "kind": "button",
+      "refersTo": "button-pill",
+      "description": "Header and secondary actions; amber border on hover on the desk.",
+      "html": "<a class=\"ds-btn\" href=\"#\">All modules</a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.6rem;border:1px solid rgba(241,234,220,.16);border-radius:99px;padding:.78rem 1.1rem;text-decoration:none;font:400 .9rem Inter,Arial,sans-serif;background:#120d09;color:#f1eadc;transition:.2s}.ds-btn:hover{border-color:#e0b46e;transform:translateY(-2px)}.ds-btn:focus-visible{outline:2px solid #e0b46e;outline-offset:2px}"
+    },
+    {
+      "name": "Evidence Card",
+      "kind": "card",
+      "refersTo": "card-evidence",
+      "description": "Outcome or artefact card on a paper leaf; used when comparison matters.",
+      "html": "<a class=\"ds-card\" href=\"#\"><p class=\"ds-eyebrow\">R analysis</p><h3>Artefact title</h3><p>One-sentence description.</p></a>",
+      "css": ".ds-card{display:block;padding:1.4rem;border:1px solid rgba(42,38,32,.16);border-radius:.5rem;background:rgba(255,255,255,.32);color:#2a2620;text-decoration:none;box-shadow:0 1px 0 rgba(42,38,32,.08)}.ds-card:hover{border-color:#28466a}.ds-card:focus-visible{outline:2px solid #28466a;outline-offset:2px}.ds-card h3{font:500 1.25rem/1.2 Newsreader,Georgia,serif;margin:.2rem 0 .5rem}.ds-eyebrow{font:italic 400 1.05rem/1.2 Newsreader,Georgia,serif;color:#28466a;margin:0}"
+    },
+    {
+      "name": "Chapter Band (proposed)",
+      "kind": "custom",
+      "refersTo": "chapter-band",
+      "description": "Full-width flat colour band that opens each case-study section; no image behind the text.",
+      "html": "<div class=\"ds-band\"><p class=\"ds-band-n\">Section 5</p><h2>Evidence</h2></div>",
+      "css": ".ds-band{background:#28466a;color:#efe8d8;padding:3rem 1.5rem}.ds-band h2{font:500 clamp(1.8rem,4vw,3rem)/1.05 Newsreader,Georgia,serif;margin:.2rem 0 0}.ds-band-n{font:italic 400 1.05rem/1.2 Newsreader,Georgia,serif;margin:0;opacity:.9}"
+    },
+    {
+      "name": "Callout",
+      "kind": "custom",
+      "refersTo": "callout-note",
+      "description": "Left-ruled note. Ink-blue rule for notes; oxide rule only for difficulty (proposed).",
+      "html": "<div class=\"ds-callout\">Placeholder note.</div><div class=\"ds-callout ds-difficulty\"><strong>Difficulty.</strong> What went wrong.</div>",
+      "css": ".ds-callout{border-left:2px solid #28466a;padding:1rem 1.25rem;background:rgba(40,70,106,.06);color:#3b352d;margin:1rem 0;font:400 1rem/1.65 Inter,Arial,sans-serif}.ds-difficulty{border-left-color:#8a3b2a;background:rgba(138,59,42,.06)}"
+    },
+    {
+      "name": "Chapter Navigation (proposed)",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Always-visible in-page list of case-study sections; aria-current marks the section in view.",
+      "html": "<nav class=\"ds-chapters\" aria-label=\"Case study sections\"><ol><li><a href=\"#orientation\" aria-current=\"true\">Orientation</a></li><li><a href=\"#evidence\">Evidence</a></li></ol></nav>",
+      "css": ".ds-chapters ol{list-style:none;margin:0;padding:0;font:400 .9rem Inter,Arial,sans-serif}.ds-chapters a{display:block;padding:.5rem 0;border-top:1px solid rgba(42,38,32,.16);color:#2a2620;text-decoration:none}.ds-chapters a:hover{color:#1a2f4a}.ds-chapters a[aria-current]{font-weight:600;color:#28466a}.ds-chapters a:focus-visible{outline:2px solid #28466a;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Record Book",
+    "overview": "The homepage is a dark desk with a record book under a lamp; every other page is a leaf of that book, in paper, dark ink and ink-blue. The site is a record kept by a working educator, not a showcase.",
+    "keyCharacteristics": [
+      "Dark desk on the homepage, paper leaves everywhere else.",
+      "Serif display (Newsreader) over a quiet sans body (Inter).",
+      "One warm accent on the desk (lamp amber), one cool accent on paper (ink blue).",
+      "Flat leaves with one soft shadow for the sheet itself; no stacked card shadows.",
+      "Motion only where it shows how the book works."
+    ],
+    "rules": [
+      {
+        "name": "The Two-Palette Rule",
+        "body": "Desk colours never appear on a paper leaf and paper colours never appear on the desk, except the ribbon bookmark.",
+        "section": "colors"
+      },
+      {
+        "name": "The Oxide Rule",
+        "body": "Oxide marks difficulty only.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast Rule",
+        "body": "Body text 4.5:1; large text and UI boundaries 3:1; re-measure with a tool.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measure Rule",
+        "body": "Prose lines are 60 to 72 characters (max-width 68ch).",
+        "section": "typography"
+      },
+      {
+        "name": "The Hierarchy Rule",
+        "body": "One h1 per page, then h2 and h3 without skipping levels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Font-Loading Rule",
+        "body": "Move fonts off CSS @import to preconnect plus link, or self-host WOFF2.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Shadow Rule",
+        "body": "Only the sheet and the homepage text card cast shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the homepage as the dark desk and every other page as a paper leaf.",
+      "Do use Newsreader for headings and eyebrows and Inter for body text.",
+      "Do keep prose at 60 to 72 characters wide.",
+      "Do mark difficulty with Oxide and nothing else.",
+      "Do put the evidence, its caption and its link in the main reading flow.",
+      "Do show missing evidence as missing."
+    ],
+    "donts": [
+      "Don't use scroll-jacking, long pinned sequences or more than one sticky storytelling sequence per module page.",
+      "Don't stack fixed or sticky layers.",
+      "Don't use image collages as decoration or place text directly over busy images.",
+      "Don't publish media without alt text.",
+      "Don't load every evidence image immediately.",
+      "Don't hide navigation behind a toggle on a case-study page.",
+      "Don't add decorative motion that does not communicate learning.",
+      "Don't add GSAP ScrollTrigger or any animation library, or migrate to a framework.",
+      "Don't replace the WebGL homepage.",
+      "Don't drift toward a generic AI start-up, design-agency, resume or personal-brand look."
+    ]
+  }
+}
