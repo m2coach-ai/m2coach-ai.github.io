@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Numerical Analysis module portfolio containing learning outcomes, artefacts, reflection, meeting notes, and a professional skills action plan.">
+<meta name="description" content="Module 3 of the programme: learning outcomes, results, and the evidence on statistical analysis in R, from a first frequency table to a diabetes capstone.">
 <title>Numerical Analysis | Mark Martin E-portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,16 @@
   <a class="brand" href="../../">Mark Martin / E-portfolio</a>
   <nav class="site-actions" aria-label="Site">
     <a class="pill" href="../../#portfolio">Return to the book</a>
-    <a class="pill" href="../../#portfolio">All modules</a>
+    
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
   </nav>
 </header>
 
@@ -26,47 +35,128 @@
   <section class="opening" aria-labelledby="page-title">
     <div class="crumbs">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../">Home</a> / Modules / <span aria-current="page">Numerical Analysis</span></nav>
-      <p class="page-label">Module 01</p>
+      <p class="page-label">Module 3</p>
     </div>
     <h1 class="display" id="page-title">Numerical Analysis</h1>
     <div class="opening-rule" aria-hidden="true"></div>
-    <p class="lede">A working module hub demonstrating the required structure. Official learning outcomes and final module details still need to be inserted from the Deadline Details page.</p>
+    <p class="lede">The third module of the programme: statistical analysis in R, from a first frequency table to a diabetes capstone, and a reflection on deciding whether numerical output deserves to be trusted.</p>
     <p class="opening-actions"><a class="pill pill-solid" href="#artefacts">Go to the artefacts</a></p>
   </section>
 
   <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#learning-outcomes">Learning outcomes</a></li>
+        <li><a href="#skills-evidenced">Skills evidenced</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#artefacts">Artefacts</a></li>
+      </ol>
+    </nav>
     <div class="chapters">
       <section class="chapter" id="learning-outcomes" aria-labelledby="h-learning-outcomes">
         <div class="chapter-head"><h2 id="h-learning-outcomes">Learning outcomes</h2></div>
         <div class="chapter-body">
-          <div class="note">Placeholder. Insert the university's official learning outcomes, followed by a concise explanation of how the artefacts provide evidence for each outcome.</div>
+          <ol class="outcomes" aria-label="Learning outcomes">
+          <li class="outcome" id="outcome-1">
+            <p class="outcome-text">Systematic understanding of the key mathematical and statistical concepts and techniques which underpin mechanisms in Data Science and AI.</p>
+            <p class="outcome-why">The discussion post shows a strong association and a tiny p-value resting on an assumption that did not hold. The Unit 12 presentation shows an impressive R squared and an accuracy figure that borrowed their strength from how the data were collected and evaluated.</p>
+            <div class="outcome-evidence">
+              <p class="outcome-evidence-label">Evidence</p>
+              <ul><li><a href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a></li><li><a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li><li><a href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></li></ul>
+            </div>
+          </li>
+          <li class="outcome" id="outcome-2">
+            <p class="outcome-text">Apply mathematical and statistical methods in these fields to help in the decision-making process.</p>
+            <p class="outcome-why">The recovery-frequency entry and the annotated scripts apply frequency tables, tests and models in R. The Unit 12 presentation applies them to a decision: which numbers a screening clinic with a limited testing budget can trust.</p>
+            <div class="outcome-evidence">
+              <p class="outcome-evidence-label">Evidence</p>
+              <ul><li><a href="entries/recovery-frequency.html">Recovery reporting frequency</a></li><li><a href="entries/r-scripts-and-plots.html">R scripts and plots</a></li><li><a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li></ul>
+            </div>
+          </li>
+          <li class="outcome" id="outcome-3">
+            <p class="outcome-text">Critically evaluate the use of statistical analysis and the numeric interpretation of results as aids in the decision-making process.</p>
+            <p class="outcome-why">Each item asks whether a result deserves trust: the failed independence behind a tiny p-value, the sample and the evaluation behind impressive model numbers, and the audit of the Brown table in the reflection and the figure and discussion built from it.</p>
+            <div class="outcome-evidence">
+              <p class="outcome-evidence-label">Evidence</p>
+              <ul><li><a href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a></li><li><a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li><li><a href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></li><li><a href="entries/brown-table-ii-figure-and-discussion.html">Brown Table II: the figure and the discussion</a></li></ul>
+            </div>
+          </li>
+          <li class="outcome" id="outcome-4">
+            <p class="outcome-text">Critically appraise and present results of a statistical analysis to a diverse audience.</p>
+            <p class="outcome-why">The presentation is framed around a clinic question and not statistical jargon, and the reflection follows the What, So What, Now What structure, so both present the analysis to a listener and not only to a statistician.</p>
+            <div class="outcome-evidence">
+              <p class="outcome-evidence-label">Evidence</p>
+              <ul><li><a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li><li><a href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></li></ul>
+            </div>
+          </li>
+          </ol>
+        </div>
+      </section>
+      <section class="chapter" id="skills-evidenced" aria-labelledby="h-skills-evidenced">
+        <div class="chapter-head"><h2 id="h-skills-evidenced">Skills evidenced</h2></div>
+        <div class="chapter-body">
+          <p>The programme names the professional skills each module should build. These are the skills the artefacts below give evidence for, with the artefacts that show them.</p>
+          <ul class="skills">
+            <li><strong>Numeracy:</strong> <a href="entries/recovery-frequency.html">Recovery reporting frequency</a>, <a href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a>, <a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li>
+            <li><strong>IT and Digital:</strong> <a href="entries/r-scripts-and-plots.html">R scripts and plots</a>, <a href="entries/recovery-frequency.html">Recovery reporting frequency</a></li>
+            <li><strong>Problem-solving:</strong> <a href="entries/recovery-frequency.html">Recovery reporting frequency</a>, <a href="entries/r-scripts-and-plots.html">R scripts and plots</a></li>
+            <li><strong>Critical thinking and analysis:</strong> <a href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a>, <a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li>
+            <li><strong>Research:</strong> <a href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a>, <a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></li>
+            <li><strong>Communication and literacy:</strong> <a href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a>, <a href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></li>
+            <li><strong>Critical reflection:</strong> <a href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></li>
+          </ul>
         </div>
       </section>
 
+      <section class="chapter" id="results" aria-labelledby="h-results">
+        <div class="chapter-head"><h2 id="h-results">Results</h2></div>
+        <div class="chapter-body">
+          <ul>
+            <li>Statistical Analysis Presentation (Assignment 1): Distinction</li>
+            <li>Individual Reflection (Assignment 2): Distinction</li>
+          </ul>
+          <p><a href="../../about/#how-results-are-shown">How results are shown</a></p>
+        </div>
+      </section>
       <section class="chapter" id="artefacts" aria-labelledby="h-artefacts">
         <div class="chapter-head"><h2 id="h-artefacts">Artefacts</h2></div>
         <div class="chapter-body">
           <ul class="cards">
             <li class="card card-lead">
               <span class="tag">R analysis</span>
-              <h3><a class="card-link" href="entries/recovery-frequency.html">COVID-19 recovery reporting frequency</a></h3>
-              <p>Binary frequency analysis, independent verification, data quality findings, error correction and interpretation.</p>
-              <p><strong>Feedback:</strong> Not yet available. Peer or tutor feedback must be added when received.</p>
+              <h3><a class="card-link" href="entries/recovery-frequency.html">Recovery reporting frequency</a></h3>
+              <p>A binary frequency analysis on COVID-19 reports: verification, an error that dropped 41 rows, and what the percentage does and does not mean.</p>
             </li>
             <li class="card">
-              <span class="tag">Required component</span>
-              <h3><a class="card-link" href="reflection.html">Reflective review</a></h3>
-              <p>A structured review of what was learned, how understanding changed, and what comes next.</p>
+              <span class="tag">Discussion</span>
+              <h3><a class="card-link" href="entries/discussion-misinterpreting-statistical-information.html">When statistical measures create false confidence</a></h3>
+              <p>A strong association and a tiny p-value, and why the assumption underneath them did not hold.</p>
             </li>
             <li class="card">
-              <span class="tag">Required component</span>
-              <h3><a class="card-link" href="matrix.html">Skills matrix and action plan</a></h3>
-              <p>Professional skills gained or enhanced, supporting evidence, and planned development.</p>
+              <span class="tag">Scripts</span>
+              <h3><a class="card-link" href="entries/r-scripts-and-plots.html">R scripts and plots</a></h3>
+              <p>Three annotated R scripts with the checks, errors and lessons kept in the comments.</p>
             </li>
             <li class="card">
-              <span class="tag">Where applicable</span>
-              <h3><a class="card-link" href="meetings.html">Meeting notes</a></h3>
-              <p>Dated records of relevant tutor and team discussions, decisions and follow-up actions.</p>
+              <span class="tag">Presentation</span>
+              <h3><a class="card-link" href="entries/unit-12-earned-or-borrowed.html">Earned or Borrowed?</a></h3>
+              <p>The Pima diabetes presentation: three impressive numbers and the clinic test applied to each.</p>
+            </li>
+            <li class="card">
+              <span class="tag">Reflection</span>
+              <h3><a class="card-link" href="entries/reflection-from-output-to-judgment.html">From Output to Judgment</a></h3>
+              <p>From producing numerical output to judging whether it deserves to be trusted.</p>
+            </li>
+            <li class="card">
+              <span class="tag">Discussion</span>
+              <h3><a class="card-link" href="entries/brown-table-ii-figure-and-discussion.html">Brown Table II: the figure and the discussion</a></h3>
+              <p>The diverging-bar figure for Brown Table II, the reconstructed Row 8 value, and the summary post after peer challenge.</p>
+            </li>
+            <li class="card">
+              <span class="tag">Professional growth</span>
+              <h3><a class="card-link" href="entries/skills-matrix-and-development-plan.html">Skills matrix and development plan</a></h3>
+              <p>Nine skills rated at the start and now, with the evidence and the goals that follow.</p>
             </li>
           </ul>
         </div>

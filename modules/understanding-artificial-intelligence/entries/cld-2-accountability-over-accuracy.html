@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The initial post and summary post from the second Collaborative Learning Discussion of Module 2, on a white blood cell classifier.">
+<title>Collaborative Learning Discussion 2: accountability over accuracy | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Understanding Artificial Intelligence</a> / <span aria-current="page">Discussion 2</span></nav>
+      <p class="page-label">Units 6 and 7 / Discussion</p>
+    </div>
+    <h1 class="display" id="page-title">Collaborative Learning Discussion 2</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Two models, the same task, and the argument that the decisive question in a clinic is whether a wrong call can be questioned. The initial post, then the summary post that tested it. Only my own text appears. Peers’ posts are not published.</p>
+  </section>
+
+  <div class="sheet">
+    <div class="chapters">
+      <section class="chapter" id="initial-post" aria-labelledby="h-initial-post">
+        <div class="chapter-head"><h2 id="h-initial-post">Initial post</h2></div>
+        <div class="chapter-body">
+        <p><strong>Two supervised algorithms can be set the same task: classifying white blood cells in blood smear images, the screening step that flags leukaemia, infection and immune disorders before a haematologist reviews the slide. The five cell types look different enough that a classifier can tell them apart, and the system is meant to work as a second opinion, not a replacement. Two approaches dominate. A Support Vector Machine takes the traditional route. A Convolutional Neural Network takes the deep learning one.</strong></p>
+        <p><strong>The SVM works the traditional way. A human engineer hands it the features that matter, things like the nucleus to cytoplasm ratio a haematologist would weigh by eye, and the clinician can always point to what drove a classification. The fragility is that everything depends on those upstream choices. Pick the wrong features and the rest inherits the error. The CNN doesn't ask for those choices. It matches what the strongest SVM pipelines achieve in Khan et al. (2021), even on the small clinical datasets where transfer learning carries it. The two come out roughly even on accuracy. The CNN's real gain isn't getting more right. It's not having to design the features at all. The cost is opacity. It hands back a classification and none of the logic that produced it.</strong></p>
+        <p><strong>Convenience makes the CNN the easy pick, and most discussions stop there. In a clinic the decisive weakness is different. It isn't accuracy. It's whether a wrong call can be questioned. When a model cannot explain its verdict on a patient's blood, the clinician cannot hold it to account, and a diagnostic error slips into being nobody's responsibility. This isn't only a medical worry. Pope Leo XIV's 2026 encyclical Magnifica Humanitas argues the human person has to be safeguarded as machines take on decisions about people (Leo XIV, 2026a), and at its promulgation he flagged healthcare as one of the domains where algorithms can already block people from access (Leo XIV, 2026b). At the same launch the Anthropic co-founder Chris Olah pushed the point from the other side, that the labs building frontier AI cannot be the only ones judging it (Olah, 2026). The stronger algorithm, then, is the one a human can be answerable for. That choice is ethical before it is technical.</strong></p>
+        <h3>References</h3>
+        <ul>
+          <li>Khan, S., Sajjad, M., Hussain, T., Ullah, A. and Imran, A.S. (2021) 'A review on traditional machine learning and deep learning models for WBCs classification in blood smear images', <em>IEEE Access</em>, 9, pp. 10657–10673.</li>
+          <li>Leo XIV (2026a) <em>Magnifica Humanitas: On Safeguarding the Human Person in the Time of Artificial Intelligence</em>. Encyclical letter, 15 May. Vatican City: Holy See. Available at: <a rel="noopener" href="https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html">https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html</a> (Accessed: 31 May 2026).</li>
+          <li>Leo XIV (2026b) 'Presentation of the Encyclical Letter "Magnifica Humanitas"'. Address, Synod Hall, Vatican City, 25 May. Available at: <a rel="noopener" href="https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-magnifica-humanitas-presentation-ai-disarmament.html">https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-magnifica-humanitas-presentation-ai-disarmament.html</a> (Accessed: 31 May 2026).</li>
+          <li>Olah, C. (2026) 'Anthropic co-founder Chris Olah's remarks on Pope Leo XIV's encyclical "Magnifica Humanitas"'. Anthropic, 25 May. Available at: <a rel="noopener" href="https://www.anthropic.com/news/chris-olah-pope-leo-encyclical">https://www.anthropic.com/news/chris-olah-pope-leo-encyclical</a> (Accessed: 31 May 2026).</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="summary-post" aria-labelledby="h-summary-post">
+        <div class="chapter-head"><h2 id="h-summary-post">Summary post</h2></div>
+        <div class="chapter-body">
+        <p>Across this discussion the deciding question was never accuracy, and not quite transparency. It was whether a decision can be traced back to a person who answers for it, and whether the person it affects can challenge it rather than just accept it.</p>
+        <p>One peer moved that position first. A legible model can be confidently wrong, and Grad-CAM marks where a network looked without showing why, so interpretability is necessary but not sufficient. A second peer moved it again. Accountability does not sit inside the algorithm, and forcing a clinician to answer for a system they cannot follow only builds what Elish (2019) calls a moral crumple zone. Santoni de Sio and van den Hoven (2018) make the requirement explicit: meaningful human control depends on outcomes tracing back to human agents in the chain. A third peer’s examples raised the stakes. In surveillance and fraud the thing flagged is not just a data point but a person, an outlier is not a culprit, and someone wrongly marked rarely gets to see why, let alone challenge it. The same pressure held in the other threads: without labels, Isolation Forest left its misses invisible, making inspectability matter more, while trees against neural networks showed that attribution added after the fact approximates what a model did rather than recording it.</p>
+        <p>The hardest challenge came last. The first of them questioned the premise the frame rested on, that the two models are even on accuracy. Khan et al. (2021) reports parity averaged across datasets, which can hide divergence on the cases that decide a patient, rare cell types and borderline slides. If the traceable model is also the less accurate one, choosing it for the sake of explainability means accepting more missed diagnoses.</p>
+        <p>That does not weaken the position. It is the strongest reason for it. Traceability does not remove the trade-off between missed diagnoses and answerability; it makes that trade-off visible enough to be owned, challenged, and governed. A choice that costs lives either way has to be owned by someone who can be held to it, not settled invisibly inside a black box. Rudin (2019) is right that high stakes work should be built to be followed, not explained after the person has gone.</p>
+        <h3>References</h3>
+        <ul>
+          <li>Elish, M.C. (2019) 'Moral crumple zones: cautionary tales in human-robot interaction', <em>Engaging Science, Technology, and Society</em>, 5, pp. 40–60. doi: 10.17351/ests2019.260.</li>
+          <li>Khan, S., Sajjad, M., Hussain, T., Ullah, A. and Imran, A.S. (2021) 'A review on traditional machine learning and deep learning models for WBCs classification in blood smear images', <em>IEEE Access</em>, 9, pp. 10657–10673. doi: 10.1109/ACCESS.2020.3048172.</li>
+          <li>Rudin, C. (2019) 'Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead', <em>Nature Machine Intelligence</em>, 1(5), pp. 206–215. doi: 10.1038/s42256-019-0048-x.</li>
+          <li>Santoni de Sio, F. and van den Hoven, J. (2018) 'Meaningful human control over autonomous systems: a philosophical account', <em>Frontiers in Robotics and AI</em>, 5, Article 15. doi: 10.3389/frobt.2018.00015.</li>
+        </ul>
+        <p><em>Peers are described by their points, not named.</em></p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="cld-1-why-ai-and-deployment-readiness.html" rel="prev"><span class="dir">Previous</span><span class="name">Discussion 1</span></a>
+    <a class="next" href="unit-9-smallest-defensible-model.html" rel="next"><span class="dir">Next</span><span class="name">The Smallest Defensible Model</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Understanding Artificial Intelligence</a></p>
+</footer>
+</body>
+</html>

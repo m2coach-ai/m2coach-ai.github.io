@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Part A2 of the Module 1 End of Module Assignment: a comparison of Python and JavaScript on readability, accessibility and error handling.">
+<title>A2: Language Comparison Report | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Part A2</span></nav>
+      <p class="page-label">End of Module Assignment / Part A2</p>
+    </div>
+    <h1 class="display" id="page-title">A2: Language Comparison Report</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A comparison of the two languages, built on the failure found in Part A1.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#the-comparison">The comparison</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="the-comparison" aria-labelledby="h-the-comparison">
+        <div class="chapter-head"><h2 id="h-the-comparison">The comparison</h2></div>
+        <div class="chapter-body">
+        <p><em>This page is an excerpt from Part A2. Two paragraphs are left out: one on programming models and one on professional use. References cited only in those paragraphs are left out with them.</em></p>
+        <p>Both languages can solve the same problem effectively. The A1 exercise set Python and JavaScript the same task, collecting names, removing duplicates, and returning them in alphabetical order. Both scripts appeared to work on first run and contained the same logic error: names written in different capitalisation were treated as separate entries, and the output was wrong silently. The revisions corrected it through input validation and case insensitive deduplication, confirming that the underlying logic was identical even though the syntax differed. This makes it possible to move beyond the output of the scripts and compare the two languages in terms of programming model, readability and developer accessibility, error handling and debugging, and suitability for modern computing tasks. This report argues that Python provides the more accessible development model for new programmers and many analytical computing tasks, while JavaScript reflects a different set of priorities shaped by the demands of the web.</p>
+        <p>A programming language can be capable in principle, but readability affects how accessible it feels when someone is trying to learn it. Python used fewer punctuation heavy structures and focused more on word based structures, so the script was easier to follow on first reading. A line like for name in names reads almost like an English sentence, and that matters when a learner is trying to work out the logic of the code at the same time as its syntax. The JavaScript version solved the same problem, but it expressed that logic through braces, semicolons, and the spread operator, which made the script more compact but also more demanding for someone unfamiliar with those conventions. That point fits with Lutz's (2013) view that writing high quality code has to remain readable even as projects become more complex. Havill (2021) argues that accessibility in introductory programming depends on more than just syntax. By organising his textbook around interdisciplinary problems, algorithm design, and computational thinking rather than around isolated language features, he treats Python primarily as a tool for problem solving and discovery. Walton (2024) suggests that programming language readability is shaped in part by the linguistic and cultural conventions embedded in syntax, which helps explain why Python is often experienced as clear and accessible by beginners. The A1 evidence only partially supports that framing, however. Both scripts encoded identical logic, which suggests the readability difference is less about cultural convention and more about the explicitness of Python's syntactic choices: words over punctuation, names over symbols. This does not imply that languages such as JavaScript are unreadable; experienced users can navigate their conventions with ease. Even so, taken together, both the literature and the Part A1 exercise suggest that Python is the more approachable place to begin.</p>
+        <p>The A1 exercise exposed something that matters more than syntax: neither script crashed, yet both produced the wrong result. That distinction between a runtime failure and a silent logic error is central to how each language handles mistakes in practice. Lutz (2013) presents Python's exception handling model as part of the language's core design, which means defensive checks can be built into a script without changing its basic structure. The revised Python script from A1 did exactly that, rejecting invalid input before any processing began. Python’s isinstance check makes the assumption explicit. Rather than letting the code guess what it has been given, it states the requirement directly in the function. JavaScript’s Array.isArray does the same thing, but the reason it exists is different. JavaScript was built for the browser, where a function might be called by a form, an API response, or a user clicking a button. It cannot assume what is coming in, so the check has to be written in. When Python raises a TypeError, it produces a traceback naming the exact file, line number, and error type. A JavaScript try/catch block achieves the same structural result, but a browser console error requires the developer to also interpret the runtime environment, distinguishing between the code itself, the engine executing it, and the platform in which it runs. The comparison is not that JavaScript handles errors poorly, but that Python tends to make the debugging process more transparent for someone still learning how errors behave.</p>
+        <p>What matters more is who is writing the code, what the task demands, and where the code has to run. Python reduces entry barriers and supports readable scripting, but that is not the same as being a better language. JavaScript’s complexity is not a flaw. It reflects what the web asks of it. The right tool is the one the task requires.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Havill, J. (2021) <em>Discovering computer science: interdisciplinary problems, principles, and Python programming</em>. 2nd edn. Boca Raton, FL: Chapman and Hall/CRC.</li>
+          <li>Lutz, M. (2013) <em>Learning Python: powerful object-oriented programming</em>. 5th edn. Sebastopol, CA: O’Reilly Media.</li>
+          <li>Walton, D.J. (2024) <em>Culturally responsive computing: an introduction into computer science, security, and technology</em>. ROTEL. Available at: <a href="https://open.umn.edu/opentextbooks/textbooks/1720" rel="noopener">https://open.umn.edu/opentextbooks/textbooks/1720</a> (Accessed: 22 March 2026).</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>This is a well-developed and academically supported comparison of Python and JavaScript. You demonstrate strong understanding of programming paradigms, readability, error handling, and suitability for modern computing contexts. The use of literature strengthens the credibility of the discussion. The analysis of readability and developer accessibility is particularly effective, and the argument is clearly grounded in relevant sources. This section could have been strengthened through more direct comparative framing and slightly tighter expression. While both languages are analysed in depth, clearer side-by-side evaluation would improve analytical sharpness.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s feedback on A2: Language Comparison Report</cite></figcaption>
+        </figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="part-a1-silent-logic-error.html" rel="prev"><span class="dir">Previous</span><span class="name">A1: Code Exploration</span></a>
+    <a class="next" href="part-a3-running-versus-trusted.html" rel="next"><span class="dir">Next</span><span class="name">A3: Professional Reflection</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

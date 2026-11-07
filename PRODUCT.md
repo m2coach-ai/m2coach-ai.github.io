@@ -41,7 +41,7 @@ An e-portfolio for Mark Martin's postgraduate computing and artificial intellige
   - Private or extenuating-circumstances documents are never opened, described or published.
   - Classmates' posts and names are not published (peer content). The author's own reply text may appear once edited.
   - Quotations of feedback and finding sentences are word for word from the source files.
-- **Open decision:** whether numeric marks are shown on the site, or only quoted feedback. Until decided, no mark is displayed.
+- **Decided (6 Nov 2026):** numeric marks are not shown. Each assessment shows its UK classification (for example "Distinction") with word-for-word quoted feedback. One explanatory line appears once, on the About or Learning Loop page: "UK postgraduate marking: 70% and above is a Distinction, the highest classification." No GPA conversion is stated on the site.
 - **Open decision:** the official learning-outcome text for each module, not yet inserted (the Numerical Analysis hub holds a placeholder).
 - Only Modules 1 to 3 are mapped in the coursework folder; Module 4 is not yet mapped.
 

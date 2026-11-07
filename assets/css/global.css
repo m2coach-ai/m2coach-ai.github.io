@@ -13,14 +13,14 @@
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
 body:not(.experience){background:#120d09}
 body:not(.experience) .site-header{position:sticky;background:#120d09;border-bottom:1px solid var(--line)}
-.content-shell{--ink:#2a2620;--body:#3b352d;--muted:#6b6358;--line:rgba(42,38,32,.16);--cyan:#28466a;--violet:#28466a;
+.content-shell{--ink:#2a2620;--body:#3b352d;--muted:#6b6358;--line:rgba(42,38,32,.16);--cyan:#1f3556;--violet:#1f3556;
   --callout:rgba(40,70,106,.06);--card:rgba(255,255,255,.32);
   color:var(--ink);width:min(1040px,calc(100% - 2rem));margin:2.5rem auto 3rem;padding:clamp(1.4rem,5vw,4.5rem);
   border-radius:3px;box-shadow:0 30px 90px rgba(0,0,0,.55),0 2px 0 rgba(255,255,255,.04) inset;
   background-color:#efe8d8;
   background-image:linear-gradient(90deg,rgba(60,38,15,.18),rgba(60,38,15,0) 90px),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.content-shell a:hover{color:#1a2f4a}
+.content-shell a:hover{color:#132238}
 .content-shell .content-hero{padding:1.5rem 0 3rem}
 .content-shell .callout{border-left-color:var(--violet)}
 .content-shell .card{box-shadow:0 1px 0 rgba(42,38,32,.08)}

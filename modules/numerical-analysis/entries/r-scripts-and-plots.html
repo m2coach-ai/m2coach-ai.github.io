@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Three annotated R scripts from Module 3, with the reasoning kept in the comments: a figure rebuilt from printed counts, a blood pressure correlation and the diabetes analysis.">
+<title>R scripts and plots | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">R scripts and plots</span></nav>
+      <p class="page-label">Scripts</p>
+    </div>
+    <h1 class="display" id="page-title">R scripts and plots</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Three scripts, downloadable as written. The comments are part of the evidence: they record the checks, the errors and what each one taught.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#brown-table-ii">Brown (1994), Table II</a></li>
+        <li><a href="#blood-pressure-correlation">Blood pressure correlation</a></li>
+        <li><a href="#diabetes-analysis">Pima diabetes analysis</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="brown-table-ii" aria-labelledby="h-brown-table-ii">
+        <div class="chapter-head"><h2 id="h-brown-table-ii">Brown (1994), Table II</h2></div>
+        <div class="chapter-body">
+        <p>This script rebuilds a published figure from its printed counts. It begins with Brown’s counts rather than the finished percentages, so that the problem in one row of the table is found by the checks and not hidden before plotting. The opening of the script reads:</p>
+        <pre class="code-block block" tabindex="0" aria-label="Opening comment of the Brown script"><code># ============================================================
+# Brown (1994), Table II: audit the counts, then draw Figure 1
+# File name: brown_table2_likert_revised.R
+#
+# WHY THIS VERSION IS DIFFERENT
+# This script begins with Brown&#x27;s printed COUNTS, not only the
+# finished percentages. That matters because the Row 8 problem
+# should be discovered by the checks, not hidden before plotting.</code></pre>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/brown_table2_likert_final.R" download>
+              <span class="resource-title">Download the Brown Table II script (brown_table2_likert_final.R)</span>
+              <span class="resource-meta"><span class="resource-type">R script</span> <span class="resource-size">15.8 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        <p>The script draws the diverging-bar figure with ggplot2 and uses ggpattern to mark the reconstructed segment with diagonal stripes.</p>
+        </div>
+      </section>
+      <section class="chapter" id="blood-pressure-correlation" aria-labelledby="h-blood-pressure-correlation">
+        <div class="chapter-head"><h2 id="h-blood-pressure-correlation">Blood pressure correlation</h2></div>
+        <div class="chapter-body">
+        <p>A short script that reads an SPSS file, checks the two blood pressure columns, and records the traps met on the way to a correlation. The dataset is not published here.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Opening lines of the blood pressure script"><code># Load the package needed to read the SPSS file
+library(haven)
+# Load the health dataset
+health &lt;- read_sav(&quot;Health Data.sav&quot;)
+dim(health)
+names(health)
+head(health[, c(&quot;sbp&quot;, &quot;dbp&quot;)])</code></pre>
+        <p>Part of the script’s own record of what went wrong:</p>
+        <pre class="code-block block" tabindex="0" aria-label="Correlation traps comment from the blood pressure script"><code># ---- Correlation traps and what I learned ----
+
+# Trap 1: cor() cannot use the entire health dataset because some columns
+# contain text, such as the letters used in the sex column.
+
+# cor(health) # This would cause an error because cor() needs numbers.
+</code></pre>
+<figure class="figure block">
+  <img src="../../../assets/img/module-3/bp-systolic-diastolic-scatter.webp" width="900" height="650" alt="Scatter plot of systolic blood pressure against diastolic blood pressure for 210 observations, with a fitted regression line sloping upward." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1.</span> Systolic against diastolic blood pressure, 210 observations, with a fitted regression line. Produced by the script below.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1.</summary>
+    <p>Each point is one observation, with systolic pressure on one axis and diastolic pressure on the other. The points rise together from lower left to upper right, and the fitted straight line follows that upward slope.</p>
+  </details>
+</figure>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/health_bp_correlation.R" download>
+              <span class="resource-title">Download the blood pressure script (health_bp_correlation.R)</span>
+              <span class="resource-meta"><span class="resource-type">R script</span> <span class="resource-size">3.9 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="diabetes-analysis" aria-labelledby="h-diabetes-analysis">
+        <div class="chapter-head"><h2 id="h-diabetes-analysis">Pima diabetes analysis</h2></div>
+        <div class="chapter-body">
+        <p>The full annotated script behind the Unit 12 presentation. Every step carries comments in the same pattern: what was checked, what went wrong, how it was fixed, the evidence, and what was learned. The opening reads:</p>
+        <pre class="code-block block" tabindex="0" aria-label="Opening comment of the diabetes script"><code>
+# ============================================================
+# DIABETES DATA ANALYSIS
+# ============================================================
+
+# Document all analysis steps and learning using # comments.
+# These comments will help with the presentation and final reflection.</code></pre>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/diabetes_analysis.R" download>
+              <span class="resource-title">Download the annotated diabetes script (diabetes_analysis.R)</span>
+              <span class="resource-meta"><span class="resource-type">R script</span> <span class="resource-size">61.6 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        <p>The script reads a CSV file of 768 records. The dataset is not published here, and the working-directory line has been replaced by a comment so the script can be run from any folder.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="discussion-misinterpreting-statistical-information.html" rel="prev"><span class="dir">Previous</span><span class="name">When statistical measures create false confidence</span></a>
+    <a class="next" href="unit-12-earned-or-borrowed.html" rel="next"><span class="dir">Next</span><span class="name">Earned or Borrowed?</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>

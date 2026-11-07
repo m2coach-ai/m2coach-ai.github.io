@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A disaster recovery plan for a cloud-based online retailer: risks, recovery targets, AWS and Bacula tooling, a failover sequence and the legal and ethical reflection.">
+<title>Disaster Recovery Plan for a Cloud-Based E-Commerce Organisation | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Disaster recovery plan</span></nav>
+      <p class="page-label">Unit 9 / Resilience</p>
+    </div>
+    <h1 class="display" id="page-title">Disaster Recovery Plan for a Cloud-Based E-Commerce Organisation</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A disaster recovery plan for a Canadian online retailer that runs almost entirely on cloud infrastructure: the risks, the recovery tiers and tools, the failover sequence, and what the PowerSchool findings show about readiness.</p>
+  </section>
+
+  <div class="sheet">
+    <div class="chapters">
+      <section class="chapter" id="the-plan" aria-labelledby="h-the-plan">
+        <div class="chapter-head"><h2 id="h-the-plan">The plan</h2></div>
+        <div class="chapter-body">
+        <p>Consider a Canadian online retailer, Maplewood Supply Co., that runs almost entirely on cloud infrastructure. Its storefront, payment gateway, inventory system, and customer database all sit with one cloud provider. When one of those layers stops responding, revenue starts leaking within minutes.</p>
+        <p>The risks are familiar but worth naming concretely. A regional outage at the hosting provider can pull the storefront offline mid-checkout. A ransomware attack can encrypt the order database and, if controls are weak, the backup repository in the same hour. A misconfigured deployment can corrupt inventory records without anyone noticing until customers report missing products. Human error often sits underneath all three. The impact compounds quickly: lost sales, exposed customer data, delayed fulfilment, and reputational damage that outlasts the incident (Amazon Web Services, 2026a; National Institute of Standards and Technology, 2020).</p>
+        <p>A recovery plan only works if it is built before the disruption, not during it. The first move is to rank systems by revenue dependency. Storefront, payment gateway, and order database are tier one; everything else can wait. Recovery Time Objective and Recovery Point Objective targets should be set against those tiers, not applied uniformly. AWS documentation indicates that Elastic Disaster Recovery can support recovery times in minutes and recovery points in seconds, but only if replication and testing have been configured properly (Amazon Web Services, 2026a; Amazon Web Services, 2026b).</p>
+        <p>The operational stack follows from those targets. AWS Elastic Disaster Recovery should replicate the production environment continuously to a secondary AWS region so recovery instances can be launched from a clean point-in-time snapshot if the primary fails. Bacula should handle scheduled full and incremental backups of the database, application servers, and configuration files, while verify jobs confirm that the backups will actually restore. That distinction matters, because an untested backup is not really a backup. Drills should run quarterly (Amazon Web Services, 2026a; Bacula, n.d.; Bacula Systems, n.d.).</p>
+        <p>When a disruption occurs, the sequence should be clear: detect, contain, recover, verify, and fail back. Identify which services are affected. Isolate compromised systems and stop harmful processes. Launch AWS recovery instances and restore clean backup data where needed. Verify data integrity by checking orders, payment reconciliations, customer accounts, and inventory counts before routing traffic back. Return to the primary environment in a controlled way once it is stable. Data integrity is protected through verified backups, point-in-time recovery, and post-recovery checks, while downtime is reduced through continuous replication and practised failover drills (Amazon Web Services, 2026a; Amazon Web Services, 2026b; National Institute of Standards and Technology, 2020).</p>
+        <p>The legal, ethical, and professional reflection is where the standard answer needs pushing further. Canadian privacy law sets a floor: when personal data is compromised and the harm is real, the regulator must be told, affected individuals must be informed, and the incident must be documented (Office of the Privacy Commissioner of Canada, 2018). That is the legal minimum. The PowerSchool breach is a useful reminder that compliance on paper is not the same as operational readiness in practice. When Ontario and Alberta’s privacy commissioners investigated, the finding was blunt: school boards had not built strong enough privacy terms into their vendor agreements, had not kept proper oversight of PowerSchool’s access to their systems, and had no rehearsed plan for what to do when something went wrong (Information and Privacy Commissioner of Ontario, 2025; Office of the Information and Privacy Commissioner of Alberta, 2025). That is the gap a plan like this has to close.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Amazon Web Services (2026a) <em>What is Elastic Disaster Recovery?</em> Available at: <a href="https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html" rel="noopener">https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html</a> (Accessed: 18 April 2026).</li>
+          <li>Amazon Web Services (2026b) <em>Elastic Disaster Recovery concepts</em>. Available at: <a href="https://docs.aws.amazon.com/drs/latest/userguide/CloudEndure-Concepts.html" rel="noopener">https://docs.aws.amazon.com/drs/latest/userguide/CloudEndure-Concepts.html</a> (Accessed: 18 April 2026).</li>
+          <li>Bacula (n.d.) <em>The best open source backup software for Linux</em>. Available at: <a href="https://www.bacula.org/" rel="noopener">https://www.bacula.org/</a> (Accessed: 18 April 2026).</li>
+          <li>Bacula Systems (n.d.) <em>Verify Jobs</em>. Available at: <a href="https://docs.baculasystems.com/BEAdvancedFeaturesUsage/VerifyJobs/index.html" rel="noopener">https://docs.baculasystems.com/BEAdvancedFeaturesUsage/VerifyJobs/index.html</a> (Accessed: 18 April 2026).</li>
+          <li>Information and Privacy Commissioner of Ontario (2025) <em>Ontario and Alberta privacy commissioners release investigation findings into PowerSchool breach affecting school boards and other educational bodies</em>. Available at: <a href="https://www.ipc.on.ca/en/media-centre/news-releases/ontario-alberta-powerschool-breach" rel="noopener">https://www.ipc.on.ca/en/media-centre/news-releases/ontario-alberta-powerschool-breach</a> (Accessed: 18 April 2026).</li>
+          <li>National Institute of Standards and Technology (2020) <em>Protecting Data from Ransomware and Other Data Loss Events: A Guide for Managed Service Providers to Conduct, Maintain, and Test Backup Files</em>. Available at: <a href="https://csrc.nist.gov/pubs/other/2020/04/24/protecting-data-from-ransomware-and-other-data-los/final" rel="noopener">https://csrc.nist.gov/pubs/other/2020/04/24/protecting-data-from-ransomware-and-other-data-los/final</a> (Accessed: 18 April 2026).</li>
+          <li>Office of the Information and Privacy Commissioner of Alberta (2025) <em>Ontario and Alberta privacy commissioners release investigation findings into PowerSchool breach affecting school boards and other educational bodies</em>. Available at: <a href="https://oipc.ab.ca/ontario-and-alberta-privacy-commissioners-release-investigation-findings-into-powerschool-breach-affecting-school-boards-and-other-educational-bodies/" rel="noopener">https://oipc.ab.ca/ontario-and-alberta-privacy-commissioners-release-investigation-findings-into-powerschool-breach-affecting-school-boards-and-other-educational-bodies/</a> (Accessed: 18 April 2026).</li>
+          <li>Office of the Privacy Commissioner of Canada (2018) <em>What you need to know about mandatory reporting of breaches of security safeguards</em>. Available at: <a href="https://www.priv.gc.ca/en/privacy-topics/business-privacy/breaches-and-safeguards/privacy-breaches-at-your-business/gd_pb_201810/" rel="noopener">https://www.priv.gc.ca/en/privacy-topics/business-privacy/breaches-and-safeguards/privacy-breaches-at-your-business/gd_pb_201810/</a> (Accessed: 18 April 2026).</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-8-safecatch-threat-assessment.html" rel="prev"><span class="dir">Previous</span><span class="name">SafeCatch threat assessment</span></a>
+    <a class="next" href="unit-11-northchain-governance-report.html" rel="next"><span class="dir">Next</span><span class="name">NorthChain governance report</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

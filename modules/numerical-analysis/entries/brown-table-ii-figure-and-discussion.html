@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Module 3 discussion on Brown (1994) Table II: the diverging-bar figure, the reconstructed Row 8 value, and my summary post after peer challenge.">
+<title>Brown Table II: the figure and the discussion | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Brown Table II</span></nav>
+      <p class="page-label">Module 3 / Collaborative Learning Discussion</p>
+    </div>
+    <h1 class="display" id="page-title">Brown Table II: the figure and the discussion</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A published table with one row that did not add up, the figure that made the repair visible, and the position I was left with after a peer read the same row differently.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#initial-post">Initial post</a></li>
+        <li><a href="#summary-post">Summary post</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="initial-post" aria-labelledby="h-initial-post">
+        <div class="chapter-head"><h2 id="h-initial-post">Initial post</h2></div>
+        <div class="chapter-body">
+        <div class="note"><strong>About this page:</strong> Only my own text appears. Peers’ replies are not published, and in the summary post each peer’s name is replaced with a description of their place in the discussion. The initial post and its figure are shown as posted. The summary post revises the reasoning behind the reconstructed value, and the script that rebuilds the figure, in <a href="r-scripts-and-plots.html#brown-table-ii">R scripts and plots</a>, records both the rejected route and the adopted one.</div>
+        <p><em>Posted 17 August 2026.</em></p>
+        <p>Brown (1994) labels Table II as the responses of 550 general practitioners but reports no item-level denominators. For 23 rows, this omission is recoverable because the printed percentages reconcile with row totals ranging from 536 to 547. Row 8 does not. Its counts sum to 490, roughly 55 fewer than the rows around it, which sit near 545, a discrepancy that rounding cannot explain. Its percentages also sum to only 90%. Brown’s own subgroup analysis corroborates the agree and disagree cells. This leaves the neutral category as the only cell that can be wrong and indicates a value of approximately 164 rather than the printed 109.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/brown-table-ii-figure.webp" width="1015" height="980" alt="Diverging bar chart of 24 statements about intrapartum care, in three blocks, with one hatched reconstructed segment." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1.</span> Responses to 24 statements about care during labour and childbirth, grouped by theme and ordered according to the percentage of GPs who agreed. Percentages use item-level denominators ranging from 536 to 547 rather than the overall sample of 550 GPs identified in Brown’s table heading. The hatched segment marks a reconstructed value: Row 8’s printed neutral figure of 109 cannot be reconciled, and the value of approximately 164 is derived from Brown’s subgroup analysis. Data from Brown (1994).</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1.</summary>
+    <p>Diverging horizontal bars for 24 statements in three blocks. Disagree is red and extends left of a central line, agree is blue and extends right, and no opinion is grey and straddles the line. Within each block the statements are ordered by the percentage who agreed. In the row for attitudes of fellow partners, the grey neutral segment is hatched and labelled as reconstructed: 164, not the printed 109. The table lists the disagree and agree percentages printed on the bars.</p><div class="table-wrap"><table class="data-table"><thead><tr><th scope="col">Statement</th><th scope="col">Block</th><th scope="col">Disagree (%)</th><th scope="col">Agree (%)</th></tr></thead><tbody><tr><th scope="row">Feel sufficiently competent in obstetrics</th><td>Personal position</td><td>64</td><td>28</td></tr><tr><th scope="row">Would like to offer more intrapartum care</th><td></td><td>66</td><td>23</td></tr><tr><th scope="row">Current workload</th><td>Barriers to provision</td><td>11</td><td>83</td></tr><tr><th scope="row">Disruption of personal life</th><td></td><td>17</td><td>75</td></tr><tr><th scope="row">Fear of litigation</th><td></td><td>20</td><td>69</td></tr><tr><th scope="row">My lack of confidence</th><td></td><td>40</td><td>49</td></tr><tr><th scope="row">Rate of remuneration</th><td></td><td>33</td><td>39</td></tr><tr><th scope="row">Attitudes of fellow partners</th><td></td><td>33</td><td>37</td></tr><tr><th scope="row">Lack of hospital GP obstetric facilities</th><td></td><td>45</td><td>33</td></tr><tr><th scope="row">Willing GPs should be enabled</th><td>Policy and service design</td><td>2</td><td>92</td></tr><tr><th scope="row">Obstetricians for complicated pregnancies</th><td></td><td>16</td><td>78</td></tr><tr><th scope="row">SHO training on the normal</th><td></td><td>12</td><td>76</td></tr><tr><th scope="row">Care community based near home</th><td></td><td>18</td><td>71</td></tr><tr><th scope="row">Wrong to delist over home confinement</th><td></td><td>17</td><td>71</td></tr><tr><th scope="row">Risk of demarcation dispute</th><td></td><td>11</td><td>69</td></tr><tr><th scope="row">Widespread demand for greater choice</th><td></td><td>28</td><td>58</td></tr><tr><th scope="row">Women should choose place of birth</th><td></td><td>32</td><td>52</td></tr><tr><th scope="row">Midwife as lead professional</th><td></td><td>43</td><td>46</td></tr><tr><th scope="row">Midwives should examine newborns</th><td></td><td>47</td><td>41</td></tr><tr><th scope="row">Vocational training radically altered</th><td></td><td>28</td><td>36</td></tr><tr><th scope="row">Hospital birth policy unjustified on safety</th><td></td><td>56</td><td>35</td></tr><tr><th scope="row">Item of service payments redesigned</th><td></td><td>33</td><td>33</td></tr><tr><th scope="row">Pay weighted to intrapartum providers</th><td></td><td>54</td><td>27</td></tr><tr><th scope="row">Duty to arrange home confinement</th><td></td><td>74</td><td>17</td></tr></tbody></table></div>
+  </details>
+</figure>
+        <p>Figure 1 presents all 24 statements as diverging bars divided into three blocks. Brown printed the statements as one undifferentiated list, even though seven complete the same question about what discourages GPs from providing intrapartum care, while two describe the doctors’ own willingness and perceived competence. The three blocks represent my interpretation of the questionnaire rather than Brown’s original layout. Within each block, I ordered the statements by the percentage of respondents who agreed.</p>
+        <p>The coding was straightforward. The harder question was what a responsible figure should do with a row that could be reconstructed but not reproduced as printed. Plotting 109 preserves fidelity to the published table but depicts a distribution that cannot exist. Substituting 164 without explanation produces a coherent graph that silently absorbs the error and erases the work required to identify it. I therefore plotted the reconstructed value and marked it explicitly as reconstructed. A cleaning decision that changes what the reader can see must remain visible to the reader.</p>
+        </div>
+      </section>
+      <section class="chapter" id="summary-post" aria-labelledby="h-summary-post">
+        <div class="chapter-head"><h2 id="h-summary-post">Summary post</h2></div>
+        <div class="chapter-body">
+        <p><em>Posted 23 September 2026.</em></p>
+        <p>My initial post treated Row 8 as reconstructable but not reproducible as printed, and replaced its neutral figure of 109 with roughly 164. A peer reads the same row differently. If 490 of Brown&#x27;s 550 respondents answered the item, then 60 responses are missing, and the printed figure may be correct as published. Both readings fit the 90 percent row total.</p>
+        <p>The printed percentages separate them. On a denominator of 550, Row 8&#x27;s 178 disagree responses would print as 32 percent. Brown prints 33. That figure, with the agree cell&#x27;s 37, fits only a denominator between 542 and 547, inside the 536 to 547 the other rows use. The percentages therefore behave as though about 545 people answered, which places the shortfall in the printed counts rather than in unanswered questionnaires, and implies a neutral count near 164. Row 16 prints the identical 109 (20) in the same column, which is a plausible mechanism, not a finding.</p>
+        <p>Another peer is right that marking a cell as reconstructed makes the intervention visible. It shows nothing more. Their proposal of independent verification is the stronger check, but that check belonged to Brown before publication. Wilkinson et al. (2016) ground the remaining standard in reusability: data stay reusable when they carry the provenance a later analyst needs to judge them. My figure records that I replaced 109. It does not record the denominator test that justified the replacement. A third peer questioned whether the figure implies a compulsory duty to arrange home confinement. It reports agreement with Brown&#x27;s 1994 wording, not current policy.</p>
+        <p>The position I am left with is not the one I started from. My initial post rested the correction on subgroup figures I cannot locate in Brown. The first peer&#x27;s reading made me test it, and the test, not the hatching, is what the figure should carry.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Brown, D.J. (1994) 'Opinions of general practitioners in Nottinghamshire about provision of intrapartum care', British Medical Journal, 309(6957), pp. 777-779. Available at: <a href="https://doi.org/10.1136/bmj.309.6957.777" rel="noopener">https://doi.org/10.1136/bmj.309.6957.777</a>.</li>
+          <li>Wilkinson, M.D. et al. (2016) 'The FAIR Guiding Principles for scientific data management and stewardship', Scientific Data, 3, article 160018. Available at: <a href="https://doi.org/10.1038/sdata.2016.18" rel="noopener">https://doi.org/10.1038/sdata.2016.18</a>.</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="reflection-from-output-to-judgment.html" rel="prev"><span class="dir">Previous</span><span class="name">From Output to Judgment</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>

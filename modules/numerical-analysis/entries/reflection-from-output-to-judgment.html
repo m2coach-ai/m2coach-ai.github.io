@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The individual reflection for Module 3: what changed in how I approach numerical analysis, from producing output to deciding whether the output deserves to be trusted.">
+<title>From Output to Judgment | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Reflection</span></nav>
+      <p class="page-label">Assignment 2 / Individual reflection</p>
+    </div>
+    <h1 class="display" id="page-title">From Output to Judgment</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">The central change in this module was moving from producing numerical output to judging whether that output deserved to be trusted.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#about-this-reflection">About this reflection</a></li>
+        <li><a href="#from-output-to-judgment">From Output To Judgment</a></li>
+        <li><a href="#learning-r-and-growing-confidence">Learning R And Growing Confidence</a></li>
+        <li><a href="#tables-and-plots-became-analytical-checks">Tables And Plots Became Analytical Checks</a></li>
+        <li><a href="#brown-table-ii-visualisation-became-a-data-audit">Brown Table II: Visualisation Became A Data Audit</a></li>
+        <li><a href="#feedback-sharing-and-ongoing-preservation">Feedback, Sharing, And Ongoing Preservation</a></li>
+        <li><a href="#the-largest-frustration-one-document-one-upload">The Largest Frustration: One Document, One Upload</a></li>
+        <li><a href="#p-values-confidence-intervals-and-bayesian-thinking">P-Values, Confidence Intervals, And Bayesian Thinking</a></li>
+        <li><a href="#the-diabetes-capstone-tested-transfer">The Diabetes Capstone Tested Transfer</a></li>
+        <li><a href="#outcomes-skills-and-changed-actions">Outcomes, Skills, And Changed Actions</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#supporting-artefacts">Supporting artefacts</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="about-this-reflection" aria-labelledby="h-about-this-reflection">
+        <div class="chapter-head"><h2 id="h-about-this-reflection">About this reflection</h2></div>
+        <div class="chapter-body">
+        <figure class="video block">
+          <video controls preload="metadata" playsinline poster="../../../assets/video/module-3/brown-audit-reflection.webp">
+            <source src="../../../assets/video/module-3/brown-audit-reflection.mp4" type="video/mp4">
+          </video>
+          <figcaption><span class="figure-label">Clip</span> The passage on the Brown (1994) table, from visualisation task to data audit. Captions are part of the video.</figcaption>
+        </figure>
+        <p>The reflection was narrated over slides and follows the What, So What, Now What structure. This is the narrated text, word for word. It is about 1,000 words, and the supporting material is listed at the end.</p>
+        </div>
+      </section>
+      <section class="chapter" id="from-output-to-judgment" aria-labelledby="h-from-output-to-judgment">
+        <div class="chapter-head"><h2 id="h-from-output-to-judgment">From Output To Judgment</h2></div>
+        <div class="chapter-body">
+        <p>Using Rolfe et al.'s (2001) What, So What, Now What structure, my central learning is that numerical analysis is not simply producing output. It is deciding whether the output deserves to be trusted. I entered with twenty years of teaching experience and a background in Alberta Mathematics 30-1, a senior high school course covering advanced functions, probability, vectors, and introductory calculus. The mathematical logic was often familiar, but I had never used R. Beginning R alongside a new school year felt disorienting and sometimes frustrating, especially when instructions assumed technical knowledge I did not yet have.</p>
+        </div>
+      </section>
+      <section class="chapter" id="learning-r-and-growing-confidence" aria-labelledby="h-learning-r-and-growing-confidence">
+        <div class="chapter-head"><h2 id="h-learning-r-and-growing-confidence">Learning R And Growing Confidence</h2></div>
+        <div class="chapter-body">
+        <p>I used module videos, additional videos, reference guides, and targeted AI support. AI helped me diagnose omissions and organize code in my early stages of learning, but I ran every command, checked the output, and retained responsibility for the statistical decisions. Reusing the COVID dataset with multiple projects gradually helped me to replace uncertainty with rhythm. I can now adapt and verify a script from a fresh R session, although I still use references for unfamiliar syntax, advanced diagnostics, and interaction models.</p>
+        </div>
+      </section>
+      <section class="chapter" id="tables-and-plots-became-analytical-checks" aria-labelledby="h-tables-and-plots-became-analytical-checks">
+        <div class="chapter-head"><h2 id="h-tables-and-plots-became-analytical-checks">Tables And Plots Became Analytical Checks</h2></div>
+        <div class="chapter-body">
+        <p>Producing summary tables, contingency tables, and plots became part of how I checked an analysis. In R, I created descriptive tables with separate sample sizes, COVID frequency and percentage tables, and contingency tables comparing diabetes outcome with age and BMI categories. Inspecting expected counts showed that the Underweight BMI row contained values of 2.6 and 1.4, so I replaced the original chi-square analysis with a revised table and used Fisher's exact test as a check. Histograms exposed skew, boxplots showed overlap, and the blood-pressure scatter plot showed why a correlation coefficient was not the whole story. A polished plot could not repair weak data or an unsuitable model.</p>
+        </div>
+      </section>
+      <section class="chapter" id="brown-table-ii-visualisation-became-a-data-audit" aria-labelledby="h-brown-table-ii-visualisation-became-a-data-audit">
+        <div class="chapter-head"><h2 id="h-brown-table-ii-visualisation-became-a-data-audit">Brown Table II: Visualisation Became A Data Audit</h2></div>
+        <div class="chapter-body">
+        <p>I began the Brown (1994) activity as a visualisation task, but it became a data audit. Row 8’s counts totalled 490 while surrounding rows were near 545, and the printed percentages summed to only ninety percent. I reconstructed the neutral cell and marked it. On the discussion board, a peer suggested the shortfall might represent missing responses. I checked that against the published percentages and revised my reasoning. I had accepted AI-supplied subgroup figures before checking Brown’s article. Parasuraman and Manzey (2010) describe automation bias as accepting imperfect decision support, and that was my error. I cut the unverifiable figures and corrected the post publicly. AI now points me toward what is worth checking, but it is not evidence until I return to the source. The correction stays in the e-portfolio because revision is part of the work.</p>
+        </div>
+      </section>
+      <section class="chapter" id="feedback-sharing-and-ongoing-preservation" aria-labelledby="h-feedback-sharing-and-ongoing-preservation">
+        <div class="chapter-head"><h2 id="h-feedback-sharing-and-ongoing-preservation">Feedback, Sharing, And Ongoing Preservation</h2></div>
+        <div class="chapter-body">
+        <p>The discussion boards became reciprocal rather than performative. Peers challenged the Brown reconstruction, extended my thinking about clustered observations, and showed how deleting outliers could change significance. I shared knowledge through peer replies and published AI-assisted learning guides that explain setup, code, expected output, interpretation, and common traps. Adrian's feedback encouraged this approach while suggesting shorter comments and printing full tables rather than only the first six rows. My e-portfolio is an ongoing record across the programme. It preserves questions, code, mistakes, feedback, decisions, and growth rather than serving only as a gallery of completed work.</p>
+        </div>
+      </section>
+      <section class="chapter" id="the-largest-frustration-one-document-one-upload" aria-labelledby="h-the-largest-frustration-one-document-one-upload">
+        <div class="chapter-head"><h2 id="h-the-largest-frustration-one-document-one-upload">The Largest Frustration: One Document, One Upload</h2></div>
+        <div class="chapter-body">
+        <figure class="video block">
+          <video controls preload="metadata" playsinline poster="../../../assets/video/module-3/math-test-reflection.webp">
+            <source src="../../../assets/video/module-3/math-test-reflection.mp4" type="video/mp4">
+          </video>
+          <figcaption><span class="figure-label">Clip</span> The mathematics test passage, spoken in the reflection video. Captions are part of the video.</figcaption>
+        </figure>
+        <p>The mathematics test was the largest frustration. My first emails argued fairness in frustrated language; I then rewrote them as a factual, procedural request, which is the register that earns a response. The transfer began while visible time remained, but the page became unresponsive and the document was not accepted. I received 76 out of 100 without the final question worth 20 marks, equivalent to ninety-five percent of the marks available on the accepted work. I felt panicked and shocked because the mathematical work existed. I now reserve submission time and capture confirmation, while still questioning a process that could not distinguish an on-time transfer from a late attempt.</p>
+        </div>
+      </section>
+      <section class="chapter" id="p-values-confidence-intervals-and-bayesian-thinking" aria-labelledby="h-p-values-confidence-intervals-and-bayesian-thinking">
+        <div class="chapter-head"><h2 id="h-p-values-confidence-intervals-and-bayesian-thinking">P-Values, Confidence Intervals, And Bayesian Thinking</h2></div>
+        <div class="chapter-body">
+        <p>Understanding the null hypothesis was a lightbulb moment. A p-value compares observed evidence with what would be expected under a null model; it is not the probability that the null is true. Greenland et al. (2016) helped me recognise that p-values and confidence intervals depend on the whole model and its assumptions. My repeated COVID reports produced a tiny p-value, but failed independence created false precision. I qualified Tijssen's (2021) case for reporting intervals: an interval can become just another threshold if I use it only to check whether it crosses a null value. Bayesian analysis completed the conceptual loop by combining a prior and likelihood to form a posterior. That can be intuitive, but the prior still requires justification.</p>
+        </div>
+      </section>
+      <section class="chapter" id="the-diabetes-capstone-tested-transfer" aria-labelledby="h-the-diabetes-capstone-tested-transfer">
+        <div class="chapter-head"><h2 id="h-the-diabetes-capstone-tested-transfer">The Diabetes Capstone Tested Transfer</h2></div>
+        <div class="chapter-body">
+        <p>The final project tested whether I could transfer guided learning into an integrated analysis. I recoded clinically impossible zeros as missing, verified the change, and found that only 392 of 768 participants were complete across all variables. Cleaning raised mean blood pressure from 69.11 to 72.41. I compared deletion, imputation, and complete observations required for each analysis, then reported the actual sample size. When fitted values created a row mismatch, I traced the problem to omitted cases and used predict with newdata so unavailable predictions became missing. The final models reinforced trade-offs: a model containing seven predictors explained more variation but used half the sample, while 77 percent classification accuracy concealed sensitivity below sixty percent.</p>
+        </div>
+      </section>
+      <section class="chapter" id="outcomes-skills-and-changed-actions" aria-labelledby="h-outcomes-skills-and-changed-actions">
+        <div class="chapter-head"><h2 id="h-outcomes-skills-and-changed-actions">Outcomes, Skills, And Changed Actions</h2></div>
+        <div class="chapter-body">
+        <p>The module outcomes now connect clearly. I developed statistical understanding, applied methods to decisions, critically evaluated numerical interpretations, and communicated results through scripts, tables, plots, discussion, and video. The Skills Matrix shows my largest gains in critical thinking, digital work, communication, and ethical awareness. It also records a decline in interpersonal confidence because I missed seminars after the school year began. My Professional Development Plan turns reflection into action: reproducible scripts from a fresh session, source verification, Bayesian practice, safer submission protocols, and application to teaching. I have already used my R primer with students. Teaching R gives high school students a head start because they can turn large datasets into charts and explain what they show. The central change was moving from producing numerical output to judging whether that output deserved to be trusted.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Brown, D.J. (1994) 'Opinions of general practitioners in Nottinghamshire about provision of intrapartum care', British Medical Journal, 309(6957), pp. 777-779. doi: 10.1136/bmj.309.6957.777.</li>
+          <li>Greenland, S., Senn, S.J., Rothman, K.J., Carlin, J.B., Poole, C., Goodman, S.N. and Altman, D.G. (2016) 'Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations', European Journal of Epidemiology, 31(4), pp. 337-350. doi: 10.1007/s10654-016-0149-3.</li>
+          <li>Parasuraman, R. and Manzey, D.H. (2010) 'Complacency and bias in human use of automation: an attentional integration', Human Factors, 52(3), pp. 381-410. doi: 10.1177/0018720810376055.</li>
+          <li>Rolfe, G., Freshwater, D. and Jasper, M. (2001) Critical Reflection for Nursing and the Helping Professions: A User’s Guide. Basingstoke: Palgrave Macmillan.</li>
+          <li>Tijssen, J.G.P. (2021) 'More confidence intervals and fewer p values: a positive trend?', Journal of the American College of Cardiology, 77(12), pp. 1562-1563. doi: 10.1016/j.jacc.2021.02.004.</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="supporting-artefacts" aria-labelledby="h-supporting-artefacts">
+        <div class="chapter-head"><h2 id="h-supporting-artefacts">Supporting artefacts</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li><a href="skills-matrix-and-development-plan.html#skills-matrix">Professional Skills Matrix</a></li>
+          <li><a href="skills-matrix-and-development-plan.html#development-plan">Professional Development Plan</a></li>
+          <li><a href="r-scripts-and-plots.html">Annotated diabetes R script</a></li>
+          <li><a href="brown-table-ii-figure-and-discussion.html">Brown diverging-bar figure and discussion-board summary</a></li>
+          <li><a href="recovery-frequency.html">COVID recovery-frequency e-portfolio entry</a></li>
+          <li><a href="recovery-frequency.html#feedback">Tutor feedback on the Unit 2 R script</a></li>
+        </ul>
+
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>Particularly effective is the distinction between producing a numerical output and judging whether it can be trusted.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on knowledge and understanding</cite></figcaption>
+        </figure>
+        <figure class="pullout block">
+          <blockquote>
+            <p>The Brown (1994) example is particularly effective because the student identifies a mistaken assumption, tests a peer alternative against the source, withdraws unsupported figures and explains the wider lesson about automation bias.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on criticality</cite></figcaption>
+        </figure>
+        <h3>Point for development</h3>
+        <figure class="pullout block">
+          <blockquote>
+            <p>To progress further, the student should provide clearer traceability between narrated claims and the supporting portfolio artefacts, set measurable professional development targets and continue building confidence in independently creating and validating R analyses.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s overall feedback</cite></figcaption>
+        </figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-12-earned-or-borrowed.html" rel="prev"><span class="dir">Previous</span><span class="name">Earned or Borrowed?</span></a>
+    <a class="next" href="skills-matrix-and-development-plan.html" rel="next"><span class="dir">Next</span><span class="name">Skills matrix and development plan</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>

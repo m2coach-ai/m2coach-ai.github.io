@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Part A3 of the Module 1 End of Module Assignment: the legal, social, ethical and professional issues raised by a program that runs without error and still returns the wrong answer.">
+<title>A3: Professional Reflection | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Part A3</span></nav>
+      <p class="page-label">End of Module Assignment / Part A3</p>
+    </div>
+    <h1 class="display" id="page-title">A3: Professional Reflection</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">The legal, social, ethical and professional issues raised by a program that runs without error and still returns the wrong answer.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#the-essay">Part A3</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="the-essay" aria-labelledby="h-the-essay">
+        <div class="chapter-head"><h2 id="h-the-essay">Part A3</h2></div>
+        <div class="chapter-body">
+        <p>The A1 scripts show that a program can run successfully and still be wrong, and that silent correctness is often more dangerous than visible failure. Both the Python and JavaScript versions ran without error, returned a sorted list, and appeared to behave as a working program should. The problem was invisible. Because neither script normalised capitalisation before deduplication, ‘Alice’ and ‘alice’ were treated as distinct individuals, and duplicate entries passed through without warning. O’Neil (2016) identifies this as the defining danger of algorithmic systems: not that they crash, but that they produce outputs authoritative enough to be acted upon without scrutiny. That same structure is visible in Horizon, in Amazon’s recruitment tool, and in COMPAS. Each caused harm not because it failed visibly, but because its outputs looked trustworthy.</p>
+        <p>Readable code is easier to question. That matters because unchallenged assumptions are how silent errors survive. Python’s syntax made the logic of the deduplication process more immediately visible, while JavaScript expressed the same logic in ways that required greater familiarity with its conventions to follow. Neither is wrong. The point is that code which takes more effort to read takes more effort to analyse. The Association for Computing Machinery (ACM) Code of Ethics (2018) treats this as a professional obligation: computing professionals are expected to evaluate systems for impact and to support meaningful review throughout development. Code that is difficult to read resists that review. When assumptions are buried in undocumented logic, the people most likely to catch them cannot see them. Readable code is not a professional nicety. It is what stands between a hidden error and a trusted one. Where that error affects a person’s employment, finances, or health record, the cost is not just ethical. It is legal.</p>
+        <p>Horizon matters here because it shows that the real danger is not merely buggy software, but an organisation willing to treat software output as truth even when the underlying logic has not earned that trust. From 1999, the Post Office’s Horizon accounting system recorded financial shortfalls in branch accounts that did not exist, and sub-postmasters were held responsible for those apparent losses. The consequences included prosecutions, bankruptcies, dismissals, imprisonment, and severe personal and financial harm. The House of Lords Library (2025) notes that the Post Office had identified 700 convictions in cases it prosecuted in which Horizon evidence may have featured, while the wider estimated total across prosecuting authorities was 983. The system did not announce its errors. It produced figures that looked like legitimate accounting data, and those figures were treated as proof. That is the same structure as the A1 scripts, scaled to a level where the consequences were irreversible. The ethical failure was not the bug. It was the decision to treat a running system as a trustworthy one.</p>
+        <p>The resumes Amazon fed its hiring algorithm spanned ten years and came predominantly from men, and the system learned from that pattern and reproduced it (Dastin, 2018). Resumes that referenced women’s organisations were scored down. Graduates of women’s colleges were ranked lower. No one instructed it to discriminate. The discrimination was encoded in what it was shown. Mittelstadt et al. (2016) describe this as misguided evidence: a system trained on biased inputs will produce biased outputs even where its internal logic is technically sound. The original deduplication code did not intend to treat capitalisation variants as separate identities; it embedded that assumption silently, and the assumption became the result. Amazon’s model embedded the assumption that historical hiring patterns represented neutral competence. In both cases, the error was invisible. Each system produced precisely what its inputs had prepared it to produce.</p>
+        <p>COMPAS attached a number to a person’s likelihood of reoffending, and that number could follow them into a sentencing decision without enough transparency to allow meaningful challenge. Angwin et al. (2016) found that the system mislabelled Black defendants as high risk at nearly twice the rate it applied to white defendants, while white defendants who reoffended were more frequently rated low risk. Northpointe, the company behind COMPAS, disputed ProPublica’s methodology, and how fairness in algorithmic systems should be measured remains genuinely contested. But that dispute illustrates the problem rather than resolving it. Mittelstadt et al. (2016) identify inscrutability as a core ethical failure of algorithmic systems: when the logic of a decision cannot be examined, the decision cannot be meaningfully challenged. A defendant could be scored, sentenced, and imprisoned without ever having access to the reasoning behind the number that shaped their outcome. COMPAS produced scores that carried the authority of quantitative precision. In both cases, the absence of transparency was not incidental to the error. It was what allowed the error to persist.</p>
+        <p>There is a difference between a system that functions and a system that has earned the right to be trusted. Treating the two as the same is not a technical oversight. It is an institutional habit, and the cases in this essay show what it costs. That distinction sits at the centre of principle 2.5 of the ACM Code of Ethics and Professional Conduct (2018): a system whose future risks cannot be reliably predicted requires frequent reassessment, or it should not be deployed at all. Horizon was deployed for years without that reassessment. Amazon’s model was trusted without interrogation of what its training data actually represented. COMPAS operated as a high-stakes decision tool while the people it scored had no real way to examine what had produced their result. In each case, the system was running. In each case, that was treated as sufficient. The modifications made in A1, input validation and case-insensitive deduplication, were not just technical corrections. They were a refusal to take the original output at face value. That assumption is what professional responsibility requires.</p>
+        <p>Beyond algorithmic bias, silent deduplication failures carry direct privacy harms. Failing to normalise identifiers fragments personal records. It exposes sensitive historical data across multiple profiles or merges distinct individuals into a single digital identity. In healthcare or legal contexts, this risks deadnaming, unintended data linkage, and violations of data protection principles. Under the UK GDPR, personal data must be accurate and, where necessary, kept up to date; silent deduplication failures can therefore create not only ethical harm but also a compliance risk where inaccurate or fragmented records remain uncorrected (ICO, 2021). The ACM Code of Ethics (2018) mandates that professionals evaluate system impact before deployment. Treating deduplication as a purely technical task ignores its capacity to silently reconstruct or erase identities. Ethical programming requires recognising that data structures are never neutral. The lesson is not only to write better code. It is to question what the code is counting, and who it might erase in the process.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Association for Computing Machinery (ACM) (2018) <em>ACM Code of Ethics and Professional Conduct</em>. Available at: <a href="https://www.acm.org/code-of-ethics" rel="noopener">https://www.acm.org/code-of-ethics</a> (Accessed: 23 March 2026).</li>
+          <li>Angwin, J., Larson, J., Mattu, S. and Kirchner, L. (2016) ‘Machine bias’, <em>ProPublica</em>, 23 May. Available at: <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" rel="noopener">https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing</a> (Accessed: 23 March 2026).</li>
+          <li>Dastin, J. (2018) ‘Amazon scraps secret AI recruiting tool that showed bias against women’, <em>Reuters</em>, 10 October. Available at: <a href="https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G" rel="noopener">https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G</a> (Accessed: 23 March 2026).</li>
+          <li>House of Lords Library (2025) <em>Post Office Horizon IT scandal: progress of compensation</em>. Available at: <a href="https://lordslibrary.parliament.uk/post-office-horizon-it-scandal-progress-of-compensation/" rel="noopener">https://lordslibrary.parliament.uk/post-office-horizon-it-scandal-progress-of-compensation/</a> (Accessed: 23 March 2026).</li>
+          <li>Mittelstadt, B.D., Allo, P., Taddeo, M., Wachter, S. and Floridi, L. (2016) ‘The ethics of algorithms: mapping the debate’, <em>Big Data &amp; Society</em>, 3(2), pp. 1–21.</li>
+          <li>O’Neil, C. (2016) <em>Weapons of Math Destruction: how big data increases inequality and threatens democracy</em>. New York: Crown.</li>
+          <li>Information Commissioner’s Office (ICO) (2021) <em>Accuracy</em>. Available at: <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/accuracy/" rel="noopener">https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/accuracy/</a> (Accessed: 4 April 2026).</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>This is a highly developed reflection demonstrating strong engagement with ethical, legal, and professional issues. The discussion of silent failure, bias, and accountability is particularly strong, and the use of real-world case studies adds depth and relevance. You demonstrate clear understanding of how technical decisions can scale into broader societal and organisational consequences. This section could have been strengthened through tighter structure and more concise expression. While the depth of analysis is strong, some sections could be streamlined to improve clarity and impact.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s feedback on A3: Professional Reflection</cite></figcaption>
+        </figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="part-a2-python-and-javascript.html" rel="prev"><span class="dir">Previous</span><span class="name">A2: Language Comparison Report</span></a>
+    <a class="next" href="part-b-ai-presentation.html" rel="next"><span class="dir">Next</span><span class="name">Part B presentation</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

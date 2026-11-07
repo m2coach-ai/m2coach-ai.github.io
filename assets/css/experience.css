@@ -59,10 +59,17 @@ a.module-link:hover strong{color:var(--cyan)}
 .paper-handoff{position:fixed;inset:0;z-index:70;pointer-events:none}
 .ph-scrim{position:absolute;inset:0;background:rgba(14,10,7,.5);opacity:0;transition:opacity .3s ease}
 .paper-handoff.dim .ph-scrim{opacity:1}
-.ph-paper{position:absolute;background:#efe8d8;border-radius:3px;box-shadow:0 10px 34px rgba(0,0,0,.4);opacity:0;transition:opacity .2s ease;view-transition-name:paper}
+.ph-paper{position:absolute;background:radial-gradient(ellipse 75% 60% at 28% 16%,rgba(255,246,220,.45),rgba(255,240,205,0) 75%),linear-gradient(rgba(255,215,160,.05),rgba(255,215,160,.05)),#f0ebdf;border-radius:3px;box-shadow:0 10px 34px rgba(0,0,0,.4);opacity:0;transition:opacity .2s ease;view-transition-name:paper}
 .paper-handoff.on .ph-paper,.paper-handoff.on .ph-title{opacity:1}
 .ph-title{position:absolute;left:0;top:0;transform-origin:0 0;white-space:nowrap;color:#2a2620;font:500 100px/1.05 Newsreader,Georgia,serif;letter-spacing:-.02em;opacity:0;transition:opacity .12s ease;view-transition-name:pagetitle}
 .paper-handoff.grow .ph-paper{transition:left .3s cubic-bezier(.45,.05,.2,1),top .3s cubic-bezier(.45,.05,.2,1),width .3s cubic-bezier(.45,.05,.2,1),height .3s cubic-bezier(.45,.05,.2,1),transform .3s cubic-bezier(.45,.05,.2,1)}
 .paper-handoff.grow .ph-title{transition:left .3s cubic-bezier(.45,.05,.2,1),top .3s cubic-bezier(.45,.05,.2,1),font-size .3s cubic-bezier(.45,.05,.2,1),transform .3s cubic-bezier(.45,.05,.2,1),opacity .18s ease}
 .ph-title.fade{opacity:0!important;view-transition-name:none}
 @media(prefers-reduced-motion:reduce){.paper-handoff,.ph-paper,.ph-title,.ph-scrim,.site-header .nav-toggle:not(.nav-close){transition:none!important}}
+.module-artefacts{padding:0 0 .6rem 2.1rem}
+.module-artefacts summary{cursor:pointer;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:.2rem 0}
+.module-artefacts ul{list-style:none;margin:.2rem 0 0;padding:0}
+.module-artefacts li{font-size:.9rem;line-height:1.35;padding:.18rem 0}
+.module-artefacts a{color:#e7dfcf;text-decoration:underline;text-decoration-color:rgba(231,223,207,.35);text-underline-offset:.15em}
+.module-artefacts a:hover,.module-artefacts a:focus-visible{color:var(--cyan)}
+.module-artefacts .soon{color:var(--muted);font-size:.8rem}

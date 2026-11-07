@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A Python script that times Bubble Sort on lists of increasing size, with console output, graphs and a comparison with Quicksort.">
+<title>Bubble Code Algorithm | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Unit 3</span></nav>
+      <p class="page-label">Unit 3 / Python</p>
+    </div>
+    <h1 class="display" id="page-title">Bubble Code Algorithm</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A Python script that times Bubble Sort on lists of increasing size, with the results and a comparison with Quicksort.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#write-up">Write-up</a></li>
+        <li><a href="#comparison-and-real-world-use">Comparison and Real-World Use</a></li>
+        <li><a href="#test-output">Test output</a></li>
+        <li><a href="#the-script">The script</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="write-up" aria-labelledby="h-write-up">
+        <div class="chapter-head"><h2 id="h-write-up">Write-up</h2></div>
+        <div class="chapter-body">
+        <p>For this task, I wrote a Python script to see how Bubble Sort handles different amounts of data. I started with a "tool chest" of imports like random to get my numbers and matplotlib to help me see the speed on a graph.</p>
+        <p>The sorting that takes place happens in two different loops. First, my code makes a copy of the list to work with, so the original list isn’t damaged. The outer loop is looking at the entire data set, checking for swaps that have been made. Inside that is a smaller loop that is the piston of this sorting engine. It compares pairs or adjacent numbers. If the number on the left is larger, the script swaps them so the smaller one comes first. I also learned that it is important to add a check see if the list is already sorted. If no changes are made that means it is already sorted so my code can stop early. This means the algorithm doesn't have to keep running if the work is already done (GeeksforGeeks, 2023).</p>
+        <p>Running my code through CMD prompt my test results demonstrated a massive difference in speed when the list gets larger. The time difference was significant even thought I wasn’t using an extremely large dataset. For small datasets, the algorithm was very quick:</p>
+        <ul><li><strong>Size 50</strong> took only 0.00007 seconds.</li><li><strong>Size 100</strong> took about 0.00034 seconds.</li></ul>
+        <p>As the list grows, the time launches upward. At 1,000 items, it took 0.03194 seconds, not bad, but at 3,000 items, it jumped way up to 0.30245 seconds. The Bubble Sort has a quadratic growth represented by O(<em>n</em><sup>2</sup>). My graph shows this clearly because the line curves up steeply.</p>
+        </div>
+      </section>
+      <section class="chapter" id="comparison-and-real-world-use" aria-labelledby="h-comparison-and-real-world-use">
+        <div class="chapter-head"><h2 id="h-comparison-and-real-world-use">Comparison and Real-World Use</h2></div>
+        <div class="chapter-body">
+        <p>Bubble Sort is a beginner code that can be broken down for easier understanding. It is not a code that can be used for larger, more complex operations. <strong>Quicksort</strong> runs in O(<em>n</em> log <em>n</em>) time (Khan Academy, 2024). This is more of a rolling hills graph when plotted out. Quicksort uses partitioning. It reminds me of picking teams in gym class. Everything smaller is on the left and everything larger on the right. This means Quicksort scales at a rate that would be roughly 100x faster than the Bubble Sort code I wrote.</p>
+        <p>In the real world, Bubble Sort is given as a beginner code to understand how algorithms work. It is mostly used for teaching beginners or for tiny datasets that are already nearly sorted (GeeksforGeeks, 2023). For production software or big databases, Quicksort is the standard because it uses a "divide and conquer" strategy to handle millions of items efficiently (Khan Academy, 2024).</p>
+        </div>
+      </section>
+      <section class="chapter" id="test-output" aria-labelledby="h-test-output">
+        <div class="chapter-head"><h2 id="h-test-output">Test output</h2></div>
+        <div class="chapter-body">
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/bubble-first-run-output.webp" width="444" height="147" alt="Console output from the first run of the Bubble Sort script. The time taken rises from 0.00007 seconds for 50 items to 0.03194 seconds for 1000 items." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1</span> Console output from the first run, lists of 50 to 1000 items.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1</summary>
+    <p>Size 50 took 0.00007 seconds. Size 100 took 0.00034 seconds. Size 200 took 0.00138 seconds. Size 400 took 0.00538 seconds. Size 600 took 0.01196 seconds. Size 800 took 0.02219 seconds. Size 1000 took 0.03194 seconds.</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/bubble-first-run-graph.webp" width="630" height="549" alt="Line graph titled Bubble Sort Speed. Time in seconds rises from near zero at 50 items to about 0.032 seconds at 1000 items, curving upward." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2</span> Time taken against number of items for the first run.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2</summary>
+    <p>The graph plots the values in the text description of Figure 1. The horizontal axis is the number of items, from 50 to 1000. The vertical axis is time in seconds, from 0 to about 0.032.</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/bubble-larger-run-output.webp" width="470" height="104" alt="Console output from the larger run. The time taken rises from 0.00026 seconds for 100 items to 0.30245 seconds for 3000 items." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 3</span> Console output from the larger run, lists of 100 to 3000 items.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 3</summary>
+    <p>Size 100 took 0.00026 seconds. Size 500 took 0.00793 seconds. Size 1000 took 0.03161 seconds. Size 2000 took 0.13324 seconds. Size 3000 took 0.30245 seconds.</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/bubble-larger-run-graph.webp" width="631" height="539" alt="Line graph titled Bubble Sort Speed. Time in seconds rises from near zero at 100 items to about 0.30 seconds at 3000 items, curving steeply upward." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 4</span> Time taken against number of items for the larger run.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 4</summary>
+    <p>The graph plots the values in the text description of Figure 3. The horizontal axis is the number of items, from 100 to 3000. The vertical axis is time in seconds, from 0 to about 0.30.</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="the-script" aria-labelledby="h-the-script">
+        <div class="chapter-head"><h2 id="h-the-script">The script</h2></div>
+        <div class="chapter-body">
+        <pre class="code-block block" tabindex="0" aria-label="Larger Bubble Sort timing script"><code>import random
+import time
+import matplotlib.pyplot as plt
+
+def bubble_sort(arr):
+    # Create a copy of the list
+    data_copy = arr[:]  
+    n = len(data_copy)
+
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if data_copy[j] &gt; data_copy[j + 1]:
+                # Swap the elements
+                data_copy[j], data_copy[j + 1] = data_copy[j + 1], data_copy[j]
+                swapped = True
+        if not swapped:
+            break
+    return data_copy
+
+def main():
+    random.seed(42)
+    # The sizes of lists we want to test
+    sizes = [100, 500, 1000, 2000, 3000]
+    times_taken = []
+
+    for n in sizes:
+        # Create random data
+        test_data = [random.randint(0, 1000) for _ in range(n)]
+        
+        # Start timer
+        start = time.perf_counter()
+        bubble_sort(test_data)
+        end = time.perf_counter()
+        
+        duration = end - start
+        times_taken.append(duration)
+        print(f&quot;Size {n} took {duration:.5f} seconds&quot;)
+
+    # Create the graph
+    plt.plot(sizes, times_taken, marker=&quot;o&quot;)
+    plt.title(&quot;Bubble Sort Speed&quot;)
+    plt.xlabel(&quot;Number of Items&quot;)
+    plt.ylabel(&quot;Time (Seconds)&quot;)
+    plt.show()
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/bubble_sort_larger.py" download>
+              <span class="resource-title">Download the larger timing script (bubble_sort_larger.py)</span>
+              <span class="resource-meta"><span class="resource-type">Python file</span> <span class="resource-size">1.3 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>GeeksforGeeks (2023) Bubble Sort Algorithm. Available at: <a rel="noopener" href="https://www.geeksforgeeks.org/bubble-sort/">https://www.geeksforgeeks.org/bubble-sort/</a> (Accessed: 11 February 2025).</li>
+          <li>Khan Academy (2024) Quick Sort. Available at: <a rel="noopener" href="https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort">https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort</a> (Accessed: 11 February 2025).</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-2-logic-gates.html" rel="prev"><span class="dir">Previous</span><span class="name">Logic gates and set theory</span></a>
+    <a class="next" href="unit-4-discussion.html" rel="next"><span class="dir">Next</span><span class="name">Unit 4 discussion: AI in education</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

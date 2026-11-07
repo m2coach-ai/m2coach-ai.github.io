@@ -45,7 +45,7 @@ const GAP = 0.004;                 // spacing between loose leaves
 const SEG = 40;                    // bend segments across a leaf
 const SEGZ = 10;                   // segments down a leaf, so a turn can curl at the corner
 
-const INK = '#2a2620', INK_SOFT = '#6b6358', INK_BLUE = '#28466a', PAPER = '#efe8d8';
+const INK = '#2a2620', INK_SOFT = '#6b6358', INK_BLUE = '#1f3556', PAPER = '#efe8d8';
 const BRASS = '#d4b06a', CLOTH = '#1f3542';
 
 const clamp01 = v => Math.min(1, Math.max(0, v));
@@ -319,31 +319,47 @@ function patternedBase() {
   return c;
 }
 
+// The contents list matches the module links beside the book. Rows are laid out once so the page can draw them
+// and the pointer can find them (canvas pixels).
+const CONTENTS = (() => {
+  const mods = [['Launch into Computing', ['Launch into Computing'], 'modules/launch-into-computing/'],
+    ['Understanding Artificial Intelligence', ['Understanding Artificial', 'Intelligence'], 'modules/understanding-artificial-intelligence/'],
+    ['Numerical Analysis', ['Numerical Analysis'], 'modules/numerical-analysis/'],
+    ['Intelligent Agents', ['Intelligent Agents'], 'modules/intelligent-agents/']];
+  let y = 420; const STEP = 58;
+  const rows = mods.map(([name, lines, href], i) => {
+    const row = { n: String(i + 1), name, lines, href, y, top: y - 64, bottom: y + (lines.length - 1) * STEP + 34 };
+    y += (lines.length - 1) * STEP + 130; return row;
+  });
+  return { rows, STEP, end: y, hover: -1 };
+})();
 function contentsPage() {
   return animPage('left', PAPER, (g, r) => {
     g.fillStyle = INK_SOFT; g.font = 'italic 400 40px Newsreader, Georgia, serif'; fadeText(g, 'Contents', 110, 300, seg(r, 0, 0.15));
-    const rows = [['1', 'Numerical Analysis', 'open'], ['2', 'Next module', 'to come']];
-    let y = 440;
-    rows.forEach(([n, name, state], i) => {
-      const a = 0.12 + i * 0.3;
-      g.fillStyle = INK; g.font = '500 64px Newsreader, Georgia, serif';
-      fadeText(g, n, 110, y, seg(r, a, a + 0.08));
-      inkText(g, name, 180, y, seg(r, a + 0.03, a + 0.18), 64);
-      const nameEnd = 180 + g.measureText(name).width;
+    CONTENTS.rows.forEach((row, i) => {
+      const a = 0.12 + i * 0.22, hot = CONTENTS.hover === i && r > 0.9;
+      g.fillStyle = hot ? INK_BLUE : INK; g.font = '500 52px Newsreader, Georgia, serif';
+      fadeText(g, row.n, 110, row.y, seg(r, a, a + 0.08));
+      let nameEnd = 0;
+      row.lines.forEach((line, j) => {
+        const ly = row.y + j * CONTENTS.STEP;
+        inkText(g, line, 180, ly, seg(r, a + 0.03, a + 0.18), 52);
+        nameEnd = 180 + g.measureText(line).width;
+        if (hot) { g.save(); g.strokeStyle = INK_BLUE; g.lineWidth = 2.5; g.beginPath(); g.moveTo(180, ly + 12); g.lineTo(nameEnd, ly + 12); g.stroke(); g.restore(); }
+      });
+      const ly = row.y + (row.lines.length - 1) * CONTENTS.STEP, state = 'open';
       g.font = 'italic 400 38px Newsreader, Georgia, serif';
       const sw = g.measureText(state).width, x0 = nameEnd + 24, x1 = TW - 140 - sw;
-      // leader dots run across to the page state
       const dots = easeOut(seg(r, a + 0.15, a + 0.28));
       g.fillStyle = INK_SOFT;
-      for (let x = x0; x < lerp(x0, x1, dots); x += 18) g.fillRect(x, y - 6, 4, 4);
-      g.fillStyle = state === 'open' ? INK_BLUE : INK_SOFT;
-      fadeText(g, state, TW - 110 - sw, y, seg(r, a + 0.26, a + 0.34));
-      y += 130;
+      for (let x = x0; x < lerp(x0, x1, dots); x += 18) g.fillRect(x, ly - 6, 4, 4);
+      g.fillStyle = INK_BLUE;
+      fadeText(g, state, TW - 110 - sw, ly, seg(r, a + 0.26, a + 0.34));
     });
+    const y = CONTENTS.end;
     g.fillStyle = INK_SOFT; g.font = '400 36px Newsreader, Georgia, serif';
     wrapLines(g, 'Each module keeps its artefacts, reflection, feedback and next actions together.', TW - 240)
       .forEach((line, j) => fadeText(g, line, 110, y + 40 + j * 56, seg(r, 0.75 + j * 0.06, 0.88 + j * 0.06)));
-    folio(g, 3, seg(r, 0.85, 1));
   });
 }
 
@@ -995,8 +1011,12 @@ async function start() {
   const ho = { el: null, paper: null, title: null, page: null, grown: false, timers: [] };
   const sceneEls = [...document.querySelectorAll('.story .scene')];
   // Which written page each chapter's link belongs to, and the title the page shows there (canvas pixels).
-  const handoffPage = i => i === 1 ? { side: 'right', x: 104, y: 450, size: 112, step: 118, lines: about.title }
-    : i === 2 ? { side: 'right', x: 180, y: 440, size: 64, step: 64, lines: ['Numerical Analysis'], carry: true }
+  const contentsHandoff = a => {
+    const row = CONTENTS.rows.find(r => new URL(a.href, location.href).pathname.endsWith(r.href)) || CONTENTS.rows[2];
+    return { side: 'right', x: 180, y: row.y, size: 52, step: CONTENTS.STEP, lines: row.lines, carry: true };
+  };
+  const handoffPage = (i, a) => i === 1 ? { side: 'right', x: 104, y: 450, size: 112, step: 118, lines: about.title }
+    : i === 2 ? contentsHandoff(a)
     : i === 3 ? { side: 'left', x: 104, y: 450, size: 112, step: 118, lines: loop.title } : null;
   const projectBook = (x, y, z) => {
     const v = new THREE.Vector3(x, y, z); book.localToWorld(v); v.project(camera);
@@ -1053,7 +1073,7 @@ async function start() {
     try {
       dive = { start: elapsed };
       document.documentElement.classList.add('diving');
-      ho.page = handoffPage(sceneEls.indexOf(a.closest('.scene')));
+      ho.page = handoffPage(sceneEls.indexOf(a.closest('.scene')), a);
       if (ho.page) {
         ho.el = document.createElement('div'); ho.el.className = 'paper-handoff'; ho.el.setAttribute('aria-hidden', 'true');
         ho.el.innerHTML = '<div class="ph-scrim"></div><div class="ph-paper"></div><div class="ph-title"></div>';
@@ -1070,6 +1090,35 @@ async function start() {
   });
   // Coming back with the browser's Back button restores the page as it was, with no animation replayed.
   addEventListener('pageshow', e => { if (e.persisted) clearHandoff(); try { sessionStorage.removeItem('book-handoff'); } catch {} });
+
+  // ---------- Reading the contents with the pointer ----------
+  // While the contents page lies open on the right, its rows are links: hovering underlines one, clicking
+  // follows the matching module link beside the book (so it gets the same hand-over as that link).
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  function contentsRow(e) {
+    const L0 = leaves[0], L1 = leaves[1];
+    if (!L1 || L1.t > 0.02 || L0.t < 0.98 || pages.contents.r < 0.6 || document.documentElement.classList.contains('diving')) return -1;
+    if (e.target.closest && e.target.closest('a,button,nav,header,.scene-copy')) return -1;
+    const mesh = L1.group.children[0]; if (!mesh.visible || !L1.group.visible) return -1;
+    ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    camera.updateMatrixWorld(); ray.setFromCamera(ndc, camera);
+    mesh.geometry.computeBoundingSphere(); mesh.geometry.computeBoundingBox();
+    const hit = ray.intersectObject(mesh)[0]; if (!hit || !hit.uv) return -1;
+    const x = hit.uv.x * TW, y = (1 - hit.uv.y) * TH;
+    return CONTENTS.rows.findIndex(r => y >= r.top && y <= r.bottom && x > 90 && x < TW - 90);
+  }
+  function setHover(i) {
+    document.body.style.cursor = i >= 0 ? 'pointer' : '';
+    if (i === CONTENTS.hover) return;
+    CONTENTS.hover = i; const c = pages.contents, r = c.r; c.r = -1; c.draw(r);
+  }
+  addEventListener('pointermove', e => setHover(contentsRow(e)), { passive: true });
+  document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const i = contentsRow(e); if (i < 0) return;
+    const link = [...document.querySelectorAll('.story .module-link')].find(a => new URL(a.href, location.href).pathname.endsWith(CONTENTS.rows[i].href));
+    if (link) { e.preventDefault(); link.click(); }
+  });
 
   // ---------- Lamp switching on ----------
   // A click, a flicker, then the warm light settles. Skipped if the visitor

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A comparison of Waterfall and Agile arguing that choosing a methodology is a statement about what kind of failure a project can survive.">
+<title>Comparative Analysis: Waterfall vs Agile | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Waterfall vs Agile</span></nav>
+      <p class="page-label">Unit 4 / Methodology</p>
+    </div>
+    <h1 class="display" id="page-title">Comparative Analysis: Waterfall vs Agile</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A comparison of two software development methodologies, arguing that the choice is a statement about what kind of failure a project can survive.</p>
+  </section>
+
+  <div class="sheet">
+    <div class="chapters">
+      <section class="chapter" id="the-analysis" aria-labelledby="h-the-analysis">
+        <div class="chapter-head"><h2 id="h-the-analysis">The analysis</h2></div>
+        <div class="chapter-body">
+        <p>Choosing a methodology is not a technical decision. It is a statement about what kind of failure your project can survive. Waterfall and Agile do not compete on efficiency; they reflect fundamentally different assumptions about what happens when something goes wrong, how fast requirements will change, and who bears the cost when they do. Getting that choice wrong is not a process problem. It is a moral one.</p>
+        <p>Waterfall is most defensible when failure is permanent: military systems, hospital medication management, implantable devices. I have sat in hospital rooms watching medication management systems at work; refining a life‑critical protocol mid‑process, the way a backlog gets revised between sprints, is not an abstract concern. In these domains, verification is the point and mistakes are not patchable after the fact. Where Waterfall struggles is when requirements shift and delivery timelines stretch until what gets built is obsolete on arrival.</p>
+        <p>My name was on the list of millions exposed in the PowerSchool student information system incident disclosed in January 2025, following unauthorised access in December 2024 (Abrams, 2025; PowerSchool, 2025). PowerSchool later warned that customers were being re‑extorted using data from the same incident, a reminder that “deletion” assurances do not eliminate exposure (PowerSchool, 2025). Where consequences are long‑lasting, Waterfall’s insistence on explicit requirements and verification becomes risk control.</p>
+        <p>For everyday commercial software the case shifts. My students’ default to Waterfall because it feels like control, then demand a fixed specification when reality gets messy. Agile’s real strength is adaptability: it treats production as evidence, so teams learn from user behaviour instead of assumptions made months earlier. For small teams and early products, that feedback cycle prevents expensive rework. For large organisations, Agile can still work, but it needs coordination and shared standards or it fragments into competing “local Agiles.”</p>
+        <p>When failure is measured in user frustration or lost revenue rather than lives, that capacity to adapt is a genuine advantage. Combined with DevOps, continuous integration, staged rollouts and monitoring show how software behaves once live. Research into Agile adoption points to culture as the dominant obstacle, with 59% of organisations citing culture and performance management as their primary challenge (Consultancy.eu, 2019). The methodology is sound. The organisational conditions usually are not.</p>
+        <p>Greenaway (2023, chapter 1) points to test coverage as a key quality metric, but it only tells you which parts of the code were run during testing. It does not tell you whether the tests were actually checking the right things. A test can pass, coverage can look healthy, and the software can still behave wrongly if the test itself was built on a bad assumption. A green report does not mean safe software.</p>
+        <p>Waterfall where the stakes are permanent. Agile plus DevOps where learning from production is the actual requirement. The methodology should manage risk. Not perform the appearance of it.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Abrams, L. (2025) ‘PowerSchool hacker claims they stole data of 62 million students’. BleepingComputer.</li>
+          <li>Consultancy.eu (2019) ‘Agile working is becoming a strategic transformation priority’.</li>
+          <li>Greenaway, J. (2023) <em>Fundamentals for Self‑Taught Programmers: Embark on your software engineering journey without exhaustive courses and bulky tutorials</em>. 1st edn. Birmingham: Packt Publishing Ltd.</li>
+          <li>PowerSchool (2025) ‘SIS Incident’.</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-4-discussion.html" rel="prev"><span class="dir">Previous</span><span class="name">Unit 4 discussion: AI in education</span></a>
+    <a class="next" href="unit-6-nasdaq-prediction.html" rel="next"><span class="dir">Next</span><span class="name">NASDAQ prediction</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

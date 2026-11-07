@@ -30,8 +30,41 @@
     });
   }
 
+  // 4. A way back on long pages: the section list carries "back" links, and narrow screens get a floating Top button.
+  function wayBack() {
+    var sheet = document.querySelector('.sheet'); if (!sheet) return;
+    var pills = document.querySelectorAll('.site-actions a.pill'), hub = pills[pills.length - 1];
+    var rail = sheet.querySelector('.rail');
+    if (!rail) {
+      rail = document.createElement('nav'); rail.className = 'rail'; rail.setAttribute('aria-label', 'Page navigation');
+      sheet.insertBefore(rail, sheet.firstChild);
+    }
+    var box = document.createElement('div'); box.className = 'rail-back';
+    if (hub) { var a = document.createElement('a'); a.href = hub.getAttribute('href'); a.textContent = '\u2190 ' + (/hub/i.test(hub.textContent) ? 'Back to module hub' : hub.textContent.trim()); box.appendChild(a); }
+    var up = document.createElement('a'); up.href = '#main'; up.textContent = '\u2191 Back to top';
+    up.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0 }); var m = document.getElementById('main'); if (m) { m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); } });
+    box.appendChild(up); rail.insertBefore(box, rail.firstChild);
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'to-top'; btn.textContent = '\u2191 Top'; btn.setAttribute('aria-label', 'Back to top');
+    btn.addEventListener('click', function () { window.scrollTo({ top: 0 }); });
+    document.body.appendChild(btn);
+    var tick = function () { btn.classList.toggle('on', window.scrollY > 700); };
+    addEventListener('scroll', tick, { passive: true }); tick();
+  }
+
+  // 5. Modules menu: mark the module being read, and close the menu on Escape or a click elsewhere.
+  function modulesMenu() {
+    var menu = document.querySelector('.pill-menu'); if (!menu) return;
+    Array.prototype.slice.call(menu.querySelectorAll('a')).forEach(function (a) {
+      if (location.pathname.indexOf(new URL(a.href, location.href).pathname) === 0) a.setAttribute('aria-current', 'page');
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary').focus(); } });
+    document.addEventListener('click', function (e) { if (menu.open && !menu.contains(e.target)) menu.open = false; });
+  }
+
   function enhance() {
     tableHints();
+    wayBack();
+    modulesMenu();
     if (!('IntersectionObserver' in window)) return;
 
     // 1. The optional section list marks the section in view (aria-current).
