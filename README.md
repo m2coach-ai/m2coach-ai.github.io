@@ -29,3 +29,4 @@ The landing page loads Three.js from jsDelivr and draws a desk scene: a record b
 ## Credits
 
 The leather journal, desk lamp, pen and worn wood are CC0 assets from Poly Haven (polyhaven.com), reduced in size for the web. The journal's crest was replaced with an MM monogram and the cover title. The pages, mug and all animation are code in `assets/js/experience.js`.
+
