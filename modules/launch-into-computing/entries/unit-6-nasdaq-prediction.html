@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A first machine-learning model: a logistic regression predicting whether the NASDAQ Composite closes higher the next trading day, with the step scripts.">
+<title>NASDAQ Composite Prediction: A Machine Learning Analysis | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">NASDAQ prediction</span></nav>
+      <p class="page-label">Unit 6 / Python</p>
+    </div>
+    <h1 class="display" id="page-title">NASDAQ Composite Prediction: A Machine Learning Analysis</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A first machine-learning model: a logistic regression that predicts whether the NASDAQ Composite closes higher or lower on the next trading day.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#analysis">Analysis</a></li>
+        <li><a href="#the-scripts">The scripts</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="analysis" aria-labelledby="h-analysis">
+        <div class="chapter-head"><h2 id="h-analysis">Analysis</h2></div>
+        <div class="chapter-body">
+        <p>This project used Python and the scikit-learn library to build a binary classification model that predicts whether the NASDAQ Composite Index will close higher or lower on the next trading day. The data came from FRED (Federal Reserve Economic Data), using the NASDAQCOM series. Although the prediction task sounds fairly simple, actually getting the model to that point took quite a few code revisions. The data had to be cleaned, sorted, and split properly before the logistic regression model could even be tested. The core question is pretty straightforward: based on today's closing value, will tomorrow be up or down? The model labelled each outcome as 1 for Higher and 0 for Lower or Equal.</p>
+        <p>The results were mixed. Accuracy and precision both sat at 58.17%. The recall came back at 100%, which sounds impressive until you see the confusion matrix. Even the F1 score looks decent at 73.55%, but the reality is that the model predicted class 1 for every single test row. It never once predicted that the NASDAQ would close lower. That likely reflects the model's reliance on a single feature, which pushed it toward always predicting the majority outcome and limited its predictive value in practice.</p>
+        <p>Ethically, this matters more than it might seem. Financial prediction tools, even simple ones built for educational purposes, carry real risk if someone were to act on their output. There is also a broader question about what data like this captures. Historical closing prices contain no information about the events, news, or external shocks that drive markets like a pandemic, a rate hike, or a geopolitical crisis. That gap between what the data shows and what drives prices is a limitation no amount of tuning is likely to fix. This baseline logistic regression model is best understood as a learning exercise, not a financial tool.</p>
+        </div>
+      </section>
+      <section class="chapter" id="the-scripts" aria-labelledby="h-the-scripts">
+        <div class="chapter-head"><h2 id="h-the-scripts">The scripts</h2></div>
+        <div class="chapter-body">
+        <p>The model was built and checked in small steps. Three of the scripts are shown here. Each reads <code>data/NASDAQCOM_cleaned.csv</code>, which is not published.</p>
+        <h3>step_train_baseline_model.py</h3>
+        <pre class="code-block block" tabindex="0" aria-label="step_train_baseline_model.py"><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+df = pd.read_csv(&quot;data/NASDAQCOM_cleaned.csv&quot;)
+
+X = df[[&quot;NASDAQCOM&quot;]]
+y = df[&quot;target&quot;]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    shuffle=False
+)
+
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+print(&quot;Baseline model trained successfully.&quot;)
+print(&quot;Model type:&quot;, type(model).__name__)
+print(&quot;Training rows:&quot;, len(X_train))
+print(&quot;Test rows:&quot;, len(X_test))</code></pre>
+        <h3>step_confusion_matrix.py</h3>
+        <pre class="code-block block" tabindex="0" aria-label="step_confusion_matrix.py"><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+
+df = pd.read_csv(&quot;data/NASDAQCOM_cleaned.csv&quot;)
+
+X = df[[&quot;NASDAQCOM&quot;]]
+y = df[&quot;target&quot;]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    shuffle=False
+)
+
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+cm = confusion_matrix(y_test, y_pred)
+
+print(&quot;Confusion matrix calculated successfully.&quot;)
+print(&quot;Confusion matrix:&quot;)
+print(cm)
+
+print(&quot;True Negatives:&quot;, cm[0, 0])
+print(&quot;False Positives:&quot;, cm[0, 1])
+print(&quot;False Negatives:&quot;, cm[1, 0])
+print(&quot;True Positives:&quot;, cm[1, 1])</code></pre>
+        <h3>step_full_model_test.py</h3>
+        <pre class="code-block block" tabindex="0" aria-label="step_full_model_test.py"><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score
+
+df = pd.read_csv(&quot;data/NASDAQCOM_cleaned.csv&quot;)
+
+print(&quot;Dataset loaded successfully.&quot;)
+print(&quot;Dataset shape:&quot;, df.shape)
+print()
+print(&quot;Columns:&quot;)
+print(df.columns.tolist())
+
+X = df[[&quot;NASDAQCOM&quot;]]
+y = df[&quot;target&quot;]
+
+print()
+print(&quot;Feature matrix shape:&quot;, X.shape)
+print(&quot;Target vector shape:&quot;, y.shape)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    shuffle=False
+)
+
+print()
+print(&quot;Train and test split completed.&quot;)
+print(&quot;X_train shape:&quot;, X_train.shape)
+print(&quot;X_test shape:&quot;, X_test.shape)
+print(&quot;y_train shape:&quot;, y_train.shape)
+print(&quot;y_test shape:&quot;, y_test.shape)
+
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+print()
+print(&quot;Model trained successfully.&quot;)
+
+y_pred = model.predict(X_test)
+
+print()
+print(&quot;Predictions generated successfully.&quot;)
+print(&quot;First 10 predictions:&quot;)
+print(y_pred[:10])
+
+comparison_df = pd.DataFrame({
+    &quot;Actual&quot;: y_test.values,
+    &quot;Predicted&quot;: y_pred
+})
+
+print()
+print(&quot;First 10 actual vs predicted rows:&quot;)
+print(comparison_df.head(10))
+
+accuracy = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+tn = cm[0, 0]
+fp = cm[0, 1]
+fn = cm[1, 0]
+tp = cm[1, 1]
+
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+print()
+print(&quot;FINAL MODEL RESULTS&quot;)
+print(&quot;-&quot; * 40)
+print(&quot;Accuracy:&quot;, accuracy)
+print(&quot;Precision:&quot;, precision)
+print(&quot;Recall:&quot;, recall)
+print(&quot;F1 Score:&quot;, f1)
+
+print()
+print(&quot;Accuracy percentage:&quot;, round(accuracy * 100, 2), &quot;%&quot;)
+print(&quot;Precision percentage:&quot;, round(precision * 100, 2), &quot;%&quot;)
+print(&quot;Recall percentage:&quot;, round(recall * 100, 2), &quot;%&quot;)
+print(&quot;F1 percentage:&quot;, round(f1 * 100, 2), &quot;%&quot;)
+
+print()
+print(&quot;Confusion Matrix Values&quot;)
+print(&quot;True Negatives:&quot;, tn)
+print(&quot;False Positives:&quot;, fp)
+print(&quot;False Negatives:&quot;, fn)
+print(&quot;True Positives:&quot;, tp)
+
+print()
+print(&quot;Interpretation&quot;)
+print(&quot;This baseline logistic regression model predicted class 1 for every test row.&quot;)
+print(&quot;That means it predicted the NASDAQ would close higher the next day in all test cases.&quot;)
+print(&quot;The model achieved moderate accuracy, but it did not identify any class 0 cases.&quot;)
+print(&quot;This shows the baseline model is too simple and likely needs more useful features.&quot;)</code></pre>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/step_train_baseline_model.py" download>
+              <span class="resource-title">Download step_train_baseline_model.py</span>
+              <span class="resource-meta"><span class="resource-type">Python file</span> <span class="resource-size">0.6 KB</span></span>
+            </a>
+          </li>
+          <li class="resource">
+            <a class="resource-link" href="../files/step_confusion_matrix.py" download>
+              <span class="resource-title">Download step_confusion_matrix.py</span>
+              <span class="resource-meta"><span class="resource-type">Python file</span> <span class="resource-size">0.8 KB</span></span>
+            </a>
+          </li>
+          <li class="resource">
+            <a class="resource-link" href="../files/step_full_model_test.py" download>
+              <span class="resource-title">Download step_full_model_test.py</span>
+              <span class="resource-meta"><span class="resource-type">Python file</span> <span class="resource-size">2.5 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Federal Reserve Bank of St. Louis (2024) <em>NASDAQ Composite Index (NASDAQCOM)</em>. Available at: <a rel="noopener" href="https://fred.stlouisfed.org/series/NASDAQCOM">https://fred.stlouisfed.org/series/NASDAQCOM</a> (Accessed: 8 March 2026).</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-4-waterfall-vs-agile.html" rel="prev"><span class="dir">Previous</span><span class="name">Waterfall vs Agile</span></a>
+    <a class="next" href="unit-8-safecatch-threat-assessment.html" rel="next"><span class="dir">Next</span><span class="name">SafeCatch threat assessment</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

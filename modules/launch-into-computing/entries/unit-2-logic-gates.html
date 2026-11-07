@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Two Unit 2 pieces: a reflective post on logic gates and set theory, and a pizza oven logic circuit built in Logisim with its truth table.">
+<title>Unit 2: Logic gates and Boolean algebra | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Unit 2</span></nav>
+      <p class="page-label">Unit 2 / Logic</p>
+    </div>
+    <h1 class="display" id="page-title">Unit 2: Logic gates and Boolean algebra</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Two early pieces on Boolean logic: a reflective post, written with little hands-on experience of digital logic, and a small control circuit built in a simulator. A peer’s reply to the post is not published.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#task-a-my-post">Task A: my post</a></li>
+        <li><a href="#task-a-references">References for Task A</a></li>
+        <li><a href="#task-b-pizza-oven-circuit">Task B: the pizza oven circuit</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="task-a-my-post" aria-labelledby="h-task-a-my-post">
+        <div class="chapter-head"><h2 id="h-task-a-my-post">Task A: my post</h2></div>
+        <div class="chapter-body">
+        <p><time datetime="2026-02-05">5 February 2026</time></p>
+        <p>I’ve only got a little hands on experience with digital logic so far, mostly from small experiments and reading recent papers. It’s easy to treat AND, OR and NOT as tidy truth table rules, and I was surprised to see echoes of Aristotelian A E I O propositions. In practice, though, it doesn’t line up so easily.</p>
+        <p>Look, when you get into the real world, it’s not just neat little symbols on a whiteboard anymore. You’re dealing with actual physical things like tiny transistors that have to flip on and off. Once you try to wire a mountain of those things together just to get a computer to do basic math, the whole project turns into a massive brain melting jigsaw puzzle. You realize that perfect logic has to live in the real world. For instance, Elahi (2022) explains carry lookahead adders as a clever shortcut. Instead of waiting for a carry to ripple through every single bit—which is slow—they use generate and propagate signals to predict it ahead of time. It’s much faster, but there’s no free lunch; you’re trading circuit space and extra heat for that speed.</p>
+        <p>Software logic has its own set of gotchas. In Python, short circuiting can save time. If the first part of an and statement is false, the interpreter just gives up and moves on. It’s efficient, sure, but it’s also a great way to accidentally skip a function call you actually needed to run. SQL is even more of a black box. You might write a WHERE clause that looks straightforward, but the database engine is going to do whatever it thinks is fastest, whether that is reordering your logic or using an index. As Mackenzie and Moffat (2023) point out, if you ignore how the execution plan handles your predicates, a simple query can easily turn into a massive bottleneck.</p>
+        <p>Most of us probably notice Boolean logic first in a search bar. It’s basically set theory in the wild: use AND or NOT to sieve through the noise. But pure Boolean search is a blunt instrument; it does not account for nuance. That is why the shift toward AI is interesting. Islam et al. (2025) suggest that the real sweet spot for tasks like patent research is combining strict Boolean rules with AI ranking. That way you get the precision of formal logic, but the AI can still catch relevant results even if the user did not type the exact right keywords.</p>
+        <p>Looking back at what I’ve learned, truth tables should be taught alongside real life examples. It’s one thing to know the logic; testing it under realistic conditions is a whole new challenge.</p>
+        </div>
+      </section>
+      <section class="chapter" id="task-a-references" aria-labelledby="h-task-a-references">
+        <div class="chapter-head"><h2 id="h-task-a-references">References for Task A</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Elahi, A. (2022) <em>Computer systems: digital design, fundamentals of computer architecture and ARM assembly language</em>. 3rd edn. Cham: Springer.</li>
+          <li>Islam, A.M., Vacarneau, R., Rodriguez, J.E., Surdeanu, M. and Slepian, M.J. (2025) ‘Synergy of artificial intelligence and Boolean search in patent prior art assessment’, paper presented at <em>Intellectual Property Scholars Conference (IPSC) 2025</em>, DePaul University College of Law, Chicago, IL, 7–8 August 2025. Available at: <a href="https://law.depaul.edu/academics/centers-institutes-initiatives/center-for-intellectual-property-law-and-information-technology/programs/ip-scholars-conference/Documents/IPSC%202025/Papers/Slepian%20-%20Paper.pdf" rel="noopener">https://law.depaul.edu/academics/centers-institutes-initiatives/center-for-intellectual-property-law-and-information-technology/programs/ip-scholars-conference/Documents/IPSC%202025/Papers/Slepian%20-%20Paper.pdf</a> (Accessed: 4 February 2026).</li>
+          <li>Mackenzie, J. and Moffat, A. (2023) ‘Index-based batch query processing revisited’, in Kamps, J., Goeuriot, L., Infante-Moro, A., Russell-Rose, T. and Kruschwitz, U. (eds.) <em>Advances in Information Retrieval: 45th European Conference on IR Research, ECIR 2023</em>. Cham: Springer, pp. 86–100.</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="task-b-pizza-oven-circuit" aria-labelledby="h-task-b-pizza-oven-circuit">
+        <div class="chapter-head"><h2 id="h-task-b-pizza-oven-circuit">Task B: the pizza oven circuit</h2></div>
+        <div class="chapter-body">
+        <p>I have always understood concepts better when I can picture something real, so I ended up modelling a pizza oven. Why? I had pizza tonight, and the idea just kind of stuck. It makes sense to have an oven heat up when: the door is closed, the temperature looks about right, a pizza is actually in there, and the emergency switch is not active. The switch part was for a restaurant, not my kitchen. On paper that becomes H=DTP and not {E}.  Into the simulator with this logic plan.</p>
+        <p>I bounced between Digital Works and Logisim while building it. Digital Works was pretty old school with it being over 10 years since it has been supported. Logisim felt more open, but I did second guess myself a few times. Turns out it was the program, not the user. I started with just a long chain of AND gates and it seemed pretty easy. That usually means I missed something. And yes, the emergency cutoff needed a NAND to behave the way an oven actually would. The emergency switch need to be a 0 for everything to work.</p>
+        <p>Projects like this help me sort out how real systems behave, even if the model trims things down quite a bit</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/u2-oven-circuit.webp" width="1000" height="641" alt="Hand-annotated Logisim circuit for a pizza oven. Door, temperature and pizza inputs feed an AND gate. Its output and the emergency input feed a NAND gate that drives the hot oven output. On the left the emergency button is pressed and the oven is off. On the right the emergency button is reset and the oven is on." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1</span> The pizza oven circuit in Logisim, with the emergency button pressed (left) and reset (right).</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1</summary>
+    <p>Inputs: D is the door (open or closed), T is the temperature (cold or hot), P is the pizza (out or in). H is the oven (cold or hot). D, T and P feed an AND gate whose output is S. S and the emergency input E feed a NAND gate whose output is H.</p><p>Left circuit: temperature hot, pizza in, emergency button pressed. H is 0 and the oven is off. Right circuit: the emergency button is reset. H is 1, hot oven.</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/u2-oven-truth-table.webp" width="740" height="592" alt="Truth table for the pizza oven circuit with inputs D, T, P and E, the intermediate values S and not E, the output H and a status message for each of the 16 rows. H is 1 only when the door is closed, the temperature is right, a pizza is in and the emergency switch is not active." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2</span> Truth table for all sixteen input combinations.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2</summary>
+    <p>Columns: inputs D, T, P and E; intermediate values S = D AND T AND P and not E; output H = S AND not E; and a status message. The logic shown is S = D AND T AND P; not E = NOT E; H = S AND not E.</p><p>H is 1 in one row only: D, T and P are 1 and E is 0, marked as perfect. When D, T and P are 1 and E is 1, H is 0, marked as emergency override. Every other row gives H = 0.</p>
+  </details>
+</figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="next" href="unit-3-bubble-sort.html" rel="next"><span class="dir">Next</span><span class="name">Bubble sort</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

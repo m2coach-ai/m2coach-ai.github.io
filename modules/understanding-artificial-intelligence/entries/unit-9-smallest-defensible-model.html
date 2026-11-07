@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A research report for senior management comparing machine learning, deep learning and large language models, arguing for the system a business can understand and defend.">
+<title>The Smallest Defensible Model | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Understanding Artificial Intelligence</a> / <span aria-current="page">Unit 9 report</span></nav>
+      <p class="page-label">Unit 9 / Research report</p>
+    </div>
+    <h1 class="display" id="page-title">The Smallest Defensible Model</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Choosing between machine learning, deep learning and large language model frameworks for AI investment. A research report arguing that a board should fund the system it can understand and defend if something goes wrong, not the most powerful one.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#introduction">1. Introduction</a></li>
+        <li><a href="#overview-of-ml-deep-learning-and-llms">2. Overview of ML, Deep Learning and LLMs</a></li>
+        <li><a href="#comparative-analysis">3. Comparative Analysis</a></li>
+        <li><a href="#business-applications-and-case-examples">4. Business Applications and Case Examples</a></li>
+        <li><a href="#ethics-and-governance">5. Ethics and Governance</a></li>
+        <li><a href="#conclusion">6. Conclusion</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="introduction" aria-labelledby="h-introduction">
+        <div class="chapter-head"><h2 id="h-introduction">1. Introduction</h2></div>
+        <div class="chapter-body">
+        <p>Senior management is right to be skeptical of AI investment. The market sells advancement, and advancement is easy to confuse with fit. A board weighing where to spend should start somewhere harder. It should ask which system it can understand and defend if something goes wrong, not which system is most powerful.</p>
+        <p>That question matters because capability and opacity tend to rise together. The more a model can do, the less it can explain, and a decision the business cannot account for is a liability whatever its accuracy. Leslie (2019) draws the line between what AI can do and what an organisation can responsibly implement. That gap is where investment goes wrong.</p>
+        <p>This report compares traditional machine learning, deep learning and large language models on the dimensions that decide fit, and turns the comparison into a rule for choosing. The most advanced AI is not always the most appropriate AI.</p>
+        </div>
+      </section>
+      <section class="chapter" id="overview-of-ml-deep-learning-and-llms" aria-labelledby="h-overview-of-ml-deep-learning-and-llms">
+        <div class="chapter-head"><h2 id="h-overview-of-ml-deep-learning-and-llms">2. Overview of ML, Deep Learning and LLMs</h2></div>
+        <div class="chapter-body">
+        <p>Three paradigms sit behind almost every AI product, and they are not interchangeable. Schwaeke et al. (2025), reviewing SME adoption, find that the business case turns less on the technology than on whether a firm matches it to a real problem. The distinctions below make that match possible.</p>
+        <p>Traditional machine learning predicts from features a person has chosen. An analyst decides that income, loan size and employment history predict default, and regression, a decision tree or a support vector machine fits the statistical relationship. Bojinov, Parzen and Hamilton (2025) present regression as exactly this, a model whose reasoning a manager can read. The work of choosing what matters stays human. That is the paradigm’s strength and its ceiling.</p>
+        <p>Deep learning removes the human from that step. Instead of being told which features matter, a network learns them from raw data across stacked layers, a process called representation learning. A convolutional network finds the shapes that identify a tumour in a scan without anyone specifying them. A recurrent network does the same across sequences such as speech. The gain is power on data too complex to engineer by hand. The cost is features no longer ones a person picked or can easily read.</p>
+        <p>Large language models are deep learning built for language. They use a transformer, which weighs how the words in a text relate. GPT-style systems are the familiar example. Scale buys fluency the earlier paradigms could not reach, and opacity at the same rate. A confident answer can still be wrong, and the model cannot show why.</p>
+        <p>The relationship matters more than the labels. Each paradigm builds on the one before, trading human control for machine capability. The next section examines that trade, dimension by dimension.</p>
+        </div>
+      </section>
+      <section class="chapter" id="comparative-analysis" aria-labelledby="h-comparative-analysis">
+        <div class="chapter-head"><h2 id="h-comparative-analysis">3. Comparative Analysis</h2></div>
+        <div class="chapter-body">
+        <p>Architecture, how a system is built, marks the first divide. A logistic regression model fits a weighted sum of features a human analyst has chosen. A convolutional neural network learns those features itself across stacked layers, and LeCun, Bengio and Hinton (2015) frame this move to representation learning as the defining shift of deep learning. Recurrent networks added memory across sequences, until transformers displaced them. Vaswani et al. (2017) introduced the transformer and its attention mechanism, and scaling that architecture at language produces GPT-style large language models. These are not three rival technologies. They are one lineage of rising abstraction, where each step removes more of the human from the modelling and hands the work to the machine.</p>
+        <p>That handover sets the cost structure. Traditional ML often trains on structured tabular data, by supervised methods such as regression or classification and sometimes unsupervised ones. Deep learning needs large labelled datasets and specialised processors. LLMs change the approach again, pretraining on vast unlabelled text before any fine-tuning. Thompson et al. (2020) show that accuracy gains in deep learning scale with compute in a way that is economically and environmentally unsustainable, which undercuts any assumption that more spending reliably buys more capability. The largest models cost millions to train, so most firms buy API access rather than build them. A bank predicting loan default can train a model overnight on a laptop. A firm fine-tuning a language model rents infrastructure it cannot fully audit, which means it cannot fully stand behind what the model produces.</p>
+        <p>Explainability is where architecture and accuracy collide. The layered structure that lets a deep model outperform a feature-based one also buries the path from input to output, and accuracy is bought with inspectability. Breiman (2001) placed this trade-off on a spectrum that opens even within traditional machine learning. Khan et al. (2021), comparing support vector machines and convolutional networks on image classification, measure it: the network classifies more accurately while its reasoning stays harder to inspect. Rudin (2019) draws the business consequence, arguing black box models should not be used for high-stakes decisions when an interpretable model performs comparably. A rejected applicant is owed a reason, and a model that cannot give one transfers its opacity onto the business as legal and reputational risk.</p>
+<p><span class="figure-label">Table 1</span> Traditional machine learning, deep learning and large language models compared by dimension.</p>
+        <div class="block table-wrap" role="region" aria-label="Comparison of traditional machine learning, deep learning and large language models" tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Dimension</strong></th><th scope="col"><strong>Traditional ML</strong></th><th scope="col"><strong>Deep Learning</strong></th><th scope="col"><strong>LLMs</strong></th></tr></thead>
+            <tbody>
+              <tr><td>Architecture</td><td>Human-engineered features, statistical model</td><td>Learned features across neural layers</td><td>Transformer with attention at scale</td></tr>
+              <tr><td>Data</td><td>Modest, structured, tabular</td><td>Large, labelled</td><td>Vast, mostly unlabelled</td></tr>
+              <tr><td>Cost</td><td>Low, runs on standard hardware</td><td>High, specialised processors</td><td>Extreme, typically consumed via API</td></tr>
+              <tr><td>Training</td><td>Supervised or unsupervised</td><td>Supervised or self-supervised representation learning</td><td>Self-supervised pretraining, then prompting or fine-tuning</td></tr>
+              <tr><td>Explainability</td><td>High to moderate</td><td>Low</td><td>Very low</td></tr>
+              <tr><td>Ethical exposure</td><td>Inspectable, feature-level bias</td><td>Opaque, dataset bias</td><td>Opaque, corpus bias, unpredictable output</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Ethical exposure follows the same gradient. A regression model carries bias in features an analyst can inspect. A language model absorbs bias from a corpus no one has fully read, and its outputs are harder to predict and defend. Opacity is therefore not a neutral technical property. It is a cost that lands on accountability.</p>
+        <p>These dimensions usually move together, though not perfectly. A simple decision tree stays interpretable, while a large random forest or a kernel support vector machine resists explanation. For an investment decision, the pattern is what matters: more powerful models tend to carry higher cost, weaker auditability and greater governance demand. Opacity is a cost to weigh, not an automatic disqualifier, and for low-stakes internal work it can be worth paying. That pattern, and its limit, point to one rule. This report proposes a ‘smallest defensible model’ principle: management should adopt the least complex AI system capable of meeting the business objective, and escalate to deep learning or LLM frameworks only where the additional performance clearly justifies the additional cost, opacity and governance burden.</p>
+        </div>
+      </section>
+      <section class="chapter" id="business-applications-and-case-examples" aria-labelledby="h-business-applications-and-case-examples">
+        <div class="chapter-head"><h2 id="h-business-applications-and-case-examples">4. Business Applications and Case Examples</h2></div>
+        <div class="chapter-body">
+        <p>Different paradigms suit different jobs, and the fit is what management should weigh. Traditional ML is defensible where the business problem is structured, repeatable and auditable, such as churn prediction, fraud detection or credit scoring. Deep learning earns its place where the input is complex, such as images, speech or sensor data, and simpler models cannot capture the patterns. LLMs are strongest where the value lies in language interaction, summarisation or knowledge retrieval, and weakest where the organisation needs deterministic answers, full traceability or legal certainty. It is not about whether AI works in general. It is whether a given model class fits the task, the evidence base and the accountability burden.</p>
+        <p>IBM Watson Health shows that failure on the developer side. IBM marketed Watson Health as an AI-driven clinical decision-support system including cancer treatment, a high-stakes use where every output needed strong defence. It could not. The assumption that broke was that technical capability would convert into clinical value. What defeated Watson was a mismatch between technical promise, clinical data, workflow realities and professional trust. Lawrence et al. (2025), reviewing AI for radiology diagnostics, find adoption still held back by limited guidance, weak transparency and high technical demand. Miliard (2022) reported the sale to Francisco Partners behind a venture that never delivered on its promise. The developer reached for the most powerful system before it had earned the right to deploy it.</p>
+        <p>Air Canada shows the same failure on the deployer side. The airline placed a language model chatbot on its website, and it told a customer a bereavement discount could be claimed retroactively. It could not. When the customer sued, Air Canada argued the chatbot was answerable for its own output. The tribunal in Moffatt v Air Canada (2024) rejected that and held the company liable. The assumption that broke was that a deployer could put an opaque system in front of customers and disown what it said. Accountability followed the brand, not the model.</p>
+        <p>The EU AI Act turns both failures into legal exposure. It classifies systems by risk, places the heaviest obligations on high-risk uses such as medical decision support, and phases them in through 2026 and beyond. Regulation is now pricing the opacity that Watson and Air Canada treated as free.</p>
+        </div>
+      </section>
+      <section class="chapter" id="ethics-and-governance" aria-labelledby="h-ethics-and-governance">
+        <div class="chapter-head"><h2 id="h-ethics-and-governance">5. Ethics and Governance</h2></div>
+        <div class="chapter-body">
+        <p>The ethical exposure from the comparison becomes concrete here. Bias enters through training data, privacy erodes as models absorb personal information, and transparency fails when no one can trace an output. Mittelstadt et al. (2016) name the deepest version as inscrutable evidence. When the basis for a decision cannot be examined, responsibility scatters across developers, deployers and users until none carries it. That gap is the business risk opacity creates.</p>
+        <p>Oversight is the practical answer. Cai and Zychlinski (2025) find that radiologist review of scans the AI has flagged reduces errors, which makes the case for AI as support to a human decision, not the decision itself. This does not mean opacity is always unacceptable. For low-stakes internal work such as warehouse routing or marketing segmentation, a less interpretable model can be defensible where it lifts performance and does not touch rights, safety or essential services. The stakes set the standard, not the technology.</p>
+        <p>One counterpoint deserves engaging. Interpretable models often need clean structured data an organisation does not have, while deep learning tolerates the messy data it does. On that view the opaque model is often the only option that works. The point holds and justifies escalation. But the data forcing the choice does not dissolve the account it owes.</p>
+        <p>The principle has a failure mode worth naming: excessive caution. A simpler model that is easier to explain but cannot read the relevant signal produces a transparent but inadequate decision. That is not the rule failing. The test is the least complex model capable of meeting the objective, and a model that cannot read the signal does not meet it. Where visual patterns are too complex for hand-engineered features, a convolutional network is the defensible choice, used as decision support under the oversight Cai and Zychlinski describe, not the autonomous advice Watson attempted. Escalation done well is the principle working, not an exception to it.</p>
+        </div>
+      </section>
+      <section class="chapter" id="conclusion" aria-labelledby="h-conclusion">
+        <div class="chapter-head"><h2 id="h-conclusion">6. Conclusion</h2></div>
+        <div class="chapter-body">
+        <p>The decision facing management was never which AI is most advanced. It is which AI the business can understand and defend. Capability, cost and opacity often rise together, and rising opacity is a business problem before it is a technical one. Watson reached for power it had not earned the right to deploy. Air Canada disowned an output it remained accountable for. Both paid for treating opacity as free.</p>
+        <p>The smallest defensible model principle is the operating rule that follows. Management should adopt the least complex system that meets the objective and escalate only where the gain clearly justifies the added cost, opacity and governance burden.</p>
+        <p>Future systems will be hybrids, and the dividing line should be accountability. The decisions that confer money or rights, who qualifies for a discount or approval, stay in a traditional model the business can audit and defend. The language model sits on top, drafting replies and answering routine questions, never deciding the entitlement. Air Canada tests that boundary: the language layer spoke to an entitlement decision, and the predicted failure followed, liability landing on the brand. Escalation is defensible where it is governable and indefensible where it is not. Funded this way, the business buys capability it can defend.</p>
+        <p>The most advanced AI is not the most appropriate AI. The right one is the one the business can stand behind.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Bojinov, I.I., Parzen, M. and Hamilton, P. (2025) <em>Linear regression.</em> Revised edn. Harvard Business School Technical Note 622-100. Boston, MA: Harvard Business School.</li>
+          <li>Breiman, L. (2001) ‘Random forests’, <em>Machine Learning</em>, 45(1), pp. 5–32. doi:10.1023/A:1010933404324.</li>
+          <li>Cai, J. and Zychlinski, N. (2025) ‘When AI is not enough: reducing diagnostic errors with radiologist oversight’, <em>Service Science</em> (advance online publication). doi:10.1287/serv.2024.0234.</li>
+          <li>European Parliament and Council of the European Union (2024) <em>Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act).</em> Available at: <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">https://eur-lex.europa.eu/eli/reg/2024/1689/oj</a> (Accessed: 22 June 2026).</li>
+          <li>Khan, S., Sajjad, M., Hussain, T., Ullah, A. and Imran, A.S. (2021) ‘A review on traditional machine learning and deep learning models for WBCs classification in blood smear images’, <em>IEEE Access</em>, 9, pp. 10657–10673. doi:10.1109/ACCESS.2020.3048172.</li>
+          <li>Lawrence, R., Dodsworth, E., Massou, E., Sherlaw-Johnson, C., Ramsay, A.I.G., Walton, H., O’Regan, T., Gleeson, F., Crellin, N., Herbert, K., Ng, P.L., Elphinstone, H., Mehta, R., Lloyd, J., Halliday, A., Morris, S. and Fulop, N.J. (2025) ‘Artificial intelligence for diagnostics in radiology practice: a rapid systematic scoping review’, <em>eClinicalMedicine</em>, 83, article 103228. doi:10.1016/j.eclinm.2025.103228.</li>
+          <li>LeCun, Y., Bengio, Y. and Hinton, G. (2015) ‘Deep learning’, <em>Nature</em>, 521(7553), pp. 436–444. doi:10.1038/nature14539.</li>
+          <li>Leslie, D. (2019) <em>Understanding artificial intelligence ethics and safety: a guide for the responsible design and implementation of AI systems in the public sector.</em> London: The Alan Turing Institute. doi:10.5281/zenodo.3240529.</li>
+          <li>Miliard, M. (2022) ‘IBM to sell Watson Health assets to Francisco Partners’, <em>Healthcare IT News</em>, 21 January. Available at: <a href="https://www.healthcareitnews.com/news/ibm-sell-watson-health-assets-francisco-partners" rel="noopener">https://www.healthcareitnews.com/news/ibm-sell-watson-health-assets-francisco-partners</a> (Accessed: 22 June 2026).</li>
+          <li>Mittelstadt, B.D., Allo, P., Taddeo, M., Wachter, S. and Floridi, L. (2016) ‘The ethics of algorithms: mapping the debate’, <em>Big Data &amp; Society</em>, 3(2), pp. 1–21. doi:10.1177/2053951716679679.</li>
+          <li><em>Moffatt v Air Canada</em> (2024) BCCRT 149.</li>
+          <li>Rudin, C. (2019) ‘Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead’, <em>Nature Machine Intelligence</em>, 1(5), pp. 206–215. doi:10.1038/s42256-019-0048-x.</li>
+          <li>Schwaeke, J., Peters, A., Kanbach, D.K., Kraus, S. and Jones, P. (2025) ‘The new normal: the status quo of AI adoption in SMEs’, <em>Journal of Small Business Management</em>, 63(3), pp. 1297–1331. doi:10.1080/00472778.2024.2379999.</li>
+          <li>Thompson, N.C., Greenewald, K., Lee, K. and Manso, G.F. (2020) ‘The computational limits of deep learning’, <em>arXiv</em> [Preprint]. Available at: <a href="https://arxiv.org/abs/2007.05558" rel="noopener">https://arxiv.org/abs/2007.05558</a> (Accessed: 22 June 2026).</li>
+          <li>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł. and Polosukhin, I. (2017) ‘Attention is all you need’, <em>Advances in Neural Information Processing Systems</em>, 30, pp. 5998–6008.</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>Excellent conceptual framing and clear articulation of the “smallest defensible model” principle.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s overall comment, Positives</cite></figcaption>
+        </figure>
+        <figure class="pullout block">
+          <blockquote>
+            <p>The Watson Health and Air Canada cases are used effectively to illustrate real-world failure modes.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on criticality (Excellent)</cite></figcaption>
+        </figure>
+        <h3>Points for development</h3>
+        <ul>
+          <li>Ensure full Harvard compliance for case-law references (e.g., Moffatt v Air Canada).</li>
+          <li>Add brief quantification of business trade-offs to strengthen evaluative depth.</li>
+          <li>Include one short example of how an organisation would operationalise the principle in practice.</li>
+          <li>Consider using frameworks like SWOTs for exploring strengths and weaknesses.</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="cld-2-accountability-over-accuracy.html" rel="prev"><span class="dir">Previous</span><span class="name">Discussion 2</span></a>
+    <a class="next" href="unit-12-instantiating-the-model.html" rel="next"><span class="dir">Next</span><span class="name">Instantiating the Smallest Defensible Model</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Understanding Artificial Intelligence</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Unit 12 statistical analysis presentation on the Pima diabetes data: three impressive numbers, one test, and which of them a clinic should trust.">
+<title>Earned or Borrowed? | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Unit 12 presentation</span></nav>
+      <p class="page-label">Unit 12 / Statistical analysis presentation</p>
+    </div>
+    <h1 class="display" id="page-title">Earned or Borrowed?</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Applying the clinic test to the Pima diabetes data. Three impressive numbers are tested against one question: would I trust this number at the clinic?</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#presentation-details">About this presentation</a></li>
+        <li><a href="#opening-the-clinic-question">Opening: the clinic question</a></li>
+        <li><a href="#who-is-in-the-sample-and-what-cleaning-cost">Who is in the sample, and what cleaning cost</a></li>
+        <li><a href="#what-the-women-look-like-and-the-values-i-kept">What the women look like, and the values I kept</a></li>
+        <li><a href="#which-visible-patterns-survived-testing">Which visible patterns survived testing</a></li>
+        <li><a href="#case-1-insulin-s-r-squared">Case 1: Insulin's R-squared</a></li>
+        <li><a href="#case-2-the-77-percent">Case 2: the 77 percent</a></li>
+        <li><a href="#what-an-interaction-test-can-and-cannot-show">What an interaction test can and cannot show</a></li>
+        <li><a href="#case-3-the-control-glucose-earns-its-strength">Case 3, the control: glucose earns its strength</a></li>
+        <li><a href="#what-a-clinic-could-use-tomorrow">What a clinic could use tomorrow</a></li>
+        <li><a href="#close-back-to-the-clinic">Close: back to the clinic</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="presentation-details" aria-labelledby="h-presentation-details">
+        <div class="chapter-head"><h2 id="h-presentation-details">About this presentation</h2></div>
+        <div class="chapter-body">
+        <div class="note"><strong>About this page:</strong> The presentation was delivered over slides. This is the narrated text, word for word. Slide content is not reproduced here, so where the narration says “the slide”, the slide itself is not shown.</div>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/diabetes_analysis.R" download>
+              <span class="resource-title">Download the annotated diabetes script (diabetes_analysis.R)</span>
+              <span class="resource-meta"><span class="resource-type">R script</span> <span class="resource-size">61.6 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="opening-the-clinic-question" aria-labelledby="h-opening-the-clinic-question">
+        <div class="chapter-head"><h2 id="h-opening-the-clinic-question">Opening: the clinic question</h2></div>
+        <div class="chapter-body">
+        <figure class="video block">
+          <video controls preload="metadata" playsinline poster="../../../assets/video/module-3/earned-borrowed-opening.webp">
+            <source src="../../../assets/video/module-3/earned-borrowed-opening.mp4" type="video/mp4">
+          </video>
+          <figcaption><span class="figure-label">Clip</span> The opening of the presentation: the clinic question and the thesis. Captions are part of the video.</figcaption>
+        </figure>
+        <p>Imagine a screening clinic with a limited testing budget. The practical question is simple: which numbers are reliable enough to decide who should receive further testing?</p>
+        <p>The dataset also needs one correction before any result is interpreted. Smith and colleagues explain on pages 261 to 262 that the study forecast the onset of diabetes within five years among women who did not have diabetes at baseline. Outcome therefore represents five-year onset, not a diagnosis already present when the predictors were measured.</p>
+        <p>I apply one test throughout: would I trust this number at the clinic? My conclusion is that two impressive numbers borrowed their strength from how the data were collected, while glucose earned its strength through real five-year prediction.</p>
+        </div>
+      </section>
+      <section class="chapter" id="who-is-in-the-sample-and-what-cleaning-cost" aria-labelledby="h-who-is-in-the-sample-and-what-cleaning-cost">
+        <div class="chapter-head"><h2 id="h-who-is-in-the-sample-and-what-cleaning-cost">Who is in the sample, and what cleaning cost</h2></div>
+        <div class="chapter-body">
+        <p>The sample contains 768 women aged 21 to 81. During follow-up, 268 developed diabetes, or 34.9 percent. The median age is 29, and 51.6 percent are younger than 30. There were 111 women who had never been pregnant and 657 who had been pregnant at least once.</p>
+        <p>R accepted every zero as valid. That was appropriate for pregnancies and Outcome, but not for glucose, blood pressure, skin thickness, insulin or BMI. Following the data-quality principle discussed by Cai and Zhu (2015), I treated those impossible clinical zeros as missing. Mean blood pressure then rose from 69.11 to 72.41, showing that cleaning materially changed a result.</p>
+        <p>Insulin was the larger problem. There were 374 missing values, or 48.7 percent, and only 392 women were complete across every variable. Sterne and colleagues (2009) warn that complete-case analysis can mislead. I did not delete every incomplete participant because that would discard useful data from analyses that did not require insulin. I also did not automatically impute almost half a variable without a defensible missingness model.</p>
+        <p>I used analysis-specific complete observations and reported the actual n. Insulin was missing for 47.2 percent of women who remained diabetes-free and 51.5 percent of women who developed diabetes. Wilkinson and colleagues' (2016) FAIR principles support making that missingness visible rather than hiding it as zero.</p>
+        </div>
+      </section>
+      <section class="chapter" id="what-the-women-look-like-and-the-values-i-kept" aria-labelledby="h-what-the-women-look-like-and-the-values-i-kept">
+        <div class="chapter-head"><h2 id="h-what-the-women-look-like-and-the-values-i-kept">What the women look like, and the values I kept</h2></div>
+        <div class="chapter-body">
+        <p>The slide gives the full required descriptive table: mean, median, mode, minimum, maximum, range, standard deviation and valid n. I will not read each cell. The useful pattern is that age and pregnancy counts are right-skewed, while BMI, glucose and blood pressure are more balanced once impossible zeros are removed. Mean BMI is 32.46 kilograms per square metre, which lies in the obese category used in this analysis.</p>
+        <p>Glucose has tied modes of 99 and 100, so reporting a single mode would be misleading. Bader and Leuzinger (2024) explain on pages 37 and 42 that distribution shape and the median help describe numerical data, so the median and the shape of the distribution carry more meaning here. Pregnancies are reported in two ways because “applicable individuals” is ambiguous. The all-women row includes the 111 zero values. The second row describes the 657 women who had been pregnant at least once. This makes the denominator visible rather than quietly choosing one interpretation.</p>
+        <p>I used the IQR rule to identify values for inspection, not automatic removal. A skinfold measurement of 99 millimetres was far above the next highest value of 63, and a diastolic pressure of 24 was clinically doubtful. A BMI of 67.1 and pregnancy counts from 15 to 17 were extreme but possible. Without source records to prove an error, I retained all observations and named the uncertainty.</p>
+        <p>The group rates also resisted simple stories. Diabetes onset was 21.2 percent under age 30, 46.1 percent at 30 to 39, 55.1 percent at 40 to 49 and 48.3 percent at 50 or older. It rose sharply, but not steadily. Across BMI, the rates were 6.9 percent for normal weight, 22.3 percent for overweight and 46.4 percent for obesity. The underweight group contained only four women. Pregnancy rates dipped in the one-to-two group, so I removed my planned sentence that risk rose with every pregnancy.</p>
+        <p>The clinic lesson is modest: descriptive patterns generate questions, but they do not earn a clinical decision by themselves.</p>
+        </div>
+      </section>
+      <section class="chapter" id="which-visible-patterns-survived-testing" aria-labelledby="h-which-visible-patterns-survived-testing">
+        <div class="chapter-head"><h2 id="h-which-visible-patterns-survived-testing">Which visible patterns survived testing</h2></div>
+        <div class="chapter-body">
+        <p>The visible glucose difference survived testing. Women who later developed diabetes averaged 142.3 milligrams per decilitre, compared with 110.6 among those who did not. The difference was 31.7, with an interval of about 28 to 36, and Cohen's d was 1.19. Welch's t-test and Mann-Whitney supported the same conclusion.</p>
+        <p>Most correlations were weak. The main exceptions were skin thickness with BMI, glucose with insulin, and age with pregnancies. The pairwise-complete approach preserved more data, but different correlations used different numbers of women.</p>
+        <p>Age group and BMI category were both associated with five-year onset. The slide gives the test statistics and effect sizes. The important decision was that the original BMI chi-square failed because the underweight group was too small. I merged underweight with normal for the main test and used Fisher's exact test on the original table as a check. Both supported the same conclusion.</p>
+        <p>For glucose across age groups, Levene's test indicated unequal variances, so I selected Welch ANOVA. Kruskal-Wallis agreed. The Holm-adjusted follow-up showed that the under-30 group had lower glucose than every older group, and the 50-plus group had higher glucose than every younger group. Only the 30-to-39 and 40-to-49 groups did not differ. Glucose rose with age, with a plateau through the thirties and forties.</p>
+        </div>
+      </section>
+      <section class="chapter" id="case-1-insulin-s-r-squared" aria-labelledby="h-case-1-insulin-s-r-squared">
+        <div class="chapter-head"><h2 id="h-case-1-insulin-s-r-squared">Case 1: Insulin's R-squared</h2></div>
+        <div class="chapter-body">
+        <p>The first impressive number is the linear regression R-squared of .401. The seven-predictor model used only 392 complete cases. Insulin had the largest standardized coefficient, followed by age. I ranked predictors by standardized coefficients, not by whichever p-value was smallest.</p>
+        <p>That answers the brief, but not whether the result deserves trust. The brief and lecturecast treat the listed predictors as model inputs whose slopes can be interpreted while holding the others constant. Zapf and colleagues (2024) provide the challenge: entering every available variable is not automatically advisable when one sits downstream of the process being predicted.</p>
+        <p>Insulin was measured during the same two-hour test as glucose and responds physiologically to glucose. It is a parallel reading from the same testing episode, not an ordinary earlier risk factor. When I looked again at Dr Euler's COVID seminar example, its R-squared of .976 made me ask whether two variables can fit extremely well because they move together, while still offering less useful forward prediction than the headline suggests.</p>
+        <p>The sensitivity analysis makes the cost visible. Removing insulin and skin thickness increased n from 392 to 724, while R-squared fell from .401 to .135. The reduced model explains less variation, but it retains far more women and no longer depends on insulin.</p>
+        <p>The missing-data disagreement also matters. Sterne and colleagues (2009) warned that complete-case analysis can mislead. Hughes and colleagues (2019), with Sterne as a co-author, later showed that deletion can sometimes be unbiased while imputation is biased. The answer depends on why values are missing.</p>
+        <p>The residual plots also showed curvature and changing spread. Would I trust the .401 at the clinic? No. It borrows strength from a same-test measurement and a selected sample. The .135 reduced model is the more defensible description.</p>
+        </div>
+      </section>
+      <section class="chapter" id="case-2-the-77-percent" aria-labelledby="h-case-2-the-77-percent">
+        <div class="chapter-head"><h2 id="h-case-2-the-77-percent">Case 2: the 77 percent</h2></div>
+        <div class="chapter-body">
+        <p>The second impressive number is 77 percent classification accuracy from the logistic regression using BMI, age and glucose. The model used 752 women. The one-unit coefficients were converted to meaningful steps. A five-unit increase in BMI raised the estimated odds by about 57 percent, a ten-year increase in age by about 33 percent, and a 20 milligram-per-decilitre increase in glucose approximately doubled the odds. These increments make the same fitted coefficients easier to interpret; they do not change the model.</p>
+        <p>At a .50 threshold, accuracy was 77 percent. But the majority-class baseline was already 64.9 percent. More importantly, sensitivity was only 56.8 percent, while specificity was 87.9 percent. The model missed 43.2 percent of women who later developed diabetes.</p>
+        <p>In a group of 100 women with this sample's prevalence, about 35 would develop diabetes and 65 would not. At the .50 threshold, the model would identify about 20 of the 35 future cases and miss about 15. It would correctly clear about 57 of the 65 non-cases and falsely flag about eight. At .35, sensitivity rises to 68.6 percent and specificity falls to 76.8 percent. That means about 24 future cases detected, 11 missed, 50 non-cases correctly cleared and 15 false alarms. The lower threshold catches four additional future cases but creates roughly seven additional false alarms.</p>
+        <p>Smith and colleagues (1988) provide a stronger precedent. Their original analysis used 192 held-out women and selected a .448 threshold, achieving about 76 percent sensitivity and specificity. My model used the same data for fitting and performance reporting, and .50 was a convention rather than a clinically selected cutoff.</p>
+        <p>Would I trust the 77 percent at the clinic? Not as a deployment claim. It borrows confidence from in-sample evaluation and from an accuracy measure that favours the majority group. I might keep the predicted probabilities, but only after external or held-out validation and deliberate threshold selection.</p>
+        </div>
+      </section>
+      <section class="chapter" id="what-an-interaction-test-can-and-cannot-show" aria-labelledby="h-what-an-interaction-test-can-and-cannot-show">
+        <div class="chapter-head"><h2 id="h-what-an-interaction-test-can-and-cannot-show">What an interaction test can and cannot show</h2></div>
+        <div class="chapter-body">
+        <p>The BMI-by-age interaction asks whether BMI's association with diabetes changes across age. In the raw model, the lower-order coefficients were evaluated when the other variable equalled zero. That describes an impossible reference case.</p>
+        <p>After centring BMI and age at their means, the main effects became readable again. Centring changed the reference point, not the interaction evidence.</p>
+        <p>The likelihood-ratio and Wald tests were both non-significant, and the interaction odds-ratio interval crossed one. The exact figures are on the slide. Following Greenland and colleagues (2016), I conclude that there was no detectable interaction on the log-odds scale. I do not conclude that no interaction exists.</p>
+        <p>The assignment's Model 1 added pregnancies to BMI, age and glucose. Model 2 added BMI by age. The interaction did not improve fit, and Model 1 had the lower AIC, so I kept the simpler model.</p>
+        <p>In Model 1, glucose, BMI and pregnancies were significant; age was not. That does not mean age stopped mattering. Age and pregnancies correlated at .54, so adding pregnancy count reduced the unique information assigned to age, similar to the lecturecast example where related predictors changed one another's coefficients.</p>
+        </div>
+      </section>
+      <section class="chapter" id="case-3-the-control-glucose-earns-its-strength" aria-labelledby="h-case-3-the-control-glucose-earns-its-strength">
+        <div class="chapter-head"><h2 id="h-case-3-the-control-glucose-earns-its-strength">Case 3, the control: glucose earns its strength</h2></div>
+        <div class="chapter-body">
+        <p>A principle that distrusted every strong result would not be useful. Glucose is the control case.</p>
+        <p>Smith and colleagues' (1988) design changes its interpretation. These women were free of diabetes at baseline, and the Outcome records onset during the next five years. Baseline glucose is therefore not merely being compared with a simultaneous diagnosis. It forecasts a later crossing of the study's diabetes criterion.</p>
+        <p>That prospective ordering supports the large observed difference: 31.7 milligrams per decilitre, with Cohen's d of 1.19. The result also survives both Welch's t-test and the rank-based Mann-Whitney test.</p>
+        <p>There is still a limitation. Glucose predicts an outcome partly defined by later glucose testing, so it is best understood as a marker of metabolic progression rather than proof that glucose alone causes diabetes. It also does not mean the same cutoff will transfer unchanged to another population.</p>
+        <p>Would I trust glucose at the clinic? Yes, as the core screening measure. Unlike insulin's R-squared or the 77 percent accuracy, its strength is supported by real five-year prediction. This result earned its strength.</p>
+        </div>
+      </section>
+      <section class="chapter" id="what-a-clinic-could-use-tomorrow" aria-labelledby="h-what-a-clinic-could-use-tomorrow">
+        <div class="chapter-head"><h2 id="h-what-a-clinic-could-use-tomorrow">What a clinic could use tomorrow</h2></div>
+        <div class="chapter-body">
+        <p>The clinic recommendation is not to copy the largest model. It is to build a smaller, auditable screening process around the findings that survived the clinic test.</p>
+        <p>Glucose should sit at the centre, with BMI as supporting information. Age and BMI group rates can guide who receives testing, but they are not causal rules and should not replace individual assessment.</p>
+        <p>The classification threshold should be chosen deliberately. If missing a future case carries the greater cost, the .35 example shows how sensitivity can rise, but it also quantifies the additional false alarms. Smith and colleagues (1988) provide the minimum design lesson: fit the model on one group, choose the threshold for the clinical purpose and test it on women the model has not already seen.</p>
+        <p>The data system should record 'not measured' and, where possible, why. Wilkinson and colleagues (2016) support transparent, reusable data, while Hughes and colleagues (2019) show that the reason for missingness determines whether deletion or imputation is defensible.</p>
+        <p>I would not deploy the insulin model. Before using the logistic model, I would require validation on new women, a justified threshold, calibration assessment and evidence that performance transfers beyond this historical population. Those limits belong in the recommendation, not in a final-slide footnote.</p>
+        </div>
+      </section>
+      <section class="chapter" id="close-back-to-the-clinic" aria-labelledby="h-close-back-to-the-clinic">
+        <div class="chapter-head"><h2 id="h-close-back-to-the-clinic">Close: back to the clinic</h2></div>
+        <div class="chapter-body">
+        <figure class="video block">
+          <video controls preload="metadata" playsinline poster="../../../assets/video/module-3/earned-borrowed-closing.webp">
+            <source src="../../../assets/video/module-3/earned-borrowed-closing.mp4" type="video/mp4">
+          </video>
+          <figcaption><span class="figure-label">Clip</span> The close of the presentation, back to the clinic. Captions are part of the video.</figcaption>
+        </figure>
+        <p>The clinic test began with three impressive numbers. The insulin model's R-squared of .401 borrowed strength from a same-test measurement and a selected complete-case sample. The 77 percent accuracy borrowed confidence from in-sample evaluation and a majority-friendly metric. Glucose's large effect earned its strength through five-year prediction.</p>
+        <p>The result I would build on is glucose. The models I would distrust are the ones whose strongest numbers disappear when their design is examined. Earned strength guides the clinic; borrowed strength stays in the report.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Bader, M.K.-F. and Leuzinger, S. (2024) R-ticulate: a beginner’s guide to data analysis for natural scientists. Hoboken, NJ: Wiley.</li>
+          <li>Cai, L. and Zhu, Y. (2015) ‘The challenges of data quality and data quality assessment in the big data era’, Data Science Journal, 14, article 2. doi: 10.5334/dsj-2015-002.</li>
+          <li>Euler, A. (2026a) Diabetes dataset [Dataset]. Supplied in ‘Assignment 2: diabetes dataset attached – broken link update’, NA_PCOM7E Numerical Analysis, Module Announcements. University of Essex Online, 24 September. Originally published at: <a href="https://www.kaggle.com/datasets/akshaydattatraykhare/diabetes-dataset" rel="noopener">https://www.kaggle.com/datasets/akshaydattatraykhare/diabetes-dataset</a>.</li>
+          <li>Euler, A. (2026b) ‘Unit 10 seminar: correlation and regression analysis of COVID data’ [Seminar and R script], Numerical Analysis. University of Essex Online, 3 October.</li>
+          <li>Greenland, S., Senn, S.J., Rothman, K.J., Carlin, J.B., Poole, C., Goodman, S.N. and Altman, D.G. (2016) ‘Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations’, European Journal of Epidemiology, 31(4), pp. 337-350. doi: 10.1007/s10654-016-0149-3.</li>
+          <li>Hughes, R.A., Heron, J., Sterne, J.A.C. and Tilling, K. (2019) ‘Accounting for missing data in statistical analyses: multiple imputation is not always the answer’, International Journal of Epidemiology, 48(4), pp. 1294-1304. doi: 10.1093/ije/dyz032.</li>
+          <li>International Diabetes Federation (2025) IDF Diabetes Atlas. 11th edn. Brussels: International Diabetes Federation.</li>
+          <li>R Core Team (2026) R: a language and environment for statistical computing. Version 4.6.1. Vienna: R Foundation for Statistical Computing. Available at: <a href="https://www.R-project.org/" rel="noopener">https://www.R-project.org/</a> (Accessed: 15 October 2026).</li>
+          <li>Smith, J.W., Everhart, J.E., Dickson, W.C., Knowler, W.C. and Johannes, R.S. (1988) ‘Using the ADAP learning algorithm to forecast the onset of diabetes mellitus’, Proceedings of the Annual Symposium on Computer Application in Medical Care, pp. 261-265.</li>
+          <li>Sterne, J.A.C., White, I.R., Carlin, J.B., Spratt, M., Royston, P., Kenward, M.G., Wood, A.M. and Carpenter, J.R. (2009) ‘Multiple imputation for missing data in epidemiological and clinical research: potential and pitfalls’, BMJ, 338, b2393. doi: 10.1136/bmj.b2393.</li>
+          <li>University of Essex Online (2026) ‘Correlation and regression’ [Lecturecast 6], NA_PCOM7E Numerical Analysis, Unit 10. Available at: <a href="https://www.my-course.co.uk/Computing/AI/NA/NA%20Lecturecast%206/content/index.html#/" rel="noopener">https://www.my-course.co.uk/Computing/AI/NA/NA%20Lecturecast%206/content/index.html#/</a> (Accessed: 15 October 2026).</li>
+          <li>Wilkinson, M.D. et al. (2016) ‘The FAIR Guiding Principles for scientific data management and stewardship’, Scientific Data, 3, article 160018. doi: 10.1038/sdata.2016.18.</li>
+          <li>Zapf, A., Wiessner, C. and König, I.R. (2024) ‘Regression analyses and their particularities in observational studies: part 32 of a series on evaluation of scientific publications’, Deutsches Ärzteblatt International, 121, pp. 128-134. doi: 10.3238/arztebl.m2023.0278.</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>The recurring question of whether a statistical result would be trustworthy in a clinical setting provides a coherent framework for examining methodological decisions rather than simply reporting outputs.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on criticality</cite></figcaption>
+        </figure>
+        <figure class="pullout block">
+          <blockquote>
+            <p>The presentation also returns to its opening question in the conclusion, creating a strong sense of closure.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on structure and presentation</cite></figcaption>
+        </figure>
+        <h3>Point for development</h3>
+        <figure class="pullout block">
+          <blockquote>
+            <p>The main areas for improvement concern the strength of some conclusions relative to the evidence, the reliance on in-sample classification performance and the need for more rigorous validation of proposed screening decisions.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s overall feedback</cite></figcaption>
+        </figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="r-scripts-and-plots.html" rel="prev"><span class="dir">Previous</span><span class="name">R scripts and plots</span></a>
+    <a class="next" href="reflection-from-output-to-judgment.html" rel="next"><span class="dir">Next</span><span class="name">From Output to Judgment</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>

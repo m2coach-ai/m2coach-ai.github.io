@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A discussion post on misinterpretation of statistical information, built on the COVID-19 India reports: a strong association, a broken independence assumption, and what a confidence interval cannot repair.">
+<title>When statistical measures create false confidence | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Discussion post</span></nav>
+      <p class="page-label">Discussion / Misinterpretation of statistical information</p>
+    </div>
+    <h1 class="display" id="page-title">When statistical measures create false confidence</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A discussion post using the COVID-19 India daily reports to show how a very small p-value and a large effect can still mislead when the assumptions underneath them do not hold.</p>
+  </section>
+
+  <div class="sheet">
+    <div class="chapters">
+      <section class="chapter" id="discussion-post" aria-labelledby="h-discussion-post">
+        <div class="chapter-head"><h2 id="h-discussion-post">Discussion post</h2></div>
+        <div class="chapter-body">
+        <p>Across 270 daily COVID-19 reports, the proportion showing at least one recovery rose from 9.0% at Low case severity to 61.1% at High severity. A chi-square test returned p = 1.173 × 10⁻¹⁰, and Cramér’s V came to 0.41. I first read those figures as evidence of a clear relationship between severity and recovery. The data structure makes that reading unsafe.</p>
+<figure class="figure block">
+  <img src="../../../assets/img/module-3/d2-recovery-status-by-case-level.webp" width="1544" height="753" alt="Stacked bar chart of recovery status within each case-severity level (Low, Medium, High), shown as percentages of daily COVID-19 reports. The share of reports with at least one recovery rises from 9.0% at Low severity to 61.1% at High severity." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1</span> Recovery status within each case-severity level, shown as percentages of daily COVID-19 reports. Source: author’s analysis of the supplied dataset in R.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1</summary>
+    <p>Three bars, one for each case-severity level (Low, Medium and High), each showing the percentage of daily reports with and without a recorded recovery. The proportion with at least one recovery rises from 9.0% at Low severity to 61.1% at High severity, as the opening paragraph states. The Medium bar lies between the two.</p>
+  </details>
+</figure>
+        <p>Tijssen (2021) presents a strong case for reporting effect estimates and confidence intervals instead of isolated p-values. Confidence intervals display uncertainty around an estimate. P-values communicate neither effect size nor practical importance. I ran prop.test(11, 18)$conf.int for the High-severity category and got an approximate 95% confidence interval of 36% to 82%. I found the interval more informative because it displayed substantial uncertainty.</p>
+        <p>The assumption that broke was independence. The 18 reports came from only five places, with Kerala and Maharashtra contributing 14. By treating repeated daily observations as independent, I inflated the apparent sample size. Because of that inflation, I read the interval and p-value as more precise than the evidence warranted. I also selected the severity thresholds after examining the distribution. I did not build that analytical choice into the interval.</p>
+        <p>Greenland et al. (2016) argue that researchers must interpret confidence intervals and p-values through the complete statistical model, including its assumptions about sampling, independence and analysis. Their argument explains why a confidence interval cannot serve as a conventional measure of uncertainty when major assumptions fail. I can run the calculation in R. I cannot justify it from the model.</p>
+        <p>Time also confounded the apparent relationship because confirmed cases and recoveries were cumulative totals, and High-severity reports occurred later than Low-severity reports. Both totals therefore had more time to increase. I used the p-value to gauge the table’s incompatibility with the null model, but it could not identify the association’s magnitude or likely explanation. I got the first from Cramér’s V and the row percentages. I got nothing from the output for the second.</p>
+        <p>Tijssen’s recommendation improves statistical reporting only when the model supports the calculation. Researchers should withhold conventional confidence intervals when broken assumptions make their stated coverage misleading. Better presentation cannot repair invalid inference.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Greenland, S., Senn, S.J., Rothman, K.J., Carlin, J.B., Poole, C., Goodman, S.N. and Altman, D.G. (2016) 'Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations', <em>European Journal of Epidemiology</em>, 31(4), pp. 337–350. doi: 10.1007/s10654-016-0149-3.</li>
+          <li>Tijssen, J.G.P. (2021) 'More confidence intervals and fewer p values: a positive trend?', <em>Journal of the American College of Cardiology</em>, 77(12), pp. 1562–1563. doi: 10.1016/j.jacc.2021.02.004.</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="recovery-frequency.html" rel="prev"><span class="dir">Previous</span><span class="name">Recovery reporting frequency</span></a>
+    <a class="next" href="r-scripts-and-plots.html" rel="next"><span class="dir">Next</span><span class="name">R scripts and plots</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>

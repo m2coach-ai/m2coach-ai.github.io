@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Part A1 of the Module 1 End of Module Assignment: two scripts that ran without error and returned the wrong result, with test results, the fix and the code.">
+<title>A1: Code Exploration | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">Part A1</span></nav>
+      <p class="page-label">End of Module Assignment / Part A1</p>
+    </div>
+    <h1 class="display" id="page-title">A1: Code Exploration</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Two scripts, one in Python and one in JavaScript, collect names, remove duplicates and sort them. Both ran without error and both returned the wrong result.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#the-silent-failure">The silent failure</a></li>
+        <li><a href="#test-results">Test results</a></li>
+        <li><a href="#the-modification">The modification</a></li>
+        <li><a href="#the-scripts">The scripts</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="the-silent-failure" aria-labelledby="h-the-silent-failure">
+        <div class="chapter-head"><h2 id="h-the-silent-failure">The silent failure</h2></div>
+        <div class="chapter-body">
+        <p><em>This page is an excerpt from Part A1. One paragraph, which compares how readable the two languages are, is left out here because Part A2 develops that comparison. The scripts, submitted as appendices, appear under The scripts.</em></p>
+        <p>Both scripts contain the most dangerous kind of error: a logic error. The two scripts are designed to sort names. They collect them into a data structure called a set, which removes duplicate entries, then return the remaining names in alphabetical order. In testing, duplicates persisted in the output. This is because versions of the same name written in different capitalisation are treated as entirely separate entries by the code, when in reality they represent the same person. The code runs without crashing. It just produces the wrong result silently, and that is what makes a logic error more dangerous than a crash. Without case normalisation checks in place, records with capitalisation variants survive into the output undetected. In a payroll system this could mean someone gets paid twice. In a hospital database a patient could end up with duplicate records or be incorrectly discharged. Any count of how many people a system has served also becomes unreliable.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/a1-python-original-output.webp" width="740" height="24" alt="Terminal output from the original Python script. The processed list has eight entries, with Alice and alice, bob and BOB, and Charlie and charlie each listed separately." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1</span> Original Python script output showing 8 entries with capitalisation variants treated as separate entries.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1</summary>
+    <p>Processed list: ['Alice', 'BOB', 'Charlie', 'Eve', 'alice', 'bob', 'charlie', 'dave']</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/a1-javascript-original-output.webp" width="262" height="376" alt="Terminal output from the original JavaScript script, showing the original list of eight names and a processed list that still has eight entries, with capitalisation variants listed separately." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2</span> Original JavaScript script output showing the same behaviour.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2</summary>
+    <p>Original list: ['Alice', 'bob', 'alice', 'Charlie', 'BOB', 'dave', 'Eve', 'charlie']</p><p>Processed list: ['Alice', 'BOB', 'Charlie', 'Eve', 'alice', 'bob', 'charlie', 'dave']</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="test-results" aria-labelledby="h-test-results">
+        <div class="chapter-head"><h2 id="h-test-results">Test results</h2></div>
+        <div class="chapter-body">
+        <p>Testing the scripts across four input categories made the scope of the problem clear: normal names, capitalisation variants, non-list values, and mixed types each produced a different result. Correct execution, silent logic error, and defensive error handling are not the same outcome. That distinction is what the modifications are designed to address.</p>
+        <p><span class="figure-label">Table 1</span> Test results across four input categories for the original and modified scripts.</p>
+        <div class="block table-wrap" role="region" aria-label="Table 1: test results" tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Test Input</strong></th><th scope="col"><strong>Expected Output</strong></th><th scope="col"><strong>Original Script</strong></th><th scope="col"><strong>Modified Script</strong></th></tr></thead>
+            <tbody>
+              <tr><td>["Alice", "Bob", "Charlie"]</td><td>['Alice', 'Bob', 'Charlie']</td><td>Correct — 3 entries returned</td><td>Correct — 3 entries returned</td></tr>
+              <tr><td>["Alice", "alice", "BOB", "bob"]</td><td>['Alice', 'Bob']</td><td>4 entries — capitalisation variants treated as separate</td><td>Correct — 2 entries returned</td></tr>
+              <tr><td>"Alice" (string, not list)</td><td>TypeError raised</td><td>Runs silently, produces incorrect character-by-character output</td><td>TypeError raised with descriptive message</td></tr>
+              <tr><td>["Alice", 42, None, "bob"]</td><td>['Alice', 'Bob']</td><td>Crash or unexpected behaviour on non-string items</td><td>Non-strings skipped; ['Alice', 'Bob'] returned</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Each test case in the table maps directly to a fix in the modified scripts. The row for non-list input corresponds to the validation check added at the start of the function, and the capitalisation variant row shows precisely what the dictionary and Map structures were designed to resolve. Both checks are explained in the inline comments. This reflects the defensive programming principle of failing fast: surfacing invalid input at the point it occurs rather than allowing incorrect data to propagate silently through the system. The ACM Code of Ethics (2018, principle 2.5) requires that systems whose risks cannot be reliably predicted should undergo frequent reassessment or not be deployed. The original scripts failed that test; the modifications are what bring them into compliance.</p>
+        </div>
+      </section>
+      <section class="chapter" id="the-modification" aria-labelledby="h-the-modification">
+        <div class="chapter-head"><h2 id="h-the-modification">The modification</h2></div>
+        <div class="chapter-body">
+        <p>In modifying the script, the first priority is stopping it as early as possible if something has not been inputted correctly. If the input is not a list, the script raises an error immediately rather than running and producing a wrong result silently. The larger and more important modification addresses case-insensitive deduplication. The original code was case-sensitive, meaning it treated alice, Alice, and ALICE as three separate entries. The fix requires inverting the original assumption. Instead of a set, the modified script uses a data structure called a dictionary, named <strong>seen</strong>. For each name that passes through, the dictionary stores two versions of it. The first is a lowercase version, so alice, Alice, and ALICE all become alice. The second is the Title Case version used in the final output. So when Alice arrives first, alice is stored as the key and Alice is stored as the value. When alice arrives next, the code checks the lowercase key, sees that alice is already there, and skips it. By the time all eight names have been processed, only five unique keys exist in the dictionary, each with one clean Title Case value attached to it. Both languages now use hash-based structures, preserving O(n) average complexity while eliminating the silent duplication flaw. The difference is not computational speed. It is correctness. The difference, as with the original scripts, is in the syntax. JavaScript uses an object called a Map while Python uses a data structure called a dictionary. These scripts are a reminder that code cannot be taken for granted. Regardless of the language, Python or JavaScript, the logic is the same and the assumptions travel with it. Assumptions made during development become bugs in production. Remove the assumption, and you fix the bug.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/a1-python-modified-output.webp" width="734" height="56" alt="Terminal output from the modified Python script. The processed list has five entries: Alice, Bob, Charlie, Dave and Eve." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 3</span> Modified Python script output showing 5 correctly deduplicated and normalised entries.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 3</summary>
+    <p>Original list: ['Alice', 'bob', 'alice', 'Charlie', 'BOB', 'dave', 'Eve', 'charlie']</p><p>Processed list: ['Alice', 'Bob', 'Charlie', 'Dave', 'Eve']</p>
+  </details>
+</figure>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-1/a1-javascript-modified-output.webp" width="526" height="223" alt="Terminal output from the modified JavaScript script. The processed list has five entries: Alice, Bob, Charlie, Dave and Eve." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 4</span> Modified JavaScript script output confirming the same result.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 4</summary>
+    <p>Original list: ['Alice', 'bob', 'alice', 'Charlie', 'BOB', 'dave', 'Eve', 'charlie']</p><p>Processed list: ['Alice', 'Bob', 'Charlie', 'Dave', 'Eve']</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="the-scripts" aria-labelledby="h-the-scripts">
+        <div class="chapter-head"><h2 id="h-the-scripts">The scripts</h2></div>
+        <div class="chapter-body">
+        <h3>Original Python script</h3>
+        <pre class="code-block block" tabindex="0" aria-label="Original Python script, clean_names.py"><code># clean_names.py
+# This script is for a function to process a list of names by removing duplicates
+# return them in alphabetical order.
+
+def process_names(names):
+    # set() removes duplicate names automatically
+    # result is converted back to a list so it can be sorted
+    # sets are unordered so names may not be in the same order as the original
+    unique_names = list(set(names)) # note: set() is case-sensitive so &quot;alice&quot; and &quot;Alice&quot; are kept as separate names because that is how they are seen.
+    unique_names.sort() # sorts alphabetically since they were not before
+    return unique_names # sends the finished list back
+
+# Test list with duplicates and inconsistent capitalisation
+test_names = [&quot;Alice&quot;, &quot;bob&quot;, &quot;alice&quot;, &quot;Charlie&quot;, &quot;BOB&quot;, &quot;dave&quot;, &quot;Eve&quot;, &quot;charlie&quot;]
+print(&quot;Original list:&quot;, test_names)
+print(&quot;Processed list:&quot;, process_names(test_names))</code></pre>
+        <h3>Modified Python script</h3>
+        <pre class="code-block block" tabindex="0" aria-label="Modified Python script, clean_names_modified.py"><code># clean_names_modified.py
+# This script is a modified version of clean_names.py
+# and returns them in alphabetical order with two improvements added.
+
+def process_names(names):
+    # MODIFICATION 1 - Input validation
+    # checks if the input is a list before running
+    # without this someone could accidentally pass in a single name like &quot;Alice&quot;
+    # instead of [&quot;Alice&quot;] and the function would produce wrong results silently
+    # raises an error with a clear message so the user knows exactly what went wrong
+    if not isinstance(names, list):
+        raise TypeError(&quot;Input must be a list of strings.&quot;)
+
+    # MODIFICATION 2 - Case-insensitive deduplication
+    # a dictionary is used instead of set() to fix the case-sensitive problem. It is empty first
+    seen = {}
+
+    # loops through each name in the list one at a time
+    for name in names:
+        # skips anything that is not a string so the function does not crash on unexpected items like numbers or None
+        if not isinstance(name, str):
+            continue
+        # set() would keep &quot;Alice&quot; and &quot;alice&quot; as separate names which is not what we want. Big mistake in original code.
+        # converting to lowercase means all variations of a name are treated the same
+        key = name.lower()
+        if key not in seen:
+            # stores the Title Case version so the output looks clean and consistent
+            seen[key] = name.title()
+
+    unique_names = sorted(seen.values())  # sorts alphabetically so output is predictable
+    return unique_names  # sends the finished list back
+
+# Test list with duplicates and inconsistent capitalisation
+test_names = [&quot;Alice&quot;, &quot;bob&quot;, &quot;alice&quot;, &quot;Charlie&quot;, &quot;BOB&quot;, &quot;dave&quot;, &quot;Eve&quot;, &quot;charlie&quot;]
+print(&quot;Original list:&quot;, test_names)
+print(&quot;Processed list:&quot;, process_names(test_names))</code></pre>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/clean_names_modified.py" download>
+              <span class="resource-title">Download modified Python script (clean_names_modified.py)</span>
+              <span class="resource-meta"><span class="resource-type">Python file</span> <span class="resource-size">1.8 KB</span></span>
+            </a>
+          </li>
+          <li class="resource">
+            <a class="resource-link" href="../files/cleanNames_modified.js" download>
+              <span class="resource-title">Download modified JavaScript script (cleanNames_modified.js)</span>
+              <span class="resource-meta"><span class="resource-type">JavaScript file</span> <span class="resource-size">1.9 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Association for Computing Machinery (ACM) (2018) <em>ACM Code of Ethics and Professional Conduct</em>. Available at: <a rel="noopener" href="https://www.acm.org/code-of-ethics">https://www.acm.org/code-of-ethics</a> (Accessed: 30 March 2026).</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>Your work demonstrates a highly effective exploration of both scripts. You clearly identify the issue of silent logic failure and explain how case sensitivity leads to incorrect outputs despite successful execution. The structured testing across multiple input categories is a particular strength and shows a strong understanding of validation and defensive programming. The modifications in the revised Python script demonstrate appropriate use of input validation and case-insensitive deduplication, and the underlying logic is well explained. This section could have been further strengthened through more concise presentation and clearer distinction between descriptive explanation and evaluative discussion. Greater focus on key findings would improve clarity.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s feedback on A1: Code Exploration</cite></figcaption>
+        </figure>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-11-agentic-ai-blog.html" rel="prev"><span class="dir">Previous</span><span class="name">Agentic AI blog post</span></a>
+    <a class="next" href="part-a2-python-and-javascript.html" rel="next"><span class="dir">Next</span><span class="name">A2: Language Comparison Report</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>

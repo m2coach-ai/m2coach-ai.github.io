@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A feasibility study comparing logistic regression and Random Forest on a breast cancer dataset, with leakage-safe preprocessing, cost-weighted errors and a transfer back to the Unit 9 argument.">
+<title>Instantiating the Smallest Defensible Model | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Understanding Artificial Intelligence</a> / <span aria-current="page">Unit 12 report</span></nav>
+      <p class="page-label">Unit 12 / Implementation report</p>
+    </div>
+    <h1 class="display" id="page-title">Instantiating the Smallest Defensible Model</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A clinical classification feasibility study. It tests the Unit 9 principle on the Wisconsin breast cancer data: whether Random Forest improves enough on logistic regression to justify being harder to explain.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#report-details">Report details</a></li>
+        <li><a href="#business-context-and-experimental-objective">1. Business Context and Experimental Objective</a></li>
+        <li><a href="#justifying-the-dataset">2. Justifying the Dataset</a></li>
+        <li><a href="#approach-to-the-model">3. Approach to the Model</a></li>
+        <li><a href="#rationale-for-the-algorithms">4. Rationale for the Algorithms</a></li>
+        <li><a href="#analysis-of-outputs">5. Analysis of Outputs</a></li>
+        <li><a href="#transfer-to-the-unit-9-problem">6. Transfer to the Unit 9 Problem</a></li>
+        <li><a href="#conclusion">7. Conclusion</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#appendix-a-supplementary-notebook-evidence">Appendix A. Supplementary Notebook Evidence</a></li>
+        <li><a href="#appendix-b-additional-model-outputs">Appendix B. Additional Model Outputs</a></li>
+        <li><a href="#appendix-c-ai-use-and-academic-integrity-declaration">Appendix C. AI-Use and Academic Integrity Declaration</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="report-details" aria-labelledby="h-report-details">
+        <div class="chapter-head"><h2 id="h-report-details">Report details</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Module: Understanding Artificial Intelligence</li>
+          <li>Assessment: Unit 12 AI Solution Implementation</li>
+          <li>Dataset: UCI Breast Cancer Wisconsin (Diagnostic), <a href="https://doi.org/10.24432/C5DW2B" rel="noopener">https://doi.org/10.24432/C5DW2B</a></li>
+          <li>Word limit: 2,000 words (+/-10%)</li>
+          <li>Submission date: July 19, 2026</li>
+        </ul>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/Artificial_Intelligence_Implementation.ipynb" download>
+              <span class="resource-title">Download the notebook (Artificial_Intelligence_Implementation.ipynb)</span>
+              <span class="resource-meta"><span class="resource-type">Jupyter notebook</span> <span class="resource-size">77.4 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="business-context-and-experimental-objective" aria-labelledby="h-business-context-and-experimental-objective">
+        <div class="chapter-head"><h2 id="h-business-context-and-experimental-objective">1. Business Context and Experimental Objective</h2></div>
+        <div class="chapter-body">
+        <p>The start-up is considering a predictive tool, and the board's problem is not enthusiasm. It is proof. Unit 9 established the “smallest defensible model” principle but left its experimental test open.</p>
+        <p><strong>Experimental objective: determine whether Random Forest improves enough on an interpretable logistic regression baseline to justify its greater complexity for this proxy clinical classification task.</strong></p>
+        <p>For this feasibility study, the company is treated as a developer of clinical decision support software. A clinician sees a case marked for attention, orders confirmatory work and decides. The tool never closes a case itself.</p>
+        <p>A false alarm prompts review; a missed malignancy removes that prompt. Because the rarer category carries greater cost, feasibility requires evidence the board can inspect, question and defend. Data and deployment readiness are not assumed.</p>
+        </div>
+      </section>
+      <section class="chapter" id="justifying-the-dataset" aria-labelledby="h-justifying-the-dataset">
+        <div class="chapter-head"><h2 id="h-justifying-the-dataset">2. Justifying the Dataset</h2></div>
+        <div class="chapter-body">
+<p><span class="figure-label">Table 1</span> Wisconsin Diagnostic Breast Cancer dataset characteristics.</p>
+        <div class="block table-wrap" role="region" aria-label="Wisconsin Diagnostic Breast Cancer dataset characteristics." tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Property</strong></th><th scope="col"><strong>Value</strong></th></tr></thead>
+            <tbody>
+              <tr><td>Cases</td><td>569</td></tr>
+              <tr><td>Features</td><td>30, computed from digitised fine-needle aspirate images</td></tr>
+              <tr><td>Target</td><td>Binary: benign or malignant</td></tr>
+              <tr><td>Class distribution</td><td>357 benign (62.7%); 212 malignant (37.3%)</td></tr>
+              <tr><td>Source</td><td>Wolberg et al. (1993), UCI Machine Learning Repository</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The Wisconsin Diagnostic Breast Cancer dataset stands in for a clinical decision the start-up does not yet have data for, and its structure, summarised in Table 1, is what makes the substitution honest. The task instantiates the clinical classification setting discussed in Unit 9. More precisely, the model classifies a sampled breast mass from measurements extracted from a digitised fine-needle aspirate image. It is not intended for population screening.</p>
+        <p>Benign cases outnumber malignant ones by roughly 63 to 37, and the malignant class is both the minority and the one where a missed prediction is most costly. Accuracy can look strong while the rarer, costlier cases are missed.</p>
+        <p>The imbalance also limits what this study can conclude. Forty-two malignant cases in the hold-out set is a thin basis for a verdict. The feasibility claim therefore rests on cross-validation and fold-level variation, not a single split.</p>
+        <p>The dataset is suitable for testing the method but provides weak evidence for deployment. Before a pilot the organisation would need representative retrospective data with verified labels. The processed data contain no missing values or duplicate rows. The identifier was excluded, leaving thirty numeric predictors, so no further cleaning was required, as Table 2 confirms. The fitted model does not transfer simply because the evaluation method does.</p>
+<p><span class="figure-label">Table 2</span> Data-quality checks on the Wisconsin dataset.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Table 2 output"><code>Rows, columns : (569, 30)
+Missing values : 0
+Duplicate rows : 0
+Data types : float64
+Class counts : malignant = 212 | benign = 357</code></pre>
+        </div>
+      </section>
+      <section class="chapter" id="approach-to-the-model" aria-labelledby="h-approach-to-the-model">
+        <div class="chapter-head"><h2 id="h-approach-to-the-model">3. Approach to the Model</h2></div>
+        <div class="chapter-body">
+        <p>The task is supervised classification. Each training case carries a verified benign or malignant label, so the models learn a mapping from measurements to a known outcome rather than searching for structure without ground truth. An unsupervised approach would answer a different question, one about latent groupings, not the clinical question of whether a case belongs to the costly class.</p>
+        <p>The design decision came before any code: build the model management can question first, and make the more flexible model justify itself against that baseline. A tool that flags a patient as high risk will be asked to say why, and starting from the explainable candidate keeps that answer available from the first run rather than retrofitting it after a complex model has been chosen. The escalation model must deliver enough capability to pay for being harder to explain.</p>
+        <p>The pipeline follows four deliberate steps. Encoding was minimal, since the features are numeric and only the diagnosis label needed mapping, with malignant set as the positive class so every later metric points at the error that matters. The train-test split reserves 20 per cent of cases as a hold-out set, stratified so both classes keep their proportions, as Figure 1 shows, and that set stays untouched until final evaluation. Feature scaling standardises the thirty features for logistic regression, fitted on the training data alone so no information leaks. Random Forest receives unscaled data, since tree splits are indifferent to feature magnitude. Five stratified folds are used within the training data before the hold-out set delivers the final check. Danso et al. (2021) pair cross-validation with held-out testing under class imbalance, grounding the design in published clinical practice rather than classroom convention.</p>
+        <p>Evaluation was designed before the models were fitted. Foody (2023) argues that a single accuracy figure conceals the class-level behaviour that decides real-world usefulness, so the plan committed in advance to the confusion matrix, precision, recall, specificity, F1 and MCC.</p>
+        <p>The default 0.5 threshold is retained solely to support a controlled model comparison; clinical deployment would require separate threshold selection.</p>
+<p><span class="figure-label">Figure 1</span> Case counts from the stratified 80/20 split. Both classes keep their proportions in the hold-out set.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Figure 1 output"><code>Training cases: 455
+Test cases    : 114 (benign: 72 | malignant: 42 )</code></pre>
+        </div>
+      </section>
+      <section class="chapter" id="rationale-for-the-algorithms" aria-labelledby="h-rationale-for-the-algorithms">
+        <div class="chapter-head"><h2 id="h-rationale-for-the-algorithms">4. Rationale for the Algorithms</h2></div>
+        <div class="chapter-body">
+        <p>The models test one trade-off, not raw power. Logistic regression is the baseline because its output is comparatively legible: each feature carries a coefficient, and management can inspect the direction and weight of the fitted relationships. That legibility has limits. Correlated derived measurements can make coefficients unstable, and a global coefficient does not by itself explain one patient-level prediction. It remains easier to audit than an ensemble of trees.</p>
+        <p>Random Forest is the escalation candidate. It aggregates many decision trees and can capture nonlinear interactions a linear model misses, but the same ensembling removes a single readable decision path. It gains flexibility and loses direct inspectability in the same move.</p>
+        <p>Both models run at their defaults. Tuning the challenger while leaving the baseline fixed would bias the comparison toward complexity, the outcome under test. Defaults may favour one algorithm, so the result compares these configurations, not each model’s best possible performance.</p>
+        <p>Khan et al. (2021) locate both models within the traditional machine-learning landscape, distinguishing that family from deep learning used for image-based diagnosis. Deep learning is out of scope for a proportional reason. The dataset is small and tabular, and a neural network brings capacity this data does not require. Rudin (2019) argues that in high-stakes settings an interpretable model should be preferred when it performs comparably to an opaque one. Comparably is the condition this experiment tests.</p>
+        </div>
+      </section>
+      <section class="chapter" id="analysis-of-outputs" aria-labelledby="h-analysis-of-outputs">
+        <div class="chapter-head"><h2 id="h-analysis-of-outputs">5. Analysis of Outputs</h2></div>
+        <div class="chapter-body">
+        <p>Both models reach 96.5 per cent accuracy, but Table 4 shows why that figure is insufficient. Foody (2023) warns that accuracy hides the distribution of errors.</p>
+        <p>The malignant class reveals the costlier error. The baseline logistic regression returned three false negatives; Random Forest returned four. It also raised one false alarm; the forest raised none. A false alarm requires additional clinical review and may prompt unnecessary confirmatory testing. A missed malignancy may delay further investigation; Canadian five-year net survival for female breast cancer falls from approximately 100 per cent at stage I to 23 per cent at stage IV (Ellison and Saint-Jacques, 2023).</p>
+        <p>With R as the relative cost of a missed malignancy, logistic regression costs less whenever R exceeds one (Table 3). The models tie only when both errors have equal cost.</p>
+<p><span class="figure-label">Table 3</span> Cost-weighted error comparison. R is the cost of a false negative relative to a false positive.</p>
+        <div class="block table-wrap" role="region" aria-label="Cost-weighted error comparison. R is the cost of a false negative relative to a " tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Cost ratio R (FN:FP)</strong></th><th scope="col"><strong>LR total cost</strong></th><th scope="col"><strong>RF total cost</strong></th><th scope="col"><strong>Lower cost</strong></th></tr></thead>
+            <tbody>
+              <tr><td>1 : 1</td><td>4</td><td>4</td><td>tie</td></tr>
+              <tr><td>5 : 1</td><td>16</td><td>20</td><td>LR</td></tr>
+              <tr><td>10 : 1</td><td>31</td><td>40</td><td>LR</td></tr>
+              <tr><td>20 : 1</td><td>61</td><td>80</td><td>LR</td></tr>
+            </tbody>
+          </table>
+        </div>
+<p><span class="figure-label">Table 4</span> Held-out test-set performance. Malignant is the positive class.</p>
+        <div class="block table-wrap" role="region" aria-label="Held-out test-set performance. Malignant is the positive class." tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Metric</strong></th><th scope="col"><strong>Logistic regression</strong></th><th scope="col"><strong>Random Forest</strong></th></tr></thead>
+            <tbody>
+              <tr><td>Accuracy</td><td>0.965</td><td>0.965</td></tr>
+              <tr><td>Precision</td><td>0.975</td><td>1.000</td></tr>
+              <tr><td>Recall</td><td>0.929</td><td>0.905</td></tr>
+              <tr><td>Specificity</td><td>0.986</td><td>1.000</td></tr>
+              <tr><td>F1</td><td>0.951</td><td>0.950</td></tr>
+              <tr><td>MCC</td><td>0.925</td><td>0.926</td></tr>
+              <tr><td>False negatives</td><td>3</td><td>4</td></tr>
+              <tr><td>False positives</td><td>1</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>MCC differs by roughly one thousandth, so neither model dominates. Foody (2023) shows that MCC can be inflated by correlated errors in an imperfect reference standard; its value depends on label quality. The Wisconsin diagnoses are histologically confirmed; the start-up’s eventual labels may not be. The escalation model shows no capability gain to justify its opacity.</p>
+        <p>An exact two-sided McNemar test compares the classifiers' paired errors on the same cases (Dietterich, 1998). It returns p = 1.000 (Appendix A7.6): the six discordant cases split 3/3, providing no evidence of a performance difference. This does not prove equivalence; it shows only that so small a test set cannot reveal one.</p>
+        <p>With only 42 malignant test cases, another split could reverse the ranking. Malignant recall averages 0.953 for logistic regression against 0.935 for the forest, although the forest leads on one of five folds. A benign-only DummyClassifier reaches 63 per cent accuracy but detects no malignancies. The defensible finding is narrower than a winner: this test shows no advantage sufficient to justify escalation. Separate bootstrap 95 per cent recall intervals are wide (logistic regression [0.841, 1.000]; Random Forest [0.806, 0.979]) and do not directly test the difference between models.</p>
+<figure class="figure block">
+  <img src="../../../assets/img/module-2/u12-logistic-regression-confusion-matrix.webp" width="800" height="615" alt="Confusion matrix for logistic regression on the 114-case test set. 71 benign cases were predicted benign and 1 benign case was predicted malignant. 3 malignant cases were predicted benign and 39 malignant cases were predicted malignant." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2</span> Logistic regression confusion matrix, 114-case held-out test set. Malignant is the positive class.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2</summary>
+    <p>Rows are the true label and columns the predicted label. True benign: 71 predicted benign, 1 predicted malignant. True malignant: 3 predicted benign, 39 predicted malignant.</p>
+  </details>
+</figure>
+<figure class="figure block">
+  <img src="../../../assets/img/module-2/u12-random-forest-confusion-matrix.webp" width="800" height="619" alt="Confusion matrix for Random Forest on the same 114-case test set. 72 benign cases were predicted benign and none were predicted malignant. 4 malignant cases were predicted benign and 38 malignant cases were predicted malignant." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 3</span> Random Forest confusion matrix, same held-out test set. Malignant is the positive class.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 3</summary>
+    <p>Rows are the true label and columns the predicted label. True benign: 72 predicted benign, 0 predicted malignant. True malignant: 4 predicted benign, 38 predicted malignant.</p>
+  </details>
+</figure>
+<p><span class="figure-label">Table 5</span> Five-fold cross-validation on the training data, per-fold ranking, the naive benchmark.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Table 5 output"><code>LR recall: mean 0.953 sd 0.040
+RF recall: mean 0.935 sd 0.029
+LR per fold: 0.882, 0.971, 1.000, 0.941, 0.971
+RF per fold: 0.941, 0.971, 0.882, 0.941, 0.941
+
+Dummy accuracy : 0.632
+Dummy malignant recall: 0.000</code></pre>
+        <p>Radius, perimeter and area measures are related by construction, as Table 6 shows. All thirty predictors are retained for this feasibility comparison. An exploratory threshold sensitivity analysis shows that lowering the baseline threshold from 0.5 to 0.3 cuts false negatives from three to one without adding a false alarm (Appendix B, Table B1). The operating point moves the costly error more than the choice between these two algorithms does. Regularisation and reduced feature groups remain for later.</p>
+<p><span class="figure-label">Table 6</span> Strongest feature correlations.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Table 6 output"><code>r = 0.998 mean radius &lt;-&gt; mean perimeter
+r = 0.994 worst radius &lt;-&gt; worst perimeter
+r = 0.987 mean radius &lt;-&gt; mean area
+r = 0.987 mean perimeter &lt;-&gt; mean area
+r = 0.984 worst radius &lt;-&gt; worst area
+Pairs with |r| &gt;= 0.90: 21</code></pre>
+        </div>
+      </section>
+      <section class="chapter" id="transfer-to-the-unit-9-problem" aria-labelledby="h-transfer-to-the-unit-9-problem">
+        <div class="chapter-head"><h2 id="h-transfer-to-the-unit-9-problem">6. Transfer to the Unit 9 Problem</h2></div>
+        <div class="chapter-body">
+        <p>Unit 9 set out the principle for clinical decision support but left the dataset, algorithms and testing method open. This experiment tests it. The evaluation method transfers; the fitted model does not.</p>
+        <p>The method starts with an interpretable baseline. A complex model must perform well enough to justify being harder to understand. The evaluation and validation process can transfer because it handles class imbalance and assesses each class separately. The trained model cannot. Danso et al. (2021) adapted a source model to a new cohort and improved sensitivity by 19.1 percentage points over its local baseline. The Wisconsin model learned dataset-specific patterns, so presenting it as company-ready would create false readiness.</p>
+        <p>The company’s first case follows the same process. It gathers patient records with confirmed outcomes and labels the more costly outcome as positive. Logistic regression runs first because managers can inspect how every input affects its prediction. Random Forest is tested the same way and judged by how many costly cases it catches and the cost of its errors, not overall accuracy. One rule decides. If the more complex model only matches the baseline, as it did here, the clearer model is used. If it catches more costly cases and the confidence interval supports that improvement, its complexity is justified. The evidence decides. The board does not guess.</p>
+        <p>Strong validation scores do not guarantee clinical impact, which turns on transparency, adaptability and evidence beyond retrospective validation (Aristidou, Jena and Topol, 2022). Figure 4 translates this deployment gap into four readiness stages, and public proxy data reach only the first. No stage can be skipped by scoring well on the one before.</p>
+<figure class="figure block">
+  <img src="../../../assets/img/module-2/u12-deployment-readiness-stages.webp" width="900" height="688" alt="Flow diagram of four deployment-readiness stages, top to bottom: 1 Method feasibility (this study) on public proxy data, highlighted as reached; 2 Organisational fit on company retrospective data; 3 Generalisation on external or prospective data; 4 Controlled pilot with live, supervised use. Gates between stages: baseline holds under imbalance; data representative and complete; survives outside source data." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 4</span> Deployment-readiness stages. Public proxy data reach only the first.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 4</summary>
+    <p>Four stages in order. Stage 1, method feasibility, uses public proxy data and is the only stage reached by this study. Stage 2, organisational fit, uses company retrospective data. Stage 3, generalisation, uses external or prospective data. Stage 4 is a controlled pilot with live, supervised use. The gate from stage 1 to 2 is that the baseline holds under imbalance. The gate from 2 to 3 is that the data are representative and complete. The gate from 3 to 4 is that the model survives outside the source data. Stages 2 to 4 are marked not yet established.</p>
+  </details>
+</figure>
+        <p>The methods this feasibility stage does not run are not oversights. Each belongs to a later readiness stage, and Table 7 assigns them.</p>
+<p><span class="figure-label">Table 7</span> Validation methods by readiness stage.</p>
+        <div class="block table-wrap" role="region" aria-label="Validation methods by readiness stage." tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Method not yet run</strong></th><th scope="col"><strong>Readiness stage</strong></th><th scope="col"><strong>Why deferred</strong></th></tr></thead>
+            <tbody>
+              <tr><td>Repeated nested cross-validation, formal hyperparameter search</td><td>Stage 1 (method hardening)</td><td>Only needed once tuning is in scope; defaults are deliberate here</td></tr>
+              <tr><td>Calibration assessment, decision-curve analysis, formal cost matrix at scale</td><td>Stage 2 (organisational fit)</td><td>Require the company's own costs and prevalence, not the proxy dataset's</td></tr>
+              <tr><td>Subgroup validation, external validation</td><td>Stages 2–3 (fit and generalisation)</td><td>Impossible on Wisconsin: no demographics, single source</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>These safeguards are ethical as much as operational. The World Health Organization (2021) places non-maleficence, transparency and accountability among its principles for clinical AI. A tool that can miss a malignant case, or cannot justify why it flagged a patient, engages duties no accuracy figure discharges.</p>
+        <p>Fairness is the clearest thing that breaks in transfer. The Wisconsin data carry no demographic information, so nothing here shows whether performance holds across age, ethnicity or comorbidity. Obermeyer et al. (2019) found that a widely deployed health algorithm underserved Black patients because it predicted healthcare cost rather than illness. Although this study uses a different kind of proxy, the case shows why proxy choice must be examined before transfer. A model that missed malignancies unevenly across groups would be indefensible at any accuracy, and data without demographic information cannot reveal it. Subgroup evaluation belongs to the second readiness stage, not the fourth.</p>
+        <p>The strongest objection is that interpretable models can underperform complex ones in healthcare. Ennab and Mcheick (2024) report that tension, and the baseline-first discipline must not become a rule against complexity. If a challenger produces a stable, meaningful gain that a simpler model cannot match, escalation is justified. This experiment cannot refute that possibility. It shows only that the sacrifice used to justify escalation cannot be assumed; it must be demonstrated case by case.</p>
+        </div>
+      </section>
+      <section class="chapter" id="conclusion" aria-labelledby="h-conclusion">
+        <div class="chapter-head"><h2 id="h-conclusion">7. Conclusion</h2></div>
+        <div class="chapter-body">
+        <p>This experiment tested an evaluation process. Both models achieved the same accuracy, but logistic regression missed one fewer malignant case. Under this proxy dataset and default comparison, Random Forest showed no gain sufficient to justify its greater complexity. The pipeline still met the feasibility objective by producing evidence the board can inspect and defend.</p>
+        <p>This makes the Unit 9 principle actionable: begin with an interpretable model, adopt greater complexity only when it produces a meaningful gain, and judge models by the costliest error.</p>
+        <p>A small proxy dataset cannot establish performance on hospital data, clinician acceptance, subgroup fairness or stability over time.</p>
+        <p>The results do not establish deployment readiness. Management should therefore retain logistic regression as the provisional baseline and fund further testing on representative organisational data and patient subgroups. The model advanced should be the one the business can understand, justify and support with evidence.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Anthropic (2026) <em>Claude</em> (Opus 4.8) [Large language model]. Available at: <a rel="noopener" href="https://claude.ai/">https://claude.ai</a> (Accessed: 13 July 2026).</li>
+          <li>Aristidou, A., Jena, R. and Topol, E.J. (2022) ‘Bridging the chasm between AI and clinical implementation’, <em>The Lancet</em>, 399(10325), p. 620. doi: 10.1016/S0140-6736(22)00235-5.</li>
+          <li>Danso, S.O., Zeng, Z., Muniz-Terrera, G. and Ritchie, C.W. (2021) ‘Developing an explainable machine learning-based personalised dementia risk prediction model: a transfer learning approach with ensemble learning algorithms’, <em>Frontiers in Big Data</em>, 4, 613047. doi: 10.3389/fdata.2021.613047.</li>
+          <li>Dietterich, T.G. (1998) 'Approximate statistical tests for comparing supervised classification learning algorithms', <em>Neural Computation</em>, 10(7), pp. 1895-1923. doi: 10.1162/089976698300017197.</li>
+          <li>Ellison, L.F. and Saint-Jacques, N. (2023) ‘Five-year cancer survival by stage at diagnosis in Canada’, <em>Health Reports</em>, 34(1), pp. 3–15. doi: 10.25318/82-003-x202300100001-eng.</li>
+          <li>Ennab, M. and Mcheick, H. (2024) ‘Enhancing interpretability and accuracy of AI models in healthcare: a comprehensive review on challenges and future directions’, <em>Frontiers in Robotics and AI</em>, 11, 1444763. doi: 10.3389/frobt.2024.1444763.</li>
+          <li>Foody, G.M. (2023) ‘Challenges in the real world use of classification accuracy metrics: from recall and precision to the Matthews correlation coefficient’, <em>PLOS ONE</em>, 18(10), e0291908. doi: 10.1371/journal.pone.0291908.</li>
+          <li>Khan, S., Sajjad, M., Hussain, T., Ullah, A. and Imran, A.S. (2021) ‘A review on traditional machine learning and deep learning models for WBCs classification in blood smear images’, <em>IEEE Access</em>, 9, pp. 10657-10673. doi: 10.1109/ACCESS.2020.3048172.</li>
+          <li>Obermeyer, Z., Powers, B., Vogeli, C. and Mullainathan, S. (2019) ‘Dissecting racial bias in an algorithm used to manage the health of populations’, <em>Science</em>, 366(6464), pp. 447-453. doi: 10.1126/science.aax2342.</li>
+          <li>Rudin, C. (2019) ‘Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead’, <em>Nature Machine Intelligence</em>, 1(5), pp. 206-215. doi: 10.1038/s42256-019-0048-x.</li>
+          <li>Wolberg, W., Mangasarian, O., Street, N. and Street, W. (1993) Breast Cancer Wisconsin (Diagnostic) [Dataset]. UCI Machine Learning Repository. Available at: <a href="https://doi.org/10.24432/C5DW2B" rel="noopener">https://doi.org/10.24432/C5DW2B</a> (Accessed: 6 July 2026).</li>
+          <li>World Health Organization (2021) <em>Ethics and governance of artificial intelligence for health: WHO guidance</em>. Geneva: World Health Organization. Available at: <a href="https://www.who.int/publications/i/item/9789240029200" rel="noopener">https://www.who.int/publications/i/item/9789240029200</a> (Accessed: 12 July 2026).</li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="appendix-a-supplementary-notebook-evidence" aria-labelledby="h-appendix-a-supplementary-notebook-evidence">
+        <div class="chapter-head"><h2 id="h-appendix-a-supplementary-notebook-evidence">Appendix A. Supplementary Notebook Evidence</h2></div>
+        <div class="chapter-body">
+        <p>The complete executable notebook remains a separate submission.</p>
+<p><span class="figure-label">Table A1</span> Notebook parts, the evidence each holds and the report sections it supports.</p>
+        <div class="block table-wrap" role="region" aria-label="Notebook parts, the evidence each holds and the report sections it supports." tabindex="0">
+          <table class="data-table">
+            <thead><tr><th scope="col"><strong>Notebook part</strong></th><th scope="col"><strong>Evidence</strong></th><th scope="col"><strong>Report link</strong></th></tr></thead>
+            <tbody>
+              <tr><td>A1</td><td>Environment, imports, versions and seed</td><td>Section 3</td></tr>
+              <tr><td>A2</td><td>Data loading, schema and target mapping</td><td>Section 2</td></tr>
+              <tr><td>A3</td><td>Quality checks and class distribution</td><td>Section 2</td></tr>
+              <tr><td>A4</td><td>Stratified split and leakage-safe preprocessing</td><td>Section 3</td></tr>
+              <tr><td>A5</td><td>Logistic regression training and validation</td><td>Sections 4-5</td></tr>
+              <tr><td>A6</td><td>Random Forest training and validation</td><td>Sections 4-5</td></tr>
+              <tr><td>A7</td><td>Dummy baseline, metrics, confusion matrices, recall CI, McNemar test, cost analysis</td><td>Section 5</td></tr>
+              <tr><td>A8</td><td>Correlation and threshold analysis</td><td>Sections 5-6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </section>
+      <section class="chapter" id="appendix-b-additional-model-outputs" aria-labelledby="h-appendix-b-additional-model-outputs">
+        <div class="chapter-head"><h2 id="h-appendix-b-additional-model-outputs">Appendix B. Additional Model Outputs</h2></div>
+        <div class="chapter-body">
+<p><span class="figure-label">Table B1</span> Threshold sensitivity for logistic regression on the held-out test set.</p>
+        <pre class="code-block block" tabindex="0" aria-label="Table B1 output"><code>threshold 0.30 -&gt; false negatives 1, false positives 1
+threshold 0.40 -&gt; false negatives 2, false positives 1
+threshold 0.50 -&gt; false negatives 3, false positives 1</code></pre>
+        </div>
+      </section>
+      <section class="chapter" id="appendix-c-ai-use-and-academic-integrity-declaration" aria-labelledby="h-appendix-c-ai-use-and-academic-integrity-declaration">
+        <div class="chapter-head"><h2 id="h-appendix-c-ai-use-and-academic-integrity-declaration">Appendix C. AI-Use and Academic Integrity Declaration</h2></div>
+        <div class="chapter-body">
+        <p>Generative AI (Anthropic, 2026) was used in the planning and preparation of this report, and its use is declared here in full. The tool was used as an educational, technical, and visual aid across four key areas: brainstorming initial project topics based on the assignment parameters (leading to the selection of the UCI Breast Cancer dataset), providing foundational guidance on navigating the Jupyter notebook environment, assisting with report structuring based on my own analytical framework, and generating the project workflow diagram (Figure 4) based on my provided information and logic.</p>
+        <p>Its operational role within the codebase was strictly bounded to research support and reviewing my self-authored drafts. The AI was used exclusively to flag syntax mistakes or logical oversights when prompted, suggesting corrections where my initial attempts failed; it did not author the final solution.</p>
+        <p>Verification was entirely my own. The submitted notebook is the one I wrote. All numerical results, model evaluations, threshold adjustments, and figures were generated directly from this self-authored pipeline and verified against the raw dataset. The core analysis, interpretation of the machine learning performance metrics, the underlying framework of the workflow diagram, strategic business recommendations to senior management, and the final narrative of this report are completely my own work and responsibility.</p>
+        </div>
+      </section>
+      <section class="chapter" id="feedback" aria-labelledby="h-feedback">
+        <div class="chapter-head"><h2 id="h-feedback">Feedback</h2></div>
+        <div class="chapter-body">
+        <figure class="pullout block">
+          <blockquote>
+            <p>Your modelling pipeline is implemented rigorously, with correct stratification, leakage-safe preprocessing, cross-validation, cost-weighted error analysis and appropriate statistical testing.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on application of knowledge and understanding (Excellent)</cite></figcaption>
+        </figure>
+        <figure class="pullout block">
+          <blockquote>
+            <p>Your report is very clear, well-organised and professionally presented.</p>
+          </blockquote>
+          <figcaption><cite>Marker’s comment on structure and presentation (Excellent)</cite></figcaption>
+        </figure>
+        <h3>Points for development</h3>
+        <ul>
+          <li>Criticality needs deeper engagement with academic debates and methodological alternatives</li>
+          <li>Literature use is selective and often descriptive. Dataset justification could better address representativeness, bias and clinical transfer limitations</li>
+          <li>Limited exploration of model tuning or alternative algorithms</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-9-smallest-defensible-model.html" rel="prev"><span class="dir">Previous</span><span class="name">The Smallest Defensible Model</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Understanding Artificial Intelligence</a></p>
+</footer>
+</body>
+</html>

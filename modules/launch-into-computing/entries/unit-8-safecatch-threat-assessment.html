@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A threat assessment and mitigation plan for a phishing attack on a cloud-based education business, SafeCatch Academy.">
+<title>Threat Assessment and Mitigation Plan for a Phishing Attack in a Cloud Based Education Business | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Return to the book</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Launch into Computing</a> / <span aria-current="page">SafeCatch threat assessment</span></nav>
+      <p class="page-label">Unit 8 / Security</p>
+    </div>
+    <h1 class="display" id="page-title">Threat Assessment and Mitigation Plan for a Phishing Attack in a Cloud Based Education Business</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">A threat assessment and mitigation plan for a phishing attack, set at SafeCatch Academy, a cloud-based education business.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#introduction-and-business-scenario">Introduction and Business Scenario</a></li>
+        <li><a href="#threat-assessment">Threat Assessment</a></li>
+        <li><a href="#mitigation-plan">Mitigation Plan</a></li>
+        <li><a href="#ethical-and-legal-considerations">Ethical and Legal Considerations</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="introduction-and-business-scenario" aria-labelledby="h-introduction-and-business-scenario">
+        <div class="chapter-head"><h2 id="h-introduction-and-business-scenario">Introduction and Business Scenario</h2></div>
+        <div class="chapter-body">
+        <p>When a SafeCatch Academy employee clicked a link in what appeared to be a routine IT communication and submitted credentials to a convincing replica login page, no firewall flagged the action and no intrusion detection system triggered an alert. The attacker gained access to cloud based systems storing student enrolment records, employee data, and course materials because the defences in place were looking in the wrong direction. Phishing through credential theft is not an edge case; it is consistently among the most reported initial access methods across cloud environments, and the conditions here are the same ones that appear in incident after incident (Verizon, 2025). Walton (2024) identifies the reason: information security fails not because the technology is absent but because the human behaviour, workplace habits, and organisational conditions surrounding it are treated as secondary concerns until something goes wrong.</p>
+        </div>
+      </section>
+      <section class="chapter" id="threat-assessment" aria-labelledby="h-threat-assessment">
+        <div class="chapter-head"><h2 id="h-threat-assessment">Threat Assessment</h2></div>
+        <div class="chapter-body">
+        <p>The primary threat is phishing, a social engineering technique in which fraudulent communications impersonate a trusted source to obtain sensitive credentials. The delivery mechanism is credential harvesting through a fake login page, constructed to exploit urgency and override the employee’s judgement before closer scrutiny becomes likely. Cilluffo (2022) argues that cloud infrastructure expansion routinely outpaces the governance frameworks meant to contain it, and this scenario is precisely that gap made visible: the systems grew, the policies did not keep up, and the attacker walked through the space between them.</p>
+        <p>The scenario exposes one primary threat and four key organisational vulnerabilities. Password reuse across accounts means a single compromised login opens systems well beyond the one first targeted. The absence of multi factor authentication removes the one control that would have stopped the session from being established at all. Weak access controls, with no least privilege model in place, allow the compromised account to reach data far beyond its role. A culture of delayed reporting then extends the window of exposure, compounding reputational, regulatory, and operational consequences.</p>
+        </div>
+      </section>
+      <section class="chapter" id="mitigation-plan" aria-labelledby="h-mitigation-plan">
+        <div class="chapter-head"><h2 id="h-mitigation-plan">Mitigation Plan</h2></div>
+        <div class="chapter-body">
+        <p>The NCSC (2024) is explicit on this point: credential based authentication alone is no longer sufficient for cloud environments, because stolen passwords without a second factor are enough to establish a full session. Multi factor authentication therefore becomes the first and most direct response to what happened here. Firewalls and intrusion detection systems detect the anomalous access patterns that follow a credential compromise, providing the visibility needed to contain damage before it spreads. Access controls restructured on a least privilege model reduce the impact of any future compromise by limiting what a single account can reach across the organisation’s systems. Encryption is a distinct and required protection layer: data at rest in cloud systems should be secured using established symmetric standards, and data in transit must be protected through TLS protocols, ensuring that access to storage or network traffic does not automatically yield readable content even if obtained without authorisation (Walton, 2024). GDPR does not simply require compliance; it requires SafeCatch Academy to demonstrate that personal data is protected through deliberate technical and organisational choices, and to notify the supervisory authority within seventy two hours when those choices have not been enough (European Union, 2016). ISO/IEC 27001 is the practical structure that makes meeting that standard possible, providing a framework for identifying risk, assigning controls, and reviewing whether security practice is actually working over time (ISO, 2022).</p>
+        <p>Those technical controls address the attack once it is underway; an employee with no training on phishing indicators and no safe route to report a mistake is a different kind of vulnerability, and it requires a different kind of response. Regular training on the manipulation of urgency and mismatched URLs reduces the likelihood of the initial credential submission that made this attack possible. An incident response procedure matters not because it is good practice but because its absence means the gap between compromise and containment is decided by confusion rather than preparation. A blameless reporting culture supports both, and it is the hardest of these measures to build and the easiest to lose.</p>
+        </div>
+      </section>
+      <section class="chapter" id="ethical-and-legal-considerations" aria-labelledby="h-ethical-and-legal-considerations">
+        <div class="chapter-head"><h2 id="h-ethical-and-legal-considerations">Ethical and Legal Considerations</h2></div>
+        <div class="chapter-body">
+        <p>The legal obligations under GDPR and ISO/IEC 27001 establish what SafeCatch Academy must do; the ethical obligations establish what it owes. The employee who entered credentials into a fake page did not fail a security test; the organisation failed to prepare that person, failed to provide a second authentication factor, and failed to create conditions where reporting a mistake felt safe. That is what Walton (2024) means when he argues that accountability in data management must rest with the institution rather than the individual: not as an abstract principle, but as a concrete description of where the failure actually occurred. An organisation that meets only its minimum legal requirements while the human conditions for failure remain in place has satisfied the letter of its obligations, not the substance of them.</p>
+        <p>Phishing is a manageable threat. What managing it actually requires is an organisation prepared to treat its human and technical vulnerabilities as equally serious, and equally its own.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Cilluffo, F. (2022) Cloud computing risks and national security: keeping pace with expanding technology. Center for Cyber and Homeland Security, Auburn University.</li>
+          <li>European Union (2016) Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data (General Data Protection Regulation). Available at: <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" rel="noopener">https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng</a> (Accessed: 15 March 2026).</li>
+          <li>ISO (2022) ISO/IEC 27001:2022 information security, cybersecurity and privacy protection — information security management systems — requirements. Available at: <a href="https://www.iso.org/standard/27001" rel="noopener">https://www.iso.org/standard/27001</a> (Accessed: 15 March 2026).</li>
+          <li>National Cyber Security Centre (2024) Phishing attacks: defending your organisation. Available at: <a href="https://www.ncsc.gov.uk/guidance/phishing" rel="noopener">https://www.ncsc.gov.uk/guidance/phishing</a> (Accessed: 15 March 2026).</li>
+          <li>Verizon (2025) 2025 Data Breach Investigations Report. Available at: <a href="https://www.verizon.com/business/resources/reports/dbir/" rel="noopener">https://www.verizon.com/business/resources/reports/dbir/</a> (Accessed: 15 March 2026).</li>
+          <li>Walton, D.J. (2024) Culturally responsive computing: an introduction into computer science, security, and technology. ROTEL. Available at: <a href="https://open.umn.edu/opentextbooks/textbooks/1720" rel="noopener">https://open.umn.edu/opentextbooks/textbooks/1720</a> (Accessed: 15 March 2026).</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-6-nasdaq-prediction.html" rel="prev"><span class="dir">Previous</span><span class="name">NASDAQ prediction</span></a>
+    <a class="next" href="unit-9-disaster-recovery-plan.html" rel="next"><span class="dir">Next</span><span class="name">Disaster recovery plan</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Launch into Computing</a></p>
+</footer>
+</body>
+</html>
