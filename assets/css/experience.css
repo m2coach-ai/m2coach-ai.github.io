@@ -77,3 +77,12 @@ a.module-link:hover strong{color:var(--cyan)}
   .module-artefacts{display:none}
   body.experience .site-header{background:rgba(18,13,9,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
 }
+@media(max-width:700px){
+  #portfolio .scene-copy{padding:.75rem .85rem}
+  #portfolio .eyebrow{font-size:.85rem;margin-bottom:.2rem}
+  #portfolio h2{font-size:1.25rem;margin:0 0 .5rem}
+  #portfolio .module-list{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-top:.4rem}
+  #portfolio .module-link{grid-template-columns:auto 1fr;gap:.45rem;align-items:center;padding:.5rem .6rem;border:1px solid var(--line);border-radius:.5rem;min-height:3.2rem}
+  #portfolio .module-link strong{font-size:.9rem;line-height:1.15}
+  #portfolio .module-link span:last-child{display:none}
+}
