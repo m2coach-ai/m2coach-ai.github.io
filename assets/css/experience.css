@@ -73,3 +73,7 @@ a.module-link:hover strong{color:var(--cyan)}
 .module-artefacts a{color:#e7dfcf;text-decoration:underline;text-decoration-color:rgba(231,223,207,.35);text-underline-offset:.15em}
 .module-artefacts a:hover,.module-artefacts a:focus-visible{color:var(--cyan)}
 .module-artefacts .soon{color:var(--muted);font-size:.8rem}
+@media(max-width:700px){
+  .module-artefacts{display:none}
+  body.experience .site-header{background:rgba(18,13,9,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+}
