@@ -206,7 +206,7 @@ function coverCanvas() {
     fgc.fillRect(TW / 2 - 60, 730, 120, 3);
     fgc.font = '400 52px Newsreader, Georgia, serif'; fgc.fillText('Mark Martin', TW / 2, 830);
     fgc.font = 'italic 400 36px Newsreader, Georgia, serif';
-    fgc.fillText('MSc Computer Science (Artificial Intelligence)', TW / 2, H - 220);
+    fgc.fillText('MSc Artificial Intelligence', TW / 2, H - 220);
     fgc.fillText('University of Essex', TW / 2, H - 170);
   };
   // the stamp presses the letters slightly into the leather
