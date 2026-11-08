@@ -83,7 +83,9 @@
       links.forEach(function (a) { var el = document.getElementById(a.getAttribute('href').slice(1)); if (el) spy.observe(el); });
     }
 
-    // 2. Evidence blocks (.block) reveal once as they scroll into view, only when motion is welcome.
+    // 2. Evidence blocks used to fade in on scroll. Turned off so quotes, figures and tables are always visible
+    //    (screenshots, printing and fast scrolling caught them blank). The code below is kept but never runs.
+    return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var blocks = Array.prototype.slice.call(document.querySelectorAll('.block'));
     if (!blocks.length) return;
