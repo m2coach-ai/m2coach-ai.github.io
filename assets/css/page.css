@@ -1,25 +1,26 @@
-/* Inner pages: a page of the journal, made readable.
-   One shared system for every page except the landing experience and the 404.
-   Same paper, ink and ink-blue as the pages on the desk; a restrained dark desk-toned header; a faint spine shade.
+/* Inner pages. One shared system for every page except the landing page (question.css).
+   The colours come from the site's question, "It ran. Can it be trusted?", and from how work gets marked:
+     paper and ink   the work as submitted, unmarked
+     red             what is wrong, or in doubt
+     blue            what has been checked: links, evidence, anything a reader can follow up
+   Colour is never the only signal: red and blue always sit beside words that say what they mean.
    Structure (see modules/numerical-analysis/index.html for the reference markup):
-     body.page > .skip-link, .site-header, main > .opening, .sheet > (.rail?) + .chapters > .chapter(s), .pagenav, footer
-   Optional modifier: body.page--bands gives chapters a flat ink-blue band instead of a rule (used on module hubs). */
+     body.page > .skip-link, .site-header, main > .opening, .sheet > (.rail?) + .chapters > .chapter(s), .pagenav, footer */
 
 :root {
-  /* paper and ink: the same values the pages on the desk are drawn with (assets/js/experience.js) */
-  --paper: #f0ebdf;
-  --ink: #2a2620;
-  --ink-body: #3b352d;
-  --ink-muted: #6b6358;
-  --accent: #1f3556;          /* deep navy ink */
-  --accent-deep: #132238;
-  --signal: #8a3b2a;          /* oxide: difficulty or mistake only */
-  /* the desk */
-  --desk: #120d09;
-  --desk-ink: #f1eadc;
-  --lamp: #e0b46e;
+  --paper: #f5f6f8;           /* cool white: a printed sheet, not parchment */
+  --ink: #15171c;
+  --ink-body: #2b2f38;
+  --ink-muted: #5b616e;
+  --accent: #1b3fb5;          /* blue: checked, and every link */
+  --accent-deep: #122c85;
+  --signal: #b3261a;          /* red: wrong or in doubt. Used only for that */
+  /* the dark frame: header strip and module page openings. Names kept from the earlier design so every rule still resolves */
+  --desk: #15171c;
+  --desk-ink: #f5f6f8;
+  --lamp: #a9bcff;            /* blue as it reads on the dark frame */
   /* structure */
-  --line: rgba(42, 38, 32, .18);
+  --line: rgba(21, 23, 28, .16);
   --serif: Newsreader, Georgia, serif;
   --sans: Inter, Arial, sans-serif;
   --measure: 52ch;            /* about 70 characters of running Inter per line */
@@ -36,16 +37,6 @@ html { background: var(--paper); -webkit-text-size-adjust: 100%; }
 body.page {
   margin: 0; color: var(--ink); font: 400 1rem/1.65 var(--sans); overflow-wrap: break-word;
   background-color: var(--paper);
-  /* a faint spine shade at the left edge and paper grain, as on the book's pages */
-  background-image:
-    radial-gradient(ellipse 75% 60% at 28% 16%, rgba(255, 246, 220, .45), rgba(255, 242, 212, .16) 45%, rgba(255, 240, 205, 0) 75%),
-    linear-gradient(rgba(255, 215, 160, .05), rgba(255, 215, 160, .05)),
-    radial-gradient(ellipse 130% 105% at 50% 45%, rgba(90, 65, 40, 0) 45%, rgba(90, 65, 40, .22) 100%),
-    linear-gradient(90deg, rgba(60, 38, 15, .22), rgba(60, 38, 15, 0) 110px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  box-shadow: inset -14px 0 22px -18px rgba(60, 38, 15, .35);
-  /* the lamp light and the shade at the corners stay put while the text scrolls, like light on a page */
-  background-attachment: fixed, fixed, fixed, scroll, scroll;
 }
 .page img, .page svg { max-width: 100%; display: block; }
 .page a { color: var(--accent); text-underline-offset: .24em; text-decoration-thickness: 1px; }
@@ -61,10 +52,10 @@ body.page {
 .site-header {
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .6rem 1rem;
   padding: .85rem clamp(1rem, 4vw, 4rem); background: var(--desk); color: var(--desk-ink);
-  box-shadow: 0 8px 22px rgba(18, 13, 9, .22);
+  box-shadow: 0 8px 22px rgba(21, 23, 28, .22);
 }
 .page .brand { display: inline-flex; align-items: center; gap: .6em; min-height: 2.8rem; text-decoration: none; font: 500 1.15rem/1 var(--serif); color: var(--desk-ink); }
-.brand::before { content: ""; flex: none; width: .5em; height: .85em; background: var(--lamp); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%); }
+.brand::before { content: ""; flex: none; width: .55em; height: .55em; border-radius: 50%; background: #e5402f; }
 .site-header a:hover { color: var(--lamp); }
 .site-header :focus-visible { outline-color: var(--lamp); }
 .site-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
@@ -74,7 +65,7 @@ body.page {
   transition: background-color .2s, color .2s, border-color .2s;
 }
 .page .pill:hover { background: var(--accent); color: var(--paper); }
-.site-header .pill { border-color: rgba(241, 234, 220, .45); color: var(--desk-ink); }
+.site-header .pill { border-color: rgba(245, 246, 248, .45); color: var(--desk-ink); }
 .page .site-header .pill:hover { background: var(--lamp); border-color: var(--lamp); color: var(--desk); }
 .site-header .pill[aria-current="page"] { border-color: var(--lamp); color: var(--lamp); }
 .page .site-header .pill[aria-current="page"]:hover { color: var(--desk); }
@@ -115,14 +106,8 @@ body.page {
 .chapter { scroll-margin-top: 1rem; }
 .chapter-head { margin-top: 2.25rem; padding-top: 1.1rem; border-top: 3px solid var(--accent); width: 8.75rem; }
 .chapter-head h2 { width: max-content; max-width: calc(100vw - 3rem); margin: 0; padding-top: .1rem; font: 500 clamp(1.7rem, 3.4vw, 2.3rem) / 1.1 var(--serif); letter-spacing: -.01em; text-wrap: balance; color: var(--ink); }
-.page--bands .chapter-head { position: relative; isolation: isolate; width: fit-content; max-width: 100%; margin-top: 2.25rem; padding: .8rem 3.4rem .8rem 1.4rem; border: 0; background: none; filter: drop-shadow(0 3px 3px rgba(20, 12, 4, .28)); }
-/* a ribbon: a deep navy strip with a swallowtail end, hanging a little past the page edge with a folded back */
-.page--bands .chapter-head::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #274470 0%, #1f3556 45%, #172a47 100%); clip-path: polygon(0 0, 100% 0, calc(100% - 1.1rem) 50%, 100% 100%, 0 100%); }
-.page--bands .chapter-head h2 { width: auto; max-width: none; padding: 0; font-size: clamp(1.5rem, 3.2vw, 2.15rem); line-height: 1.1; color: #f6efe0; }
-@media (min-width: 48rem) {
-  .page--bands .chapter-head { margin-left: -.8rem; padding-left: 2.2rem; }
-  .page--bands .chapter-head::after { content: ""; position: absolute; left: 0; top: 100%; width: .8rem; height: .6rem; background: #0e1a2e; clip-path: polygon(0 0, 100% 0, 100% 100%); }
-}
+.page--bands .chapter-head { width: fit-content; max-width: 100%; margin-top: 2.25rem; padding: .6rem 1.2rem .65rem; border: 0; background: var(--ink); }
+.page--bands .chapter-head h2 { width: auto; max-width: none; padding: 0; font-size: clamp(1.5rem, 3.2vw, 2.15rem); line-height: 1.1; color: var(--paper); }
 .chapter-body { padding: 1.4rem var(--gutter) clamp(1.2rem, 3vw, 2rem); }
 .page--bands .chapter-body { padding-top: clamp(1.2rem, 3vw, 1.8rem); }
 .chapter-body > * { max-width: var(--measure); }
@@ -132,30 +117,30 @@ body.page {
 .chapter-body :is(ul, ol):not(.cards) { padding-left: 1.3rem; margin-bottom: 0; }
 .chapter-body :is(ul, ol):not(.cards) li + li { margin-top: .55rem; }
 .chapter h3 { font: 500 1.3rem / 1.2 var(--serif); margin: 0 0 .5rem; color: var(--ink); text-wrap: balance; }
-.page code { font: .92em / 1 Consolas, monospace; background: rgba(42, 38, 32, .07); padding: .1em .35em; border-radius: 3px; }
+.page code { font: .92em / 1 Consolas, monospace; background: rgba(21, 23, 28, .07); padding: .1em .35em; border-radius: 3px; }
 
 /* A note that comes before the first section (placeholder pages) */
 .chapter-lead { padding: 1.6rem var(--gutter) 0; }
 .chapter-lead > * { max-width: var(--measure); }
 
 /* Notes: placeholders, checkpoints and requirements stay visible and plainly marked */
-.note { padding: 1rem 1.25rem; border: 1px solid rgba(40, 70, 106, .35); border-radius: 3px; background: rgba(40, 70, 106, .06); color: var(--ink-body); }
+.note { padding: 1rem 1.25rem; border: 1px solid rgba(27, 63, 181, .35); border-radius: 3px; background: rgba(27, 63, 181, .06); color: var(--ink-body); }
 .note strong { color: var(--ink); }
 
 /* Difficulty or mistake: the one use of the signal colour */
-.difficulty { padding: 1rem 1.25rem; border: 1px solid rgba(138, 59, 42, .45); border-radius: 3px; background: rgba(138, 59, 42, .06); }
+.difficulty { padding: 1rem 1.25rem; border: 1px solid rgba(179, 38, 26, .45); border-radius: 3px; background: rgba(179, 38, 26, .06); }
 .difficulty p { margin: 0; }
 
 /* Evidence: code and data keep their own widths and scroll inside themselves, never the page */
 .block { min-width: 0; }
-.code-block { margin: 0; overflow: auto; border: 1px solid var(--line); border-radius: .5rem; padding: 1rem 1.1rem; background: #1d1711; color: #efe6d4; font: 14px / 1.55 Consolas, monospace; }
+.code-block { margin: 0; overflow: auto; border: 1px solid var(--line); border-radius: .5rem; padding: 1rem 1.1rem; background: #15171c; color: #e9ecf3; font: 14px / 1.55 Consolas, monospace; }
 .page .code-block code { background: none; padding: 0; font: inherit; }
 .table-wrap {
-  overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background-color: rgba(255, 255, 255, .3);
+  overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background-color: #fff;
   /* edge shadows appear only on the side that has more to scroll to, so a scrollable table is visibly scrollable */
   background-image:
-    linear-gradient(to right, #f3eee1, rgba(243, 238, 225, 0)), linear-gradient(to left, #f3eee1, rgba(243, 238, 225, 0)),
-    radial-gradient(farthest-side at 0 50%, rgba(42, 38, 32, .28), rgba(42, 38, 32, 0)), radial-gradient(farthest-side at 100% 50%, rgba(42, 38, 32, .28), rgba(42, 38, 32, 0));
+    linear-gradient(to right, #f5f6f8, rgba(245, 246, 248, 0)), linear-gradient(to left, #f5f6f8, rgba(245, 246, 248, 0)),
+    radial-gradient(farthest-side at 0 50%, rgba(21, 23, 28, .28), rgba(21, 23, 28, 0)), radial-gradient(farthest-side at 100% 50%, rgba(21, 23, 28, .28), rgba(21, 23, 28, 0));
   background-position: 0 0, 100% 0, 0 0, 100% 0; background-size: 2.2rem 100%, 2.2rem 100%, .9rem 100%, .9rem 100%;
   background-repeat: no-repeat; background-attachment: local, local, scroll, scroll;
 }
@@ -170,7 +155,7 @@ body.page {
 .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .cards .card:last-child { grid-column: 1 / -1; }
 @media (min-width: 62rem) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cards .card:last-child { grid-column: auto; } }
-.card { position: relative; padding: 1.4rem; border: 1px solid var(--line); border-radius: .5rem; background: rgba(255, 255, 255, .32); box-shadow: 0 1px 0 rgba(42, 38, 32, .08); transition: border-color .2s; }
+.card { position: relative; padding: 1.4rem; border: 1px solid var(--line); border-radius: .5rem; background: #fff; box-shadow: 0 1px 0 rgba(21, 23, 28, .08); transition: border-color .2s; }
 .card:hover, .card:focus-within { border-color: var(--accent); }
 .card-lead { grid-column: 1 / -1 !important; padding: clamp(1.4rem, 3vw, 2rem); }
 .card-lead h3 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
@@ -189,7 +174,7 @@ body.page {
 
 /* 1. Official learning-outcome cards ------------------------------------------------------------ */
 .outcomes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; }
-.outcome { display: flex; flex-direction: column; padding: 1.2rem 1.3rem; border: 1px solid var(--line); border-radius: .5rem; background: rgba(255, 255, 255, .32); box-shadow: 0 1px 0 rgba(42, 38, 32, .08); }
+.outcome { display: flex; flex-direction: column; padding: 1.2rem 1.3rem; border: 1px solid var(--line); border-radius: .5rem; background: #fff; box-shadow: 0 1px 0 rgba(21, 23, 28, .08); }
 .outcome-ref { margin: 0 0 .5rem; font: italic 400 1.05rem / 1.2 var(--serif); color: var(--ink-muted); }
 .outcome-text { margin: 0; font: 500 1.2rem / 1.45 var(--serif); color: var(--ink); }
 .outcome-evidence { margin-top: auto; padding-top: .9rem; border-top: 1px solid var(--line); }
@@ -224,7 +209,7 @@ body.page {
 
 /* 5. Captioned full-width figures ---------------------------------------------------------------- */
 .figure { margin: 0; }
-.figure img, .figure svg { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 3px; background: rgba(255, 255, 255, .3); }
+.figure img, .figure svg { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
 .figure figcaption { margin-top: .7rem; font-size: .9rem; color: var(--ink-muted); max-width: var(--measure); }
 .figure-label { font-weight: 600; color: var(--ink); }
 .figure-text { margin-top: .6rem; max-width: var(--measure); }
@@ -295,7 +280,6 @@ body.page {
   .site-header { padding: .7rem 1rem; }
   .page .brand { font-size: 1rem; }
   .opening, .sheet, .pagenav, .page > footer { width: calc(100% - 1rem); }
-  .page--bands .chapter-head { padding-left: .9rem; padding-right: .9rem; }
   .pagenav { flex-direction: column; }
   .pagenav .next { margin-left: 0; text-align: left; }
 }
@@ -323,10 +307,10 @@ body.page {
 .pill-menu > summary::-webkit-details-marker { display: none; }
 .pill-menu > summary::after { content: ""; width: .4em; height: .4em; margin: -.2em 0 0 .55em; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
 .pill-menu[open] > summary::after { margin-top: .15em; transform: rotate(-135deg); }
-.pill-menu ul { position: absolute; right: 0; top: calc(100% + .4rem); z-index: 60; min-width: 17rem; max-width: calc(100vw - 2rem); margin: 0; padding: .35rem; list-style: none; background: var(--desk, #17110c); border: 1px solid rgba(241, 234, 220, .35); border-radius: .7rem; box-shadow: 0 14px 36px rgba(0, 0, 0, .4); }
-.pill-menu li a { display: block; padding: .6rem .8rem; border-radius: .45rem; color: var(--desk-ink, #f1eadc); text-decoration: none; font-size: .95rem; line-height: 1.3; }
-.pill-menu li a:hover, .pill-menu li a:focus-visible { background: rgba(241, 234, 220, .12); color: var(--lamp, #e8b867); }
-.pill-menu li a[aria-current="page"] { color: var(--lamp, #e8b867); font-weight: 600; }
+.pill-menu ul { position: absolute; right: 0; top: calc(100% + .4rem); z-index: 60; min-width: 17rem; max-width: calc(100vw - 2rem); margin: 0; padding: .35rem; list-style: none; background: var(--desk); border: 1px solid rgba(245, 246, 248, .35); border-radius: .7rem; box-shadow: 0 14px 36px rgba(0, 0, 0, .4); }
+.pill-menu li a { display: block; padding: .6rem .8rem; border-radius: .45rem; color: var(--desk-ink, #f5f6f8); text-decoration: none; font-size: .95rem; line-height: 1.3; }
+.pill-menu li a:hover, .pill-menu li a:focus-visible { background: rgba(245, 246, 248, .12); color: var(--lamp); }
+.pill-menu li a[aria-current="page"] { color: var(--lamp); font-weight: 600; }
 @media (max-width: 48rem) {
   .site-header { position: relative; }
   .pill-menu { position: static; }
@@ -346,45 +330,29 @@ body.page {
 .status--ongoing { color: var(--ink-muted); }
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* Desk opening (module hubs and the Learning Loop, body.page--desk): the title sits on the lamp-lit desk from the
-   landing page, then the paper begins. One still image, no script. Text keeps a dark scrim behind it. */
+/* Module page opening (body.page--desk: module pages and the Learning Loop). A full-width ink band, so the title
+   reads as the top of a document. No image. */
 .page--desk .opening {
-  position: relative; isolation: isolate; width: auto; margin: 0;
+  width: auto; margin: 0;
   padding-left: calc(max(1rem, (100% - var(--page-width)) / 2) + var(--gutter)); padding-right: calc(max(1rem, (100% - var(--page-width)) / 2) + var(--gutter));
-  padding-top: clamp(2.5rem, 7vw, 5.5rem); padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
-  background: var(--desk); color: var(--desk-ink); box-shadow: 0 14px 30px rgba(18, 13, 9, .35);
+  padding-top: clamp(2.5rem, 7vw, 5rem); padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  background: var(--desk); color: var(--desk-ink);
 }
-.page--desk .opening::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(18, 13, 9, .93) 0%, rgba(18, 13, 9, .8) 38%, rgba(18, 13, 9, .28) 72%, rgba(18, 13, 9, .12) 100%),
-    linear-gradient(180deg, rgba(18, 13, 9, 0) 70%, rgba(18, 13, 9, .55) 100%),
-    url("../img/desk-poster.webp") 60% 58% / cover no-repeat;
-}
-.page--desk .opening .display { color: var(--desk-ink); text-shadow: 0 2px 18px rgba(0, 0, 0, .55); }
-.page--desk .opening .lede { color: #e6dccb; text-shadow: 0 1px 10px rgba(0, 0, 0, .6); }
-.page--desk .opening .opening-rule { background: var(--lamp); }
-.page--desk .opening .crumbs, .page--desk .opening .page-label, .page--desk .opening .breadcrumbs [aria-current="page"] { color: #cfc3ad; }
-.page--desk .opening .page-label { border-left-color: rgba(241, 234, 220, .3); }
+.page--desk .opening .display { color: var(--desk-ink); }
+.page--desk .opening .lede { color: #dfe2ea; }
+.page--desk .opening .opening-rule { background: #e5402f; }
+.page--desk .opening .crumbs, .page--desk .opening .page-label, .page--desk .opening .breadcrumbs [aria-current="page"] { color: #b8bdc9; }
+.page--desk .opening .page-label { border-left-color: rgba(245, 246, 248, .3); }
 .page--desk .opening a:not(.pill) { color: var(--lamp); }
 .page--desk .opening a:not(.pill):hover { color: var(--desk-ink); }
 .page--desk .opening :focus-visible { outline-color: var(--lamp); }
-.page--desk .opening .pill-solid { background: var(--lamp); border-color: var(--lamp); color: var(--desk); font-weight: 600; }
-.page--desk .opening .pill-solid:hover { background: var(--desk-ink); border-color: var(--desk-ink); color: var(--desk); }
+.page--desk .opening .pill-solid { background: var(--desk-ink); border-color: var(--desk-ink); color: var(--desk); font-weight: 600; }
+.page--desk .opening .pill-solid:hover { background: var(--lamp); border-color: var(--lamp); color: var(--desk); }
 .page--desk .sheet { border-top: 0; }
-@media (max-width: 48rem) {
-  .page--desk .opening { width: auto; }
-  /* a taller crop on narrow screens, so the picture stays on the desk and the book */
-  .page--desk .opening::before {
-    background:
-      linear-gradient(180deg, rgba(18, 13, 9, .86) 0%, rgba(18, 13, 9, .7) 60%, rgba(18, 13, 9, .5) 100%),
-      url("../img/desk-poster.webp") 38% 35% / auto 165% no-repeat;
-  }
-}
+.page--desk .site-header { box-shadow: none; border-bottom: 1px solid rgba(245, 246, 248, .14); }
 @media print {
-  .page--desk .opening { background: none; color: inherit; box-shadow: none; }
-  .page--desk .opening::before { display: none; }
-  .page--desk .opening .display, .page--desk .opening .lede { color: inherit; text-shadow: none; }
+  .page--desk .opening { background: none; color: inherit; }
+  .page--desk .opening .display, .page--desk .opening .lede { color: inherit; }
 }
 
 /* A thread: a passage in my own words with the page it rests on named underneath */
@@ -392,9 +360,9 @@ body.page {
 .thread > p { margin: 0; font: 400 clamp(1.12rem, 2vw, 1.3rem) / 1.5 var(--serif); color: var(--ink); }
 .thread > .source-line { margin-top: .55rem; padding-top: .5rem; border-top: 1px solid var(--line); font: 400 .9rem / 1.5 var(--sans); color: var(--ink-muted); }
 
-/* Evidence note: a margin note in the book's hand that says where the proof for a passage is. It is an aside, so
+/* Evidence note: a marginal note that says where the proof for a passage is. It is an aside, so
    it is never read as part of the passage itself. On wide screens it hangs in the right margin beside the text. */
-.evidence-note { position: relative; max-width: var(--measure); padding: .9rem 1.1rem .95rem; border: 1px solid rgba(185, 138, 69, .5); background: rgba(224, 180, 110, .13); border-radius: .4rem; }
+.evidence-note { position: relative; max-width: var(--measure); padding: .9rem 1.1rem .95rem; border: 1px solid rgba(27, 63, 181, .35); background: rgba(27, 63, 181, .06); border-radius: .4rem; }
 .evidence-note-label { margin: 0 0 .4rem; font: italic 500 1.1rem / 1.2 var(--serif); color: var(--accent-deep); }
 .chapter-body .evidence-note ul { list-style: none; margin: 0; padding: 0; }
 .chapter-body .evidence-note li { font-size: .92rem; line-height: 1.5; color: var(--ink-body); }
@@ -404,14 +372,14 @@ body.page {
   .chapter-body:has(> .evidence-note) { display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(15rem, 20rem); column-gap: 2.2rem; align-items: start; }
   .chapter-body:has(> .evidence-note) > * { grid-column: 1; margin-top: 0; }
   .chapter-body:has(> .evidence-note) > * + * { margin-top: 1.4rem; }
-  .chapter-body:has(> .evidence-note) > .evidence-note { grid-column: 2; grid-row: 1 / span 6; margin-top: 0; transform: rotate(.35deg); box-shadow: 0 2px 10px rgba(42, 38, 32, .1); }
+  .chapter-body:has(> .evidence-note) > .evidence-note { grid-column: 2; grid-row: 1 / span 6; margin-top: 0; }
 }
 
 /* Paged reading (opt-in with <body data-paged>; page.js adds .paged to <html> only when it runs).
    One section is one page of the book. Without the script, in print, and after "Show everything on one page",
    this is the ordinary long page. */
 .leafnav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .75rem 1rem; margin: 1.5rem var(--gutter) 0; padding: 1.1rem 0 .5rem; border-top: 1px solid var(--line); }
-.leaf-turn { display: inline-flex; flex-direction: column; gap: .15rem; min-height: 2.8rem; padding: .6rem 1rem; border: 1px solid var(--accent); border-radius: .5rem; background: rgba(255, 255, 255, .32); color: var(--accent-deep); font: inherit; text-align: left; cursor: pointer; transition: background-color .2s, color .2s, transform .2s var(--ease-out); }
+.leaf-turn { display: inline-flex; flex-direction: column; gap: .15rem; min-height: 2.8rem; padding: .6rem 1rem; border: 1px solid var(--accent); border-radius: .5rem; background: #fff; color: var(--accent-deep); font: inherit; text-align: left; cursor: pointer; transition: background-color .2s, color .2s, transform .2s var(--ease-out); }
 .leaf-turn .dir { font-size: .8rem; color: var(--ink-muted); }
 .leaf-turn .name { font: 500 1.1rem / 1.2 var(--serif); }
 .leaf-prev { grid-column: 1; justify-self: start; }
@@ -425,8 +393,8 @@ body.page {
 .leaf-all:hover { color: var(--accent-deep); }
 .leafnav [hidden] { display: none; }
 /* The bookmark: a ribbon across the top of the leaf that grows as the pages are turned */
-.leaf-mark { height: 5px; margin: 0 var(--gutter); background: rgba(42, 38, 32, .1); border-radius: 0 0 3px 3px; overflow: hidden; }
-.leaf-mark span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #b98a45, var(--lamp)); transition: width .5s var(--ease-out); }
+.leaf-mark { height: 5px; margin: 0 var(--gutter); background: rgba(21, 23, 28, .1); border-radius: 0 0 3px 3px; overflow: hidden; }
+.leaf-mark span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .5s var(--ease-out); }
 .leaf-mark[hidden] { display: none; }
 .paged .chapters > .chapter:not(.is-current) { display: none; }
 .paged .chapters { perspective: 1800px; }

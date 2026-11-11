@@ -76,6 +76,28 @@ components:
 
 # Design System: Mark Martin E-portfolio
 
+> **Superseded in part (11 Nov 2026).** The site's landing page is now built on one question, "It ran. Can it be
+> trusted?", and the desk-and-book world described below is no longer the site's identity. Colour and the frame
+> have been replaced. Until this document is rewritten from the finished build, the block below is the authority
+> for colour, and `assets/css/page.css` and `assets/css/question.css` are the authority for everything else.
+> Anything below that describes the desk, the lamp, the book, cream paper, lamp gold or navy is historical.
+>
+> **Colour: where it comes from.** The question, and how work gets marked.
+>
+> | Role | Value | Used for |
+> |---|---|---|
+> | Paper | `#f5f6f8` | The page. A printed sheet, cool white, not parchment |
+> | Sheet | `#ffffff` | Cards, tables and demonstration panels on the paper |
+> | Ink | `#15171c` | Text, the header strip, section labels, module page openings |
+> | Ink body / muted | `#2b2f38` / `#5b616e` | Running text / secondary text |
+> | Red | `#b3261a` (deep `#8f1c12`, wash `#fbe9e6`) | Wrong, or in doubt. The landing hero is a field of it. Nowhere else |
+> | Blue | `#1b3fb5` (deep `#122c85`, wash `#e8edfb`, on ink `#a9bcff`) | Checked. Every link, evidence notes, the page-progress bar, the "Two ways in" field |
+>
+> **Rules.** Red and blue each mean one thing and are never decoration. Neither is ever the only signal: each sits
+> beside words that say what it means. No photograph, texture or gradient stands behind text. Type is unchanged:
+> Newsreader for headings and quotations, Inter for running text.
+
+
 ## Overview
 
 **Creative North Star: "The Record Book"**
