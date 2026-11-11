@@ -1,32 +1,26 @@
 # Mark Martin E-portfolio
 
-A static postgraduate computing and artificial intelligence e-portfolio built for GitHub Pages.
-
-## Publish
-
-1. Upload all files and folders to the repository root.
-2. In GitHub, open **Settings > Pages**.
-3. Set **Source** to **Deploy from a branch**.
-4. Select **main** and **/(root)**, then save.
-5. The project site should appear at `https://m2coach-ai.github.io/markmartin.github.io/`.
+A static postgraduate computing and artificial intelligence e-portfolio, published with GitHub Pages at https://m2coach-ai.github.io/ from the `main` branch.
 
 ## Structure
 
-- `index.html`: immersive landing page
+- `index.html`: landing page. One question, "It ran. Can it be trusted?", and one scene per module
+- `mark/`: every learning outcome with its evidence. Generated from the module pages; do not edit by hand
 - `about/`: About Me
-- `modules/`: module hubs, entries and evidence
+- `modules/`: one folder per module, with the module page, artefact pages (`entries/`) and downloadable files (`files/`)
 - `learning-loop/`: programme synthesis
-- `assets/`: shared styles, scripts and visual assets
+- `assets/css/question.css`, `assets/js/question.js`, `assets/js/demos/`: the landing page and its demonstrations
+- `assets/css/page.css`, `assets/js/page.js`: every other page
 
-## Important content gaps
+## Rules
 
-The current build intentionally does not invent academic evidence. Before submission, add official module learning outcomes, final About Me content, peer or tutor feedback, and engaged academic literature.
+- Nothing is invented. Learning outcomes, submitted work and feedback are reproduced word for word.
+- Content that does not exist yet is left out. No page says that something is still to be added.
+- Classmates are never named, and their posts are not published.
+- Results are shown as classifications, not percentages.
 
-## Technical notes
+## Notes
 
-The landing page loads Three.js from jsDelivr and draws a desk scene: a record book under a lamp that opens and turns one page per section as the visitor scrolls (`assets/js/experience.js`). The page artwork is drawn in code, so chapter text on the pages comes from that file. If WebGL or the network request fails, or the visitor prefers reduced motion, the static poster (`assets/img/desk-poster.webp`) stays visible and all navigation and assessed content still work. Module and entry pages do not load Three.js.
+Plain HTML, CSS and JavaScript with no build step. Every page works without JavaScript. The demonstrations on the landing page show the artefact's real result in the HTML; the scripts only let a reader try other inputs. Each script lists its figures and the page they came from.
 
-## Credits
-
-The leather journal, desk lamp, pen and worn wood are CC0 assets from Poly Haven (polyhaven.com), reduced in size for the web. The journal's crest was replaced with an MM monogram and the cover title. The pages, mug and all animation are code in `assets/js/experience.js`.
-
+`assets/js/experience.js`, `assets/css/experience.css`, `assets/css/global.css`, `assets/models/` and `assets/textures/` belong to an earlier desk-and-book landing page, kept on the `enhancements` branch. This version does not load them. The journal, lamp, pen and wood in that scene are CC0 assets from Poly Haven (polyhaven.com).

@@ -26,7 +26,7 @@ An e-portfolio for Mark Martin's postgraduate computing and artificial intellige
 
 ## Operating Context
 
-- Live site: https://m2coach-ai.github.io/ (GitHub Pages, project repository `m2coach-ai.github.io`, working branch `portfolio-storytelling`, main branch `main`).
+- Live site: https://m2coach-ai.github.io/ (GitHub Pages, project repository `m2coach-ai.github.io`, main branch `main`; the question-led version is developed on `question-first`, the desk-and-book version on `enhancements`).
 - Static HTML, CSS and JavaScript with Three.js loaded from jsDelivr for an optional WebGL homepage.
 - Coursework and its source material live in a separate local folder; module READMEs there map units, files, marks and feedback. The master notes file for marks and feedback is `_portfolio-notes/Dig portfolio things essex modules webpage.docx`, with `marks-and-feedback-transcribed.md` for screenshots (per that folder's CLAUDE.md).
 - Evidence is published as separate pages per artefact so each can be linked directly.
@@ -79,7 +79,7 @@ In practice:
 2. **Show the difficulty.** Mistakes, failed approaches, feedback and revision are first-class content, not appendices.
 3. **Assessors first, transfer visible.** Serve the outcome-by-outcome reader first, then make professional transfer to teaching and AI practice plain without turning the site into a résumé.
 4. **The book is the way in, never the way through.** The WebGL homepage is an optional entrance; all essential content and navigation work without it.
-5. **Never invent academic content.** Missing evidence is shown as missing.
+5. **Never invent academic content.** Content that does not exist yet is left out: no page tells a reader that something is still to be added (decided 10 Nov 2026, replacing the earlier "shown as missing" rule).
 
 ## Accessibility & Inclusion
 
