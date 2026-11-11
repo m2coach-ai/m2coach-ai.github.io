@@ -349,6 +349,24 @@ body.page {
 .page--desk .opening .pill-solid { background: var(--desk-ink); border-color: var(--desk-ink); color: var(--desk); font-weight: 600; }
 .page--desk .opening .pill-solid:hover { background: var(--lamp); border-color: var(--lamp); color: var(--desk); }
 .page--desk .sheet { border-top: 0; }
+/* The typographic opening: the module's number, its title, and its version of the site's question.
+   The number is drawn large in red and hidden from screen readers; "Module 3" is already in the breadcrumb line. */
+.opening-no { margin: 0; font: 500 clamp(4.5rem, 17vw, 13rem) / .78 var(--serif); letter-spacing: -.04em; color: #e5402f; font-variant-numeric: lining-nums; }
+.opening-question { margin: .9rem 0 0; max-width: 24ch; font: italic 400 clamp(1.35rem, 2.8vw, 2rem) / 1.25 var(--serif); text-wrap: balance; }
+.page--desk .opening .opening-question a { color: var(--desk-ink); text-decoration-color: rgba(245, 246, 248, .45); }
+.page--desk .opening .opening-question a:hover { color: var(--lamp); text-decoration-color: currentColor; }
+@media (min-width: 48rem) {
+  .page--desk .opening:has(> .opening-no) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+  .page--desk .opening:has(> .opening-no) > * { grid-column: 2; }
+  .page--desk .opening:has(> .opening-no) > .crumbs { grid-column: 1 / -1; }
+  .page--desk .opening:has(> .opening-no) > .opening-no { grid-column: 1; grid-row: 2 / span 6; padding-top: .06em; }
+}
+@media (max-width: 47.99rem) { .opening-no { margin-bottom: .6rem; } }
+@media (prefers-reduced-motion: no-preference) {
+  .opening-no { animation: rise .6s var(--ease-out) both; }
+  .opening > .opening-question { animation: rise-s var(--t-enter) var(--ease-out) .15s both; }
+}
+@media print { .opening-no { color: inherit; } }
 .page--desk .site-header { box-shadow: none; border-bottom: 1px solid rgba(245, 246, 248, .14); }
 @media print {
   .page--desk .opening { background: none; color: inherit; }
