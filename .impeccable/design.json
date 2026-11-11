@@ -1,408 +1,404 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-06T20:41:19.067226+00:00",
+  "generatedAt": "2026-11-11T21:17:14+00:00",
   "title": "Design System: Mark Martin E-portfolio",
   "extensions": {
     "colorMeta": {
-      "desk-black": {
-        "role": "neutral",
-        "displayName": "Desk Black",
-        "canonical": "#120d09",
-        "tonalRamp": [
-          "#040302",
-          "#070504",
-          "#0a0805",
-          "#0e0a07",
-          "#120d09",
-          "#46423f",
-          "#7d7a78",
-          "#b8b6b5"
-        ]
-      },
-      "desk-ink": {
-        "role": "neutral",
-        "displayName": "Desk Ink",
-        "canonical": "#f1eadc",
-        "tonalRamp": [
-          "#353330",
-          "#605e58",
-          "#8c8880",
-          "#bcb7ac",
-          "#f1eadc",
-          "#f4efe4",
-          "#f7f3ec",
-          "#fbf9f4"
-        ]
-      },
-      "desk-body": {
-        "role": "neutral",
-        "displayName": "Desk Body",
-        "canonical": "#e2d9c8",
-        "tonalRamp": [
-          "#32302c",
-          "#5a5750",
-          "#837e74",
-          "#b0a99c",
-          "#e2d9c8",
-          "#e8e1d4",
-          "#efeae1",
-          "#f6f4ee"
-        ]
-      },
-      "desk-muted": {
-        "role": "neutral",
-        "displayName": "Desk Muted",
-        "canonical": "#b4a994",
-        "tonalRamp": [
-          "#282521",
-          "#48443b",
-          "#686256",
-          "#8c8473",
-          "#b4a994",
-          "#c4bcac",
-          "#d6d0c4",
-          "#e8e5df"
-        ]
-      },
-      "lamp-amber": {
-        "role": "primary",
-        "displayName": "Lamp Amber",
-        "canonical": "#e0b46e",
-        "tonalRamp": [
-          "#312818",
-          "#5a482c",
-          "#826840",
-          "#af8c56",
-          "#e0b46e",
-          "#e7c48e",
-          "#eed6af",
-          "#f6e8d4"
-        ]
-      },
-      "brass": {
-        "role": "secondary",
-        "displayName": "Brass",
-        "canonical": "#c99a62",
-        "tonalRamp": [
-          "#2c2216",
-          "#503e27",
-          "#755939",
-          "#9d784c",
-          "#c99a62",
-          "#d5b085",
-          "#e1c7a9",
-          "#efe1d0"
-        ]
-      },
-      "slate-blue": {
-        "role": "secondary",
-        "displayName": "Slate Blue",
-        "canonical": "#8fb0c8",
-        "tonalRamp": [
-          "#1f272c",
-          "#394650",
-          "#536674",
-          "#70899c",
-          "#8fb0c8",
-          "#a8c1d4",
-          "#c1d4e1",
-          "#dde7ee"
-        ]
-      },
       "paper": {
         "role": "neutral",
         "displayName": "Paper",
-        "canonical": "#efe8d8",
+        "canonical": "#f5f6f8",
         "tonalRamp": [
-          "#353330",
-          "#605d56",
-          "#8b877d",
-          "#bab5a8",
-          "#efe8d8",
-          "#f3ede1",
-          "#f6f2ea",
-          "#faf8f3"
+          "#3d3e3e",
+          "#7a7b7c",
+          "#b8b8ba",
+          "#f5f6f8",
+          "#f8f9fa",
+          "#fafbfc",
+          "#fcfdfd",
+          "#fefefe"
         ]
       },
-      "page-ink": {
+      "sheet": {
         "role": "neutral",
-        "displayName": "Page Ink",
-        "canonical": "#2a2620",
+        "displayName": "Sheet",
+        "canonical": "#ffffff",
         "tonalRamp": [
-          "#090807",
-          "#110f0d",
-          "#181613",
-          "#211e19",
-          "#2a2620",
-          "#595651",
-          "#8a8884",
-          "#bfbebc"
+          "#404040",
+          "#808080",
+          "#bfbfbf",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff"
         ]
       },
-      "page-body": {
+      "ink": {
         "role": "neutral",
-        "displayName": "Page Body",
-        "canonical": "#3b352d",
+        "displayName": "Ink",
+        "canonical": "#15171c",
         "tonalRamp": [
-          "#0d0c0a",
-          "#181512",
-          "#221f1a",
-          "#2e2923",
-          "#3b352d",
-          "#66615b",
-          "#93908c",
-          "#c4c2c0"
+          "#050607",
+          "#0a0c0e",
+          "#101115",
+          "#15171c",
+          "#5b5d60",
+          "#969799",
+          "#c4c5c6",
+          "#e8e8e8"
         ]
       },
-      "page-muted": {
+      "ink-body": {
         "role": "neutral",
-        "displayName": "Page Muted",
-        "canonical": "#6b6358",
+        "displayName": "Ink Body",
+        "canonical": "#2b2f38",
         "tonalRamp": [
-          "#181613",
-          "#2b2823",
-          "#3e3933",
-          "#534d45",
-          "#6b6358",
-          "#8c857d",
-          "#aea9a3",
-          "#d3d0cd"
+          "#0b0c0e",
+          "#16181c",
+          "#20232a",
+          "#2b2f38",
+          "#6b6d74",
+          "#a0a1a5",
+          "#cacbcd",
+          "#eaeaeb"
         ]
       },
-      "ink-blue": {
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#5b616e",
+        "tonalRamp": [
+          "#17181c",
+          "#2e3037",
+          "#444952",
+          "#5b616e",
+          "#8c909a",
+          "#b5b8be",
+          "#d6d8db",
+          "#efeff0"
+        ]
+      },
+      "red": {
         "role": "primary",
-        "displayName": "Ink Blue",
-        "canonical": "#28466a",
+        "displayName": "Marking Red",
+        "canonical": "#b3261a",
         "tonalRamp": [
-          "#090f17",
-          "#101c2a",
-          "#17293d",
-          "#1f3753",
-          "#28466a",
-          "#576f8b",
-          "#8999ad",
-          "#bec8d2"
+          "#2d0a06",
+          "#5a130d",
+          "#861c14",
+          "#b3261a",
+          "#ca675f",
+          "#dd9d98",
+          "#ecc9c6",
+          "#f7e9e8"
         ]
       },
-      "ink-blue-deep": {
+      "red-deep": {
         "role": "primary",
-        "displayName": "Ink Blue Deep",
-        "canonical": "#1a2f4a",
+        "displayName": "Deep Red",
+        "canonical": "#8f1c12",
         "tonalRamp": [
-          "#060a10",
-          "#0a131e",
-          "#0f1b2b",
-          "#14253a",
-          "#1a2f4a",
-          "#4c5d72",
-          "#818d9b",
-          "#bac1c9"
+          "#240704",
+          "#480e09",
+          "#6b150e",
+          "#8f1c12",
+          "#b16059",
+          "#cd9994",
+          "#e3c6c4",
+          "#f4e8e7"
         ]
       },
-      "oxide": {
+      "red-wash": {
+        "role": "primary",
+        "displayName": "Red Wash",
+        "canonical": "#fbe9e6",
+        "tonalRamp": [
+          "#3f3a3a",
+          "#7e7473",
+          "#bcafac",
+          "#fbe9e6",
+          "#fcf0ee",
+          "#fdf5f4",
+          "#fefaf9",
+          "#fffdfc"
+        ]
+      },
+      "red-on-ink": {
+        "role": "primary",
+        "displayName": "Red on Ink",
+        "canonical": "#e5402f",
+        "tonalRamp": [
+          "#39100c",
+          "#722018",
+          "#ac3023",
+          "#e5402f",
+          "#ed796d",
+          "#f3a9a1",
+          "#f8cfcb",
+          "#fcecea"
+        ]
+      },
+      "blue": {
         "role": "secondary",
-        "displayName": "Oxide (proposed)",
-        "canonical": "#8a3b2a",
+        "displayName": "Checked Blue",
+        "canonical": "#1b3fb5",
         "tonalRamp": [
-          "#1e0d09",
-          "#371811",
-          "#502218",
-          "#6c2e21",
-          "#8a3b2a",
-          "#a46659",
-          "#bf938a",
-          "#dcc4bf"
+          "#07102d",
+          "#0e205a",
+          "#142f88",
+          "#1b3fb5",
+          "#5f79cb",
+          "#98a9de",
+          "#c6cfec",
+          "#e8ecf8"
+        ]
+      },
+      "blue-deep": {
+        "role": "secondary",
+        "displayName": "Deep Blue",
+        "canonical": "#122c85",
+        "tonalRamp": [
+          "#040b21",
+          "#091642",
+          "#0e2164",
+          "#122c85",
+          "#596baa",
+          "#94a0c8",
+          "#c4cae0",
+          "#e7eaf3"
+        ]
+      },
+      "blue-wash": {
+        "role": "secondary",
+        "displayName": "Blue Wash",
+        "canonical": "#e8edfb",
+        "tonalRamp": [
+          "#3a3b3f",
+          "#74767e",
+          "#aeb2bc",
+          "#e8edfb",
+          "#eff2fc",
+          "#f5f7fd",
+          "#f9fafe",
+          "#fdfdff"
+        ]
+      },
+      "blue-on-ink": {
+        "role": "secondary",
+        "displayName": "Blue on Ink",
+        "canonical": "#a9bcff",
+        "tonalRamp": [
+          "#2a2f40",
+          "#545e80",
+          "#7f8dbf",
+          "#a9bcff",
+          "#c3d0ff",
+          "#d8e1ff",
+          "#eaeeff",
+          "#f6f8ff"
+        ]
+      },
+      "neutral-bar": {
+        "role": "neutral",
+        "displayName": "Neutral Bar",
+        "canonical": "#5b616e",
+        "tonalRamp": [
+          "#17181c",
+          "#2e3037",
+          "#444952",
+          "#5b616e",
+          "#8c909a",
+          "#b5b8be",
+          "#d6d8db",
+          "#efeff0"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Page titles and chapter openers."
+        "purpose": "Page titles and the landing question."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Section titles inside a leaf."
+        "purpose": "Section headings on ink labels."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Sub-sections and component titles."
+        "purpose": "Headings inside a section and card titles."
+      },
+      "quote": {
+        "displayName": "Quote",
+        "purpose": "Quoted feedback, the module question, passages in the author’s words."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Prose at 60 to 72 characters wide."
+        "purpose": "Running text at a 52ch measure."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Italic eyebrows, captions and chapter labels."
+        "purpose": "Captions, breadcrumbs and source lines."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Scripts, console output and the demonstration input."
       }
     },
     "shadows": [
       {
-        "name": "sheet",
-        "value": "0 30px 90px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.04) inset",
-        "purpose": "The paper sheet on the desk."
+        "name": "demonstration-sheet",
+        "value": "0 18px 40px -18px rgba(21, 23, 28, .28), 0 2px 6px rgba(21, 23, 28, .06)",
+        "purpose": "Demonstration panels on the landing page only."
       },
       {
-        "name": "card-hairline",
-        "value": "0 1px 0 rgba(42,38,32,.08)",
-        "purpose": "Evidence cards on paper."
-      },
-      {
-        "name": "desk-panel",
-        "value": "0 24px 60px rgba(0,0,0,.35)",
-        "purpose": "Homepage text card."
+        "name": "floating-control",
+        "value": "0 6px 20px rgba(0, 0, 0, .25)",
+        "purpose": "The Top button on narrow screens."
       }
     ],
     "motion": [
       {
-        "name": "ink-in",
-        "value": "1s cubic-bezier(.3,.7,.2,1) .15s both",
-        "purpose": "One-time page-title reveal; removed under reduced motion."
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Entrances, page turns and the Row 8 bar."
       },
       {
-        "name": "nav-drawer",
-        "value": ".35s ease",
-        "purpose": "Menu drawer slide."
-      },
-      {
-        "name": "view-transition",
+        "name": "enter",
         "value": ".45s",
-        "purpose": "Page-to-page cross-fade."
-      },
-      {
-        "name": "hover-nudge",
-        "value": ".2s",
-        "purpose": "Button 2px lift."
+        "purpose": "Entrance duration on inner pages."
       }
     ],
     "breakpoints": [
       {
-        "name": "narrowest",
-        "value": "390px"
+        "name": "phone",
+        "value": "40rem"
       },
       {
-        "name": "mobile-switch",
-        "value": "700px"
+        "name": "narrow",
+        "value": "48rem"
       },
       {
-        "name": "sheet",
-        "value": "1040px"
+        "name": "wide",
+        "value": "62rem"
       },
       {
-        "name": "desk-max",
-        "value": "1180px"
+        "name": "margin-notes",
+        "value": "80rem"
       }
     ]
   },
   "components": [
     {
-      "name": "Pill Button",
+      "name": "Pill on paper",
       "kind": "button",
-      "refersTo": "button-pill",
-      "description": "Header and secondary actions; amber border on hover on the desk.",
-      "html": "<a class=\"ds-btn\" href=\"#\">All modules</a>",
-      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.6rem;border:1px solid rgba(241,234,220,.16);border-radius:99px;padding:.78rem 1.1rem;text-decoration:none;font:400 .9rem Inter,Arial,sans-serif;background:#120d09;color:#f1eadc;transition:.2s}.ds-btn:hover{border-color:#e0b46e;transform:translateY(-2px)}.ds-btn:focus-visible{outline:2px solid #e0b46e;outline-offset:2px}"
+      "refersTo": "pill",
+      "description": "Navigation and secondary actions on paper.",
+      "html": "<a class=\"ds-pill\" href=\"#\">Module hub</a>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; min-height: 2.8rem; padding: .55rem 1.1rem; border: 1px solid #1b3fb5; border-radius: 99px; color: #1b3fb5; font: 400 .9rem Inter, Arial, sans-serif; text-decoration: none; transition: background-color .2s, color .2s; } .ds-pill:hover { background: #1b3fb5; color: #f5f6f8; } .ds-pill:focus-visible { outline: 2px solid #1b3fb5; outline-offset: 3px; }"
     },
     {
-      "name": "Evidence Card",
+      "name": "Primary on the red field",
+      "kind": "button",
+      "refersTo": "hero-field",
+      "description": "The landing page call to action.",
+      "html": "<div class=\"ds-field\"><a class=\"ds-hero-btn\" href=\"#\">Follow the question</a></div>",
+      "css": ".ds-field { padding: 1.5rem; background: #b3261a; } .ds-hero-btn { display: inline-flex; align-items: center; min-height: 3rem; padding: .7rem 1.4rem; border-radius: 99px; background: #fff; color: #8f1c12; font: 600 1rem Inter, Arial, sans-serif; text-decoration: none; transition: background-color .2s, color .2s, transform .2s; } .ds-hero-btn:hover { background: #15171c; color: #fff; transform: translateY(-2px); } .ds-hero-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Section label",
+      "kind": "custom",
+      "refersTo": "section-label",
+      "description": "The heading of every section on an inner page.",
+      "html": "<div class=\"ds-label\"><h2>Learning outcomes</h2></div>",
+      "css": ".ds-label { width: fit-content; padding: .6rem 1.2rem .65rem; background: #15171c; } .ds-label h2 { margin: 0; color: #f5f6f8; font: 500 1.9rem/1.1 Newsreader, Georgia, serif; }"
+    },
+    {
+      "name": "Outcome card",
       "kind": "card",
-      "refersTo": "card-evidence",
-      "description": "Outcome or artefact card on a paper leaf; used when comparison matters.",
-      "html": "<a class=\"ds-card\" href=\"#\"><p class=\"ds-eyebrow\">R analysis</p><h3>Artefact title</h3><p>One-sentence description.</p></a>",
-      "css": ".ds-card{display:block;padding:1.4rem;border:1px solid rgba(42,38,32,.16);border-radius:.5rem;background:rgba(255,255,255,.32);color:#2a2620;text-decoration:none;box-shadow:0 1px 0 rgba(42,38,32,.08)}.ds-card:hover{border-color:#28466a}.ds-card:focus-visible{outline:2px solid #28466a;outline-offset:2px}.ds-card h3{font:500 1.25rem/1.2 Newsreader,Georgia,serif;margin:.2rem 0 .5rem}.ds-eyebrow{font:italic 400 1.05rem/1.2 Newsreader,Georgia,serif;color:#28466a;margin:0}"
+      "refersTo": "card",
+      "description": "A learning outcome with its evidence links.",
+      "html": "<div class=\"ds-card\"><p class=\"ds-card-t\">Critically appraise and present results of a statistical analysis to a diverse audience.</p><p class=\"ds-card-l\">Evidence</p><a href=\"#\">Earned or Borrowed?</a></div>",
+      "css": ".ds-card { max-width: 22rem; padding: 1.2rem 1.3rem; border: 1px solid rgba(21, 23, 28, .16); border-radius: .5rem; background: #fff; font: 400 1rem/1.65 Inter, Arial, sans-serif; } .ds-card-t { margin: 0 0 1rem; color: #15171c; font: 500 1.2rem/1.45 Newsreader, Georgia, serif; } .ds-card-l { margin: 0 0 .3rem; padding-top: .8rem; border-top: 1px solid rgba(21, 23, 28, .16); color: #5b616e; font: italic 400 1rem Newsreader, Georgia, serif; } .ds-card a { color: #1b3fb5; text-underline-offset: .24em; } .ds-card a:hover { color: #122c85; }"
     },
     {
-      "name": "Chapter Band (proposed)",
+      "name": "Evidence note",
       "kind": "custom",
-      "refersTo": "chapter-band",
-      "description": "Full-width flat colour band that opens each case-study section; no image behind the text.",
-      "html": "<div class=\"ds-band\"><p class=\"ds-band-n\">Section 5</p><h2>Evidence</h2></div>",
-      "css": ".ds-band{background:#28466a;color:#efe8d8;padding:3rem 1.5rem}.ds-band h2{font:500 clamp(1.8rem,4vw,3rem)/1.05 Newsreader,Georgia,serif;margin:.2rem 0 0}.ds-band-n{font:italic 400 1.05rem/1.2 Newsreader,Georgia,serif;margin:0;opacity:.9}"
+      "refersTo": "evidence-note",
+      "description": "Links each claim in a passage to the place that proves it.",
+      "html": "<aside class=\"ds-note\"><p class=\"ds-note-l\">Where to see it</p><p><strong>The tutor’s feedback on comments and full tables:</strong> <a href=\"#\">Recovery reporting frequency: feedback</a></p></aside>",
+      "css": ".ds-note { max-width: 26rem; padding: .9rem 1.1rem .95rem; border: 1px solid rgba(27, 63, 181, .35); border-radius: .4rem; background: rgba(27, 63, 181, .06); color: #2b2f38; font: 400 .92rem/1.5 Inter, Arial, sans-serif; } .ds-note p { margin: 0; } .ds-note-l { margin-bottom: .4rem !important; color: #122c85; font: italic 500 1.1rem Newsreader, Georgia, serif; } .ds-note a { color: #1b3fb5; } .ds-note a:hover { color: #122c85; }"
     },
     {
-      "name": "Callout",
+      "name": "Quotation",
       "kind": "custom",
-      "refersTo": "callout-note",
-      "description": "Left-ruled note. Ink-blue rule for notes; oxide rule only for difficulty (proposed).",
-      "html": "<div class=\"ds-callout\">Placeholder note.</div><div class=\"ds-callout ds-difficulty\"><strong>Difficulty.</strong> What went wrong.</div>",
-      "css": ".ds-callout{border-left:2px solid #28466a;padding:1rem 1.25rem;background:rgba(40,70,106,.06);color:#3b352d;margin:1rem 0;font:400 1rem/1.65 Inter,Arial,sans-serif}.ds-difficulty{border-left-color:#8a3b2a;background:rgba(138,59,42,.06)}"
+      "refersTo": "card",
+      "description": "Words quoted exactly, with their source.",
+      "html": "<figure class=\"ds-quote\"><blockquote>Particularly effective is the distinction between producing a numerical output and judging whether it can be trusted.</blockquote><figcaption>Marker’s comment on the Individual Reflection</figcaption></figure>",
+      "css": ".ds-quote { margin: 0; max-width: 34rem; padding: 1.2rem 1.5rem; border-top: 1px solid #1b3fb5; border-bottom: 1px solid rgba(21, 23, 28, .16); } .ds-quote blockquote { margin: 0; color: #15171c; font: italic 400 1.35rem/1.45 Newsreader, Georgia, serif; } .ds-quote figcaption { margin-top: .9rem; color: #5b616e; font: 400 .9rem Inter, Arial, sans-serif; }"
     },
     {
-      "name": "Chapter Navigation (proposed)",
-      "kind": "nav",
-      "refersTo": "",
-      "description": "Always-visible in-page list of case-study sections; aria-current marks the section in view.",
-      "html": "<nav class=\"ds-chapters\" aria-label=\"Case study sections\"><ol><li><a href=\"#orientation\" aria-current=\"true\">Orientation</a></li><li><a href=\"#evidence\">Evidence</a></li></ol></nav>",
-      "css": ".ds-chapters ol{list-style:none;margin:0;padding:0;font:400 .9rem Inter,Arial,sans-serif}.ds-chapters a{display:block;padding:.5rem 0;border-top:1px solid rgba(42,38,32,.16);color:#2a2620;text-decoration:none}.ds-chapters a:hover{color:#1a2f4a}.ds-chapters a[aria-current]{font-weight:600;color:#28466a}.ds-chapters a:focus-visible{outline:2px solid #28466a;outline-offset:2px}"
+      "name": "Demonstration result",
+      "kind": "custom",
+      "refersTo": "demo-sheet",
+      "description": "Wrong and checked, side by side, each with its words.",
+      "html": "<div class=\"ds-demo\"><div class=\"ds-out ds-bad\"><b>Original script</b><span>8 entries</span><p>No error. Three people are listed twice.</p></div><div class=\"ds-out ds-good\"><b>Modified script</b><span>5 entries</span><p>Capitalisation variants are treated as one person.</p></div></div>",
+      "css": ".ds-demo { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; max-width: 30rem; padding: 1.2rem; border: 1px solid rgba(21, 23, 28, .16); border-radius: .5rem; background: #fff; font: 400 .9rem/1.5 Inter, Arial, sans-serif; box-shadow: 0 18px 40px -18px rgba(21, 23, 28, .28), 0 2px 6px rgba(21, 23, 28, .06); } .ds-out { padding: 1rem 1.1rem; border-radius: .4rem; } .ds-out b { display: block; color: #15171c; } .ds-out p { margin: .5rem 0 0; font-weight: 600; } .ds-bad { border: 1px solid rgba(179, 38, 26, .45); background: #fbe9e6; color: #8f1c12; } .ds-good { border: 1px solid rgba(27, 63, 181, .4); background: #e8edfb; color: #122c85; }"
     }
   ],
   "narrative": {
-    "northStar": "The Record Book",
-    "overview": "The homepage is a dark desk with a record book under a lamp; every other page is a leaf of that book, in paper, dark ink and ink-blue. The site is a record kept by a working educator, not a showcase.",
+    "northStar": "The Marked Paper",
+    "overview": "**Creative North Star: \"The Marked Paper\"**\n\nThe site asks one question of every piece of work in it: it ran, but can it be trusted? Its look comes from the place that question is normally settled, a marked piece of work. There is the work itself, in ink on a clean sheet. There is red, where something is wrong or in doubt. There is blue, where something has been checked and can be followed up. Nothing else carries colour.\n\nThe landing page states the question on a full field of red, then shows it once per module on paper, each time with a small working demonstration built from the real artefact, and ends on a full field of blue that leads to the evidence. Every other page is a document: an ink strip across the top, ink labels for sections, a calm reading column, blue links. The reader is a university assessor marking against learning outcomes, so the frame carries the identity and the reading column stays quiet.\n\nThe site was first built around a desk, a lamp and a record book. That world has been retired. No photograph, texture, lamp glow, paper grain, ribbon or bookmark shape belongs here.",
     "keyCharacteristics": [
-      "Dark desk on the homepage, paper leaves everywhere else.",
-      "Serif display (Newsreader) over a quiet sans body (Inter).",
-      "One warm accent on the desk (lamp amber), one cool accent on paper (ink blue).",
-      "Flat leaves with one soft shadow for the sheet itself; no stacked card shadows.",
-      "Motion only where it shows how the book works."
+      "Ink on cool white paper. Not cream, not parchment.",
+      "Two colours with fixed meanings: red is wrong or in doubt, blue is checked.",
+      "Colour owns whole regions on the landing page (a red field, a blue field) and is sparing everywhere else.",
+      "A serif for headings and quoted words, a sans for running text.",
+      "Flat. Depth appears only under the demonstration sheets on the landing page.",
+      "One section at a time on long pages, with the whole page one click away."
     ],
     "rules": [
       {
-        "name": "The Two-Palette Rule",
-        "body": "Desk colours never appear on a paper leaf and paper colours never appear on the desk, except the ribbon bookmark.",
+        "name": "The Two Meanings Rule",
+        "body": "Red means wrong or in doubt. Blue means checked. Neither is ever used for decoration, emphasis or variety.",
         "section": "colors"
       },
       {
-        "name": "The Oxide Rule",
-        "body": "Oxide marks difficulty only.",
+        "name": "The Words Beside It Rule",
+        "body": "Colour is never the only signal. Every red or blue mark sits beside words that say what it means.",
         "section": "colors"
       },
       {
-        "name": "The Contrast Rule",
-        "body": "Body text 4.5:1; large text and UI boundaries 3:1; re-measure with a tool.",
+        "name": "The Nothing Behind Text Rule",
+        "body": "No photograph, texture or gradient sits behind text. Fields are flat colour.",
         "section": "colors"
       },
       {
-        "name": "The Measure Rule",
-        "body": "Prose lines are 60 to 72 characters (max-width 68ch).",
+        "name": "The Serif Speaks Rule",
+        "body": "Serif is for titles and for words that are being quoted or claimed. Running explanation is always sans.",
         "section": "typography"
       },
       {
-        "name": "The Hierarchy Rule",
-        "body": "One h1 per page, then h2 and h3 without skipping levels.",
-        "section": "typography"
-      },
-      {
-        "name": "The Font-Loading Rule",
-        "body": "Move fonts off CSS @import to preconnect plus link, or self-host WOFF2.",
-        "section": "typography"
-      },
-      {
-        "name": "The One Shadow Rule",
-        "body": "Only the sheet and the homepage text card cast shadows.",
+        "name": "The Flat Document Rule",
+        "body": "Inner pages carry no shadows on content. If something needs separating, use a hairline or white on paper.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do keep the homepage as the dark desk and every other page as a paper leaf.",
-      "Do use Newsreader for headings and eyebrows and Inter for body text.",
-      "Do keep prose at 60 to 72 characters wide.",
-      "Do mark difficulty with Oxide and nothing else.",
-      "Do put the evidence, its caption and its link in the main reading flow.",
-      "Do show missing evidence as missing."
+      "Do use red only for wrong or in doubt, and blue only for checked or followable.",
+      "Do put words beside every red or blue mark.",
+      "Do keep running text in Inter on paper, at a 52ch measure.",
+      "Do keep inner pages flat: hairlines and white sheets, no shadows on content.",
+      "Do take every number in a demonstration from the artefact page, and show the real result without JavaScript.",
+      "Do copy a module's question line word for word from its scene heading on the landing page."
     ],
     "donts": [
-      "Don't use scroll-jacking, long pinned sequences or more than one sticky storytelling sequence per module page.",
-      "Don't stack fixed or sticky layers.",
-      "Don't use image collages as decoration or place text directly over busy images.",
-      "Don't publish media without alt text.",
-      "Don't load every evidence image immediately.",
-      "Don't hide navigation behind a toggle on a case-study page.",
-      "Don't add decorative motion that does not communicate learning.",
-      "Don't add GSAP ScrollTrigger or any animation library, or migrate to a framework.",
-      "Don't replace the WebGL homepage.",
-      "Don't drift toward a generic AI start-up, design-agency, resume or personal-brand look."
+      "Don't add a third accent colour, or use red or blue for decoration.",
+      "Don't bring back the desk, lamp, book, cream paper, lamp gold, navy ribbon or bookmark shapes.",
+      "Don't place a photograph, texture or gradient behind text.",
+      "Don't set running text in the serif, or headings in the sans.",
+      "Don't write that content is still to be added. Leave the block out.",
+      "Don't change the Newsreader and Inter pairing."
     ]
   }
 }
