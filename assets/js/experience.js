@@ -11,6 +11,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const SCALE = 9.1;   // scene units per metre (the book is about 24 cm tall)
 // Hinged cover: fold angle (0 = lying open, PI = folded shut over the pad) and the spine line in journal units
 const FOLD = { value: 0 }, STRAP = { value: 0 };
+// Foil shimmer: where a band of light has reached across the cover (below 0 or above 2 = no glint on the cover)
+const SHINE = { value: -9 };
 const FOLD_X0 = -0.004, FOLD_Y0 = 0.0115;     // spine line the cover folds about
 const STRAP_X0 = 0.162, STRAP_Y0 = 0.0165;    // edge the clasp tab folds about
 // Cover focus: the first DWELL of scroll progress only moves the camera in on the closed cover;
@@ -337,7 +339,7 @@ function contentsPage() {
   return animPage('left', PAPER, (g, r) => {
     g.fillStyle = INK_SOFT; g.font = 'italic 400 40px Newsreader, Georgia, serif'; fadeText(g, 'Contents', 110, 300, seg(r, 0, 0.15));
     CONTENTS.rows.forEach((row, i) => {
-      const a = 0.12 + i * 0.22, hot = CONTENTS.hover === i && r > 0.9;
+      const a = 0.1 + i * 0.17, hot = CONTENTS.hover === i && r > 0.9;   // the last row's "open" lands at 0.95, inside the reveal
       g.fillStyle = hot ? INK_BLUE : INK; g.font = '500 52px Newsreader, Georgia, serif';
       fadeText(g, row.n, 110, row.y, seg(r, a, a + 0.08));
       let nameEnd = 0;
@@ -363,19 +365,34 @@ function contentsPage() {
   });
 }
 
+// The Learning Loop's sections, as written on the last page. Like the contents rows, each is a link: laid out once
+// so the page can draw them and the pointer can find them (canvas pixels). Each href matches a link beside the book.
+const PLAN = { hover: -1, rows: [
+  ['Patterns across module reflections', 'learning-loop/#patterns'],
+  ['Application to professional work', 'learning-loop/#application'],
+  ['Review of skills matrices and action plans', 'learning-loop/#skills-and-plans'],
+  ['Changes in strengths and priorities', 'learning-loop/#changes'],
+  ['Programme level action plan', 'learning-loop/#programme-plan'],
+].map(([text, href], i) => ({ text, href, y: 386 + i * 76, top: 386 + i * 76 - 54, bottom: 386 + i * 76 + 22 })) };
 function loopPlanPage() {
   return animPage('left', PAPER, (g, r) => {
-    g.fillStyle = INK_SOFT; g.font = 'italic 400 40px Newsreader, Georgia, serif'; fadeText(g, 'Planned structure', 110, 300, seg(r, 0, 0.12));
+    g.fillStyle = INK_SOFT; g.font = 'italic 400 40px Newsreader, Georgia, serif'; fadeText(g, 'The loop so far', 110, 300, seg(r, 0, 0.12));
     g.strokeStyle = 'rgba(40,70,106,0.18)'; g.lineWidth = 2;
     let k = 0;
     for (let y = 380; y < TH - 160; y += 76, k++) {
       const t = easeOut(seg(r, 0.02 + k * 0.025, 0.2 + k * 0.025));
       if (t > 0) { g.beginPath(); g.moveTo(110, y + 18); g.lineTo(lerp(110, TW - 110, t), y + 18); g.stroke(); }
     }
-    const items = ['Patterns across module reflections', 'Application to professional work', 'Review of skills matrices and action plans',
-      'Changes in strengths and priorities', 'Programme level action plan'];
-    g.fillStyle = INK; g.font = '400 40px Newsreader, Georgia, serif';
-    items.forEach((t, i) => inkText(g, `${i + 1}.  ${t}`, 110, 386 + i * 76, seg(r, 0.25 + i * 0.1, 0.42 + i * 0.1), 40));
+    g.font = '400 40px Newsreader, Georgia, serif';
+    PLAN.rows.forEach((row, i) => {
+      const hot = PLAN.hover === i && r > 0.9, num = `${i + 1}.  `;
+      g.fillStyle = hot ? INK_BLUE : INK;
+      inkText(g, num + row.text, 110, row.y, seg(r, 0.25 + i * 0.1, 0.42 + i * 0.1), 40);
+      if (hot) {
+        const x0 = 110 + g.measureText(num).width, x1 = 110 + g.measureText(num + row.text).width;
+        g.save(); g.strokeStyle = INK_BLUE; g.lineWidth = 2.5; g.beginPath(); g.moveTo(x0, row.y + 10); g.lineTo(x1, row.y + 10); g.stroke(); g.restore();
+      }
+    });
     // a hand-drawn loop: the programme comes back round to the start
     const loop = easeOut(seg(r, 0.72, 0.95));
     if (loop > 0) {
@@ -389,7 +406,7 @@ function loopPlanPage() {
       }
     }
     g.fillStyle = INK_SOFT; g.font = 'italic 400 36px Newsreader, Georgia, serif';
-    fadeText(g, 'Completed at programme end.', 110, 386 + 6 * 76, seg(r, 0.8, 0.95));
+    fadeText(g, 'Updated at the end of each module.', 110, 386 + 6 * 76, seg(r, 0.8, 0.95));
     folio(g, 5, seg(r, 0.85, 1));
   });
 }
@@ -593,16 +610,62 @@ async function start() {
   // Mug and pencil, kept quiet.
   // Mug: turned from a profile so it has a real wall thickness, a rounded
   // lip and a foot, with a glossy glaze.
-  const glaze = new THREE.MeshPhysicalMaterial({ color: 0xd8cfbf, roughness: 0.3, clearcoat: 0.7, clearcoatRoughness: 0.2 });
+  // The glaze is speckled stoneware: an uneven cream with fine iron flecks and a toasted band where the glaze
+  // thins over the lip. The same drawing, read as height, gives the surface its slight unevenness.
+  const glazeArt = (() => {
+    const W = 1024, H = 512, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'); g.fillStyle = '#ddd3c1'; g.fillRect(0, 0, W, H);
+    for (let i = 0; i < 46; i++) {                      // soft clouds where the glaze pooled thicker or thinner
+      const x = Math.random() * W, y = Math.random() * H, r = 60 + Math.random() * 150, a = 0.05 + Math.random() * 0.07;
+      const rg = g.createRadialGradient(x, y, 0, x, y, r);
+      rg.addColorStop(0, i % 2 ? `rgba(255,250,238,${a})` : `rgba(150,122,88,${a})`); rg.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = rg; g.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+    const lip = g.createLinearGradient(0, H * 0.4, 0, H * 0.6);   // the lip sits half way along the turned profile
+    lip.addColorStop(0, 'rgba(120,78,40,0)'); lip.addColorStop(0.5, 'rgba(120,78,40,.34)'); lip.addColorStop(1, 'rgba(120,78,40,0)');
+    g.fillStyle = lip; g.fillRect(0, H * 0.4, W, H * 0.2);
+    for (let i = 0; i < 1500; i++) {                    // iron flecks
+      g.fillStyle = `rgba(${70 + Math.random() * 40},${42 + Math.random() * 25},20,${0.14 + Math.random() * 0.5})`;
+      g.beginPath(); g.arc(Math.random() * W, Math.random() * H, 0.4 + Math.random() * Math.random() * 2.2, 0, Math.PI * 2); g.fill();
+    }
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping; t.repeat.set(2, 1);
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    const b = new THREE.CanvasTexture(c); b.wrapS = THREE.RepeatWrapping; b.repeat.set(2, 1);
+    return { map: t, bump: b };
+  })();
+  const glaze = new THREE.MeshPhysicalMaterial({ color: 0xffffff, map: glazeArt.map, bumpMap: glazeArt.bump, bumpScale: 0.6,
+    roughness: 0.34, clearcoat: 0.85, clearcoatRoughness: 0.14, envMapIntensity: 3.2 });
   const mug = new THREE.Group(); mug.position.set(2.55, 0, -1.35); scene.add(mug);
-  const prof = [[0, 0.012], [0.2, 0.004], [0.228, 0.012], [0.238, 0.04], [0.252, 0.5], [0.258, 0.545], [0.252, 0.558],
-    [0.243, 0.552], [0.235, 0.52], [0.222, 0.07], [0.205, 0.055], [0, 0.055]].map(([x, y]) => new THREE.Vector2(x, y));
-  const body = new THREE.Mesh(new THREE.LatheGeometry(new THREE.SplineCurve(prof).getPoints(80), 72), glaze); mug.add(body);
-  const coffee = new THREE.Mesh(new THREE.CircleGeometry(0.233, 64), new THREE.MeshPhysicalMaterial({ color: 0x1e0f07, roughness: 0.08, clearcoat: 1 }));
-  coffee.rotation.x = -Math.PI / 2; coffee.position.y = 0.455; mug.add(coffee);
-  const handleCurve = new THREE.CubicBezierCurve3(new THREE.Vector3(0.24, 0.44, 0), new THREE.Vector3(0.43, 0.46, 0),
-    new THREE.Vector3(0.43, 0.13, 0), new THREE.Vector3(0.24, 0.15, 0));
-  const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 48, 0.032, 20, false), glaze); mug.add(handle);
+  // Profile, foot to lip and back down the inside: an unglazed foot ring, a wall that swells a little toward the
+  // top, and a thick rolled lip.
+  const prof = [[0, 0.016], [0.17, 0.016], [0.188, 0.002], [0.214, 0.0], [0.232, 0.01], [0.241, 0.04], [0.246, 0.16], [0.253, 0.42],
+    [0.26, 0.515], [0.264, 0.545], [0.258, 0.561], [0.249, 0.563], [0.241, 0.552], [0.236, 0.52], [0.224, 0.075], [0.205, 0.056], [0, 0.056]]
+    .map(([x, y]) => new THREE.Vector2(x, y));
+  const body = new THREE.Mesh(new THREE.LatheGeometry(new THREE.SplineCurve(prof).getPoints(120), 96), glaze); mug.add(body);
+  // Coffee: nearly black in the middle, warming to brown where it thins against the wall, with a pale meniscus
+  // line and a few bubbles gathered at one side.
+  const coffeeArt = (() => {
+    const S = 512, c = document.createElement('canvas'); c.width = c.height = S;
+    const g = c.getContext('2d'), m = S / 2;
+    const rg = g.createRadialGradient(m, m, 0, m, m, m);
+    rg.addColorStop(0, '#120804'); rg.addColorStop(0.7, '#1c0d06'); rg.addColorStop(0.9, '#3a1e0c'); rg.addColorStop(0.965, '#6b4020');
+    rg.addColorStop(0.985, '#a67c4e'); rg.addColorStop(1, '#4a2a12');
+    g.fillStyle = rg; g.fillRect(0, 0, S, S);
+    for (let i = 0; i < 26; i++) {
+      const a = 2.1 + (Math.random() - 0.5) * 1.1, d = m * (0.8 + Math.random() * 0.15), r = 2 + Math.random() * 6;
+      const x = m + Math.cos(a) * d, y = m + Math.sin(a) * d;
+      g.strokeStyle = 'rgba(214,176,128,.75)'; g.lineWidth = 1.4; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.stroke();
+      g.fillStyle = 'rgba(120,80,44,.35)'; g.fill();
+      g.fillStyle = 'rgba(255,240,215,.8)'; g.beginPath(); g.arc(x - r * 0.35, y - r * 0.35, r * 0.2, 0, Math.PI * 2); g.fill();
+    }
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t;
+  })();
+  const coffee = new THREE.Mesh(new THREE.CircleGeometry(0.2335, 96), new THREE.MeshPhysicalMaterial({ map: coffeeArt, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 5 }));
+  coffee.rotation.x = -Math.PI / 2; coffee.position.y = 0.468; mug.add(coffee);
+  // Handle: a pulled strap, wider than it is thick, set into the wall at both ends.
+  const handleCurve = new THREE.CubicBezierCurve3(new THREE.Vector3(0.235, 0.455, 0), new THREE.Vector3(0.455, 0.5, 0),
+    new THREE.Vector3(0.44, 0.1, 0), new THREE.Vector3(0.232, 0.15, 0));
+  const handle = new THREE.Mesh(new THREE.TubeGeometry(handleCurve, 72, 0.027, 24, false), glaze); handle.scale.z = 1.75; mug.add(handle);
   mug.rotation.y = -0.5;
   mug.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
 
@@ -708,7 +771,7 @@ async function start() {
   const modules = { chapter: 'Chapter two', title: ['Evidence,', 'not decoration.'], n: 2,
     body: 'Not a gallery of finished work. Evidence of decisions, mistakes, feedback and growth across a programme of study.' };
   const loop = { chapter: 'Chapter three', title: ['Across the', 'programme.'], n: 4,
-    body: 'The Learning Loop will connect module reflections, professional skills and action plans into a final view of development.' };
+    body: 'The Learning Loop connects module reflections, professional skills and action plans into one view of development.' };
 
   const pages = { endpaper: endpaperPage(), about: chapterPage(about), modules: chapterPage(modules),
     contents: contentsPage(), loop: chapterPage(loop), plan: loopPlanPage() };
@@ -829,6 +892,34 @@ async function start() {
       // the gold lettering stays crisp up close. Triangles whose texture
       // coordinates fall on that panel are drawn with the panel material.
       if (coverD && coverN && coverA && closedM.material) {
+        // The two small lines under the name are too fine to read at this distance, so they are re-set larger on
+        // three lines. Leather from just below is laid over the old lines in all three maps (so no ghost of the
+        // old stamping remains), then the new lines are drawn in the same pale gold. Same words as before.
+        const relabel = (tex, draw) => {
+          try {
+            const img = tex.image, S = img.width / 1244, c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+            const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+            const x = Math.round(105 * S), w = Math.round(800 * S), h = Math.round(150 * S), dy = Math.round(1280 * S), sy = Math.round(1438 * S);
+            const p = document.createElement('canvas'); p.width = w; p.height = h;
+            const pg = p.getContext('2d'); pg.drawImage(c, x, sy, w, h, 0, 0, w, h);
+            const m = document.createElement('canvas'); m.width = w; m.height = h;
+            const mg = m.getContext('2d'), f = Math.round(14 * S); mg.filter = `blur(${Math.round(7 * S)}px)`; mg.fillRect(f, f, w - f * 2, h - f * 2);
+            pg.globalCompositeOperation = 'destination-in'; pg.drawImage(m, 0, 0);
+            g.drawImage(p, x, dy);
+            if (draw) draw(g, S);
+            tex.image = c;
+          } catch (e) { /* the scanned cover stays as it is */ }
+        };
+        relabel(coverD, (g, S) => {
+          const lines = ['MSc Computer Science', '(Artificial Intelligence)', 'University of Essex Online'];
+          g.textAlign = 'center'; g.font = `italic 400 ${Math.round(60 * S)}px Newsreader, Georgia, serif`;
+          lines.forEach((t, i) => {
+            const y = (1338 + i * 74) * S;
+            g.fillStyle = 'rgba(24,9,4,.6)'; g.fillText(t, 493 * S + 1.5 * S, y + 2.5 * S);
+            g.fillStyle = '#dfbf78'; g.fillText(t, 493 * S, y);
+          });
+        });
+        relabel(coverN); relabel(coverA);
         const U0 = 430 / 4096, V0 = 143 / 4096, U1 = 1208 / 4096, V1 = 1536 / 4096;
         for (const t of [coverD, coverN, coverA]) {
           t.flipY = false; t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
@@ -847,6 +938,23 @@ async function start() {
           geo.addGroup(0, rest.length, 0); geo.addGroup(rest.length, panel.length, 1);
           const panelMat = closedM.material.clone();
           panelMat.map = coverD; panelMat.normalMap = coverN; panelMat.roughnessMap = coverA; panelMat.metalnessMap = coverA;
+          // The gold lettering catches a little light of its own, so the title reads clearly in the lamp's dim pool
+          // and away from its centre. The same artwork is the glow map: pale gold lifts far more than dark leather.
+          panelMat.emissive = new THREE.Color(0xffe2b0); panelMat.emissiveMap = coverD; panelMat.emissiveIntensity = 0.45;
+          // A glint crosses the foil: a narrow band travels corner to corner and only the pale gold answers it,
+          // because the band is multiplied by how bright the artwork is at that point. Leather stays dark.
+          panelMat.onBeforeCompile = sh => {
+            sh.uniforms.uShine = SHINE;
+            sh.fragmentShader = 'uniform float uShine;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+              #ifdef USE_MAP
+                vec3 foilTexel = texture2D( map, vMapUv ).rgb;
+                float foil = smoothstep( 0.30, 0.62, dot( foilTexel, vec3( 0.299, 0.587, 0.114 ) ) );
+                float sweep = ( vMapUv.x * 0.7 + vMapUv.y ) / 1.7 * 2.0;
+                float band = exp( -pow( ( sweep - uShine ) / 0.07, 2.0 ) );
+                totalEmissiveRadiance += vec3( 1.0, 0.88, 0.6 ) * foil * band * 1.9;
+              #endif`);
+          };
+          panelMat.customProgramCacheKey = () => 'cover-foil-shimmer-1';
           closedM.material = [closedM.material, panelMat];
         }
       }
@@ -1112,7 +1220,33 @@ async function start() {
     if (i === CONTENTS.hover) return;
     CONTENTS.hover = i; const c = pages.contents, r = c.r; c.r = -1; c.draw(r);
   }
-  addEventListener('pointermove', e => setHover(contentsRow(e)), { passive: true });
+  // The last page works the same way: while it lies open on the right, each Learning Loop section is a link.
+  function planRow(e) {
+    const L1 = leaves[1];
+    if (!L1 || L1.t < 0.98 || pages.plan.r < 0.6 || !lastRight.visible || document.documentElement.classList.contains('diving')) return -1;
+    if (e.target.closest && e.target.closest('a,button,nav,header,.scene-copy')) return -1;
+    ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    camera.updateMatrixWorld(); ray.setFromCamera(ndc, camera);
+    lastRight.geometry.computeBoundingSphere(); lastRight.geometry.computeBoundingBox();
+    const hit = ray.intersectObject(lastRight)[0]; if (!hit || !hit.uv) return -1;
+    const x = hit.uv.x * TW, y = (1 - hit.uv.y) * TH;
+    return PLAN.rows.findIndex(r => y >= r.top && y <= r.bottom && x > 90 && x < TW - 90);
+  }
+  function setPlanHover(i) {
+    if (i === PLAN.hover) return;
+    PLAN.hover = i; const c = pages.plan, r = c.r; c.r = -1; c.draw(r);
+  }
+  addEventListener('pointermove', e => {
+    const i = contentsRow(e), j = i < 0 ? planRow(e) : -1;
+    setHover(i); setPlanHover(j);
+    document.body.style.cursor = i >= 0 || j >= 0 ? 'pointer' : '';
+  }, { passive: true });
+  document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const j = planRow(e); if (j < 0) return;
+    const link = document.querySelector(`.story a[href="${PLAN.rows[j].href}"]`);
+    if (link) { e.preventDefault(); link.click(); }
+  });
   document.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const i = contentsRow(e); if (i < 0) return;
@@ -1133,7 +1267,50 @@ async function start() {
     if (t < 0.07) return 0.9; if (t < 0.15) return 0.08; if (t < 0.21) return 0.7; if (t < 0.3) return 0.2;
     return lerp(0.55, 1, smooth(0.3, 1.3, t));
   };
+  // Dust: slow motes that only show where they drift through the lamp's beam. Each point works out how far it is
+  // inside the cone of light and fades to nothing outside it, so the beam is drawn by the dust and not by a shape.
+  const dust = (() => {
+    const N = mobile ? 70 : 170, apex = spot.position.clone(), axis = spot.target.position.clone().sub(apex);
+    const L = axis.length(); axis.normalize();
+    const side = new THREE.Vector3(1, 0, 0).cross(axis).normalize(), up = axis.clone().cross(side).normalize();
+    const pos = new Float32Array(N * 3), seed = new Float32Array(N);
+    for (let i = 0; i < N; i++) {
+      let p;
+      do {
+        const t = 0.3 + Math.random() * 0.72, r = Math.sqrt(Math.random()) * Math.tan(spot.angle) * t * L * 0.95, a = Math.random() * Math.PI * 2;
+        p = apex.clone().addScaledVector(axis, t * L).addScaledVector(side, Math.cos(a) * r).addScaledVector(up, Math.sin(a) * r);
+      } while (p.y < 0.08);
+      pos.set([p.x, p.y, p.z], i * 3); seed[i] = Math.random();
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+    const mat = new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      uniforms: { uTime: { value: 0 }, uLamp: { value: 0 }, uApex: { value: apex }, uAxis: { value: axis }, uCos: { value: Math.cos(spot.angle) },
+        uSize: { value: renderer.getPixelRatio() * (mobile ? 34 : 42) } },
+      vertexShader: `uniform float uTime, uCos, uSize; uniform vec3 uApex, uAxis; attribute float aSeed; varying float vA;
+        void main() {
+          vec3 p = position;
+          p.x += sin(uTime * 0.11 + aSeed * 17.0) * 0.14; p.z += cos(uTime * 0.09 + aSeed * 29.0) * 0.14; p.y += sin(uTime * 0.07 + aSeed * 41.0) * 0.1;
+          float inBeam = smoothstep(uCos, mix(uCos, 1.0, 0.55), dot(normalize(p - uApex), uAxis));
+          float twinkle = 0.55 + 0.45 * sin(uTime * (0.6 + aSeed) + aSeed * 60.0);
+          vA = inBeam * twinkle * smoothstep(0.02, 0.2, p.y);
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          gl_PointSize = uSize * (0.35 + aSeed * 0.65) / -mv.z;
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `uniform float uLamp; varying float vA;
+        void main() {
+          float d = length(gl_PointCoord - 0.5);
+          float a = smoothstep(0.5, 0.0, d); a *= a;
+          gl_FragColor = vec4(vec3(1.0, 0.86, 0.62) * a * vA * uLamp * 0.5, 1.0);
+        }` });
+    const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = 4; scene.add(pts);
+    return mat;
+  })();
+  let lampLevel = 0;
   function setLamp(v) {
+    lampLevel = v;
     spot.intensity = 70 * v; glow.intensity = 1.4 * v;
     hemi.intensity = 0.34 * (0.3 + 0.7 * v);
     bulb.material.color.copy(bulbOff).lerp(bulbOn, Math.min(1, v * 1.2));
@@ -1186,7 +1363,7 @@ async function start() {
   }
 
   const clock = new THREE.Clock();
-  let first = true, introStart = -1, elapsed = 0, steamSway = 0, focusAuto = 0, focusGoal = 0, menuHidden = false;
+  let first = true, introStart = -1, elapsed = 0, steamSway = 0, focusAuto = 0, focusGoal = 0, menuHidden = false, shineAt = -1;
   // "Open the book" first lingers on the front cover, then turns it. Only when the book is still shut.
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-page="next"]');
@@ -1210,6 +1387,13 @@ async function start() {
     const hideMenu = progress < MENU_AT && focusGoal === 0;
     if (hideMenu !== menuHidden) { menuHidden = hideMenu; document.documentElement.classList.toggle('menu-hidden', hideMenu); }
     updateBook(q); updateReveals(dt); frame(q, fk, progress);
+    dust.uniforms.uTime.value = elapsed;
+    dust.uniforms.uLamp.value = lampLevel * (1 - 0.85 * smooth(0.2, 1, progress));   // the motes thin out once the pages are being read
+    // the glint crosses the cover shortly after the lamp comes on, then about every ten seconds while the book is shut
+    if (shineAt < 0) shineAt = elapsed + (introOn ? 2.4 : 0.9);
+    const st = (elapsed - shineAt) / 1.5;
+    SHINE.value = st >= 0 && st <= 1 && progress < 0.3 ? -0.15 + st * 2.3 : -9;
+    if (st > 1) shineAt = elapsed + 10;
     steamSway += (THREE.MathUtils.clamp(vel * 6, -1, 1) - steamSway) * 0.05;
     steam.forEach((pl, i) => {
       pl.material.uniforms.uTime.value = elapsed + i * 1.3;

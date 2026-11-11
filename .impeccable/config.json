@@ -1,0 +1,16 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "cream-palette"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-11T01:02:39.444Z",
+        "reason": "user confirmed: Inter is the site's body font by design"
+      }
+    ]
+  }
+}

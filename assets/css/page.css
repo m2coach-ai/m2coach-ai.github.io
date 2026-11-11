@@ -345,5 +345,108 @@ body.page {
 .status--achieved { color: var(--accent); }
 .status--ongoing { color: var(--ink-muted); }
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Desk opening (module hubs and the Learning Loop, body.page--desk): the title sits on the lamp-lit desk from the
+   landing page, then the paper begins. One still image, no script. Text keeps a dark scrim behind it. */
+.page--desk .opening {
+  position: relative; isolation: isolate; width: auto; margin: 0;
+  padding-left: calc(max(1rem, (100% - var(--page-width)) / 2) + var(--gutter)); padding-right: calc(max(1rem, (100% - var(--page-width)) / 2) + var(--gutter));
+  padding-top: clamp(2.5rem, 7vw, 5.5rem); padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  background: var(--desk); color: var(--desk-ink); box-shadow: 0 14px 30px rgba(18, 13, 9, .35);
+}
+.page--desk .opening::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(18, 13, 9, .93) 0%, rgba(18, 13, 9, .8) 38%, rgba(18, 13, 9, .28) 72%, rgba(18, 13, 9, .12) 100%),
+    linear-gradient(180deg, rgba(18, 13, 9, 0) 70%, rgba(18, 13, 9, .55) 100%),
+    url("../img/desk-poster.webp") 60% 58% / cover no-repeat;
+}
+.page--desk .opening .display { color: var(--desk-ink); text-shadow: 0 2px 18px rgba(0, 0, 0, .55); }
+.page--desk .opening .lede { color: #e6dccb; text-shadow: 0 1px 10px rgba(0, 0, 0, .6); }
+.page--desk .opening .opening-rule { background: var(--lamp); }
+.page--desk .opening .crumbs, .page--desk .opening .page-label, .page--desk .opening .breadcrumbs [aria-current="page"] { color: #cfc3ad; }
+.page--desk .opening .page-label { border-left-color: rgba(241, 234, 220, .3); }
+.page--desk .opening a:not(.pill) { color: var(--lamp); }
+.page--desk .opening a:not(.pill):hover { color: var(--desk-ink); }
+.page--desk .opening :focus-visible { outline-color: var(--lamp); }
+.page--desk .opening .pill-solid { background: var(--lamp); border-color: var(--lamp); color: var(--desk); font-weight: 600; }
+.page--desk .opening .pill-solid:hover { background: var(--desk-ink); border-color: var(--desk-ink); color: var(--desk); }
+.page--desk .sheet { border-top: 0; }
+@media (max-width: 48rem) {
+  .page--desk .opening { width: auto; }
+  /* a taller crop on narrow screens, so the picture stays on the desk and the book */
+  .page--desk .opening::before {
+    background:
+      linear-gradient(180deg, rgba(18, 13, 9, .86) 0%, rgba(18, 13, 9, .7) 60%, rgba(18, 13, 9, .5) 100%),
+      url("../img/desk-poster.webp") 38% 35% / auto 165% no-repeat;
+  }
+}
+@media print {
+  .page--desk .opening { background: none; color: inherit; box-shadow: none; }
+  .page--desk .opening::before { display: none; }
+  .page--desk .opening .display, .page--desk .opening .lede { color: inherit; text-shadow: none; }
+}
+
+/* A thread: a passage in my own words with the page it rests on named underneath */
+.thread { max-width: var(--measure); padding: .1rem 0 .2rem 0; }
+.thread > p { margin: 0; font: 400 clamp(1.12rem, 2vw, 1.3rem) / 1.5 var(--serif); color: var(--ink); }
+.thread > .source-line { margin-top: .55rem; padding-top: .5rem; border-top: 1px solid var(--line); font: 400 .9rem / 1.5 var(--sans); color: var(--ink-muted); }
+
+/* Evidence note: a margin note in the book's hand that says where the proof for a passage is. It is an aside, so
+   it is never read as part of the passage itself. On wide screens it hangs in the right margin beside the text. */
+.evidence-note { position: relative; max-width: var(--measure); padding: .9rem 1.1rem .95rem; border: 1px solid rgba(185, 138, 69, .5); background: rgba(224, 180, 110, .13); border-radius: .4rem; }
+.evidence-note-label { margin: 0 0 .4rem; font: italic 500 1.1rem / 1.2 var(--serif); color: var(--accent-deep); }
+.chapter-body .evidence-note ul { list-style: none; margin: 0; padding: 0; }
+.chapter-body .evidence-note li { font-size: .92rem; line-height: 1.5; color: var(--ink-body); }
+.chapter-body .evidence-note li + li { margin-top: .45rem; }
+.evidence-note strong { font-weight: 600; color: var(--ink); }
+@media (min-width: 80rem) {
+  .chapter-body:has(> .evidence-note) { display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(15rem, 20rem); column-gap: 2.2rem; align-items: start; }
+  .chapter-body:has(> .evidence-note) > * { grid-column: 1; margin-top: 0; }
+  .chapter-body:has(> .evidence-note) > * + * { margin-top: 1.4rem; }
+  .chapter-body:has(> .evidence-note) > .evidence-note { grid-column: 2; grid-row: 1 / span 6; margin-top: 0; transform: rotate(.35deg); box-shadow: 0 2px 10px rgba(42, 38, 32, .1); }
+}
+
+/* Paged reading (opt-in with <body data-paged>; page.js adds .paged to <html> only when it runs).
+   One section is one page of the book. Without the script, in print, and after "Show everything on one page",
+   this is the ordinary long page. */
+.leafnav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .75rem 1rem; margin: 1.5rem var(--gutter) 0; padding: 1.1rem 0 .5rem; border-top: 1px solid var(--line); }
+.leaf-turn { display: inline-flex; flex-direction: column; gap: .15rem; min-height: 2.8rem; padding: .6rem 1rem; border: 1px solid var(--accent); border-radius: .5rem; background: rgba(255, 255, 255, .32); color: var(--accent-deep); font: inherit; text-align: left; cursor: pointer; transition: background-color .2s, color .2s, transform .2s var(--ease-out); }
+.leaf-turn .dir { font-size: .8rem; color: var(--ink-muted); }
+.leaf-turn .name { font: 500 1.1rem / 1.2 var(--serif); }
+.leaf-prev { grid-column: 1; justify-self: start; }
+.leaf-next { grid-column: 3; justify-self: end; text-align: right; align-items: flex-end; }
+.leaf-turn:hover { background: var(--accent); color: var(--paper); }
+.leaf-turn:hover .dir { color: inherit; }
+.leaf-next:hover { transform: translateX(3px); }
+.leaf-prev:hover { transform: translateX(-3px); }
+.leaf-folio { grid-column: 2; margin: 0; font: italic 400 1.05rem / 1 var(--serif); color: var(--ink-muted); white-space: nowrap; }
+.leaf-all { grid-column: 1 / -1; justify-self: center; min-height: 2.8rem; padding: .4rem .8rem; border: 0; background: none; color: var(--accent); font: inherit; font-size: .9rem; text-decoration: underline; text-underline-offset: .24em; text-decoration-thickness: 1px; cursor: pointer; }
+.leaf-all:hover { color: var(--accent-deep); }
+.leafnav [hidden] { display: none; }
+/* The bookmark: a ribbon across the top of the leaf that grows as the pages are turned */
+.leaf-mark { height: 5px; margin: 0 var(--gutter); background: rgba(42, 38, 32, .1); border-radius: 0 0 3px 3px; overflow: hidden; }
+.leaf-mark span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #b98a45, var(--lamp)); transition: width .5s var(--ease-out); }
+.leaf-mark[hidden] { display: none; }
+.paged .chapters > .chapter:not(.is-current) { display: none; }
+.paged .chapters { perspective: 1800px; }
+.paged .chapter.is-current .chapter-head { margin-top: 1.6rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .paged .chapter.is-current[data-turn] { transform-origin: left center; animation: leaf-forward .5s var(--ease-out) both; }
+  .paged .chapter.is-current[data-turn="back"] { transform-origin: right center; animation-name: leaf-back; }
+}
+/* the far edge of the leaf swings away from the reader and settles flat, so it never grows wider than the page */
+@keyframes leaf-forward { from { opacity: 0; transform: rotateY(14deg); } to { opacity: 1; transform: none; } }
+@keyframes leaf-back { from { opacity: 0; transform: rotateY(-14deg); } to { opacity: 1; transform: none; } }
+@media (max-width: 48rem) {
+  .leafnav { grid-template-columns: 1fr 1fr; }
+  .leaf-folio { grid-column: 1 / -1; grid-row: 1; justify-self: center; }
+  .leaf-prev { grid-column: 1; } .leaf-next { grid-column: 2; }
+  .leaf-turn { width: 100%; }
+}
+@media print {
+  .paged .chapters > .chapter:not(.is-current) { display: block; }
+  .leafnav, .to-top, .rail { display: none !important; }
+}
 .chapter-body > .table-wrap { max-width: none; }
 .outcome-why { margin: .7rem 0 0; font-size: .95rem; line-height: 1.5; color: var(--ink-body); }
