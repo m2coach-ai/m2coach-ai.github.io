@@ -129,7 +129,7 @@ The site was first built around a desk, a lamp and a record book. That world has
 Ink and paper, with two colours that each mean one thing.
 
 ### Primary
-- **Marking Red** (`red`): wrong, or in doubt. The landing hero is a field of it. Inside demonstrations it marks the duplicate, the missed case, the row that does not add up. On inner pages it appears only where a page records a mistake or difficulty. **Deep Red** (`red-deep`) is its text colour on a **Red Wash** (`red-wash`) panel. **Red on Ink** (`red-on-ink`) is the same signal on the dark frame: the brand dot, the rule under a module title, the module number.
+- **Marking Red** (`red`): wrong, or in doubt. The landing hero is a field of it. Inside demonstrations it marks the duplicate, the missed case, the row that does not add up. On inner pages it appears only where a page records a mistake or difficulty. **Deep Red** (`red-deep`) is its text colour on a **Red Wash** (`red-wash`) panel. **Red on Ink** (`red-on-ink`) is the question's own mark on the dark frame, used at display size only: the brand dot and the module number. It never colours small text.
 
 ### Secondary
 - **Checked Blue** (`blue`): checked, and able to be followed up. Every link, the "Where to see it" notes, the page-progress bar, the current item in a section list, and the "Two ways in" field on the landing page. **Deep Blue** (`blue-deep`) is the hover and the text colour on a **Blue Wash** (`blue-wash`) panel. **Blue on Ink** (`blue-on-ink`) is the link colour on the dark frame.
@@ -173,7 +173,7 @@ Ink and paper, with two colours that each mean one thing.
 
 Inner pages share one skeleton: an ink header strip, an opening (breadcrumb, title, one-sentence description), then a sheet with a section list on the left and the sections on the right, inside a 1180px container. Text holds a 52ch measure; tables, figures, cards and code may run the full width of the column. Below 62rem the section list moves above the content as wrapped chips and nothing is sticky.
 
-Pages with four or more sections read one section at a time: the section list, the previous and next controls and the arrow keys turn pages, a thin bar shows progress, and "Show everything on one page" restores the long page. Printing always prints everything.
+Pages with four or more sections read one section at a time: the section list, the previous and next controls and the arrow keys move between sections with a short fade, a thin bar shows progress, and "Show everything on one page" restores the long page. Printing always prints everything.
 
 Module pages and the Learning Loop open on a full-width ink band. On module pages the band holds the module number, large, beside the title and the module's question.
 

@@ -27,7 +27,7 @@ An e-portfolio for Mark Martin's postgraduate computing and artificial intellige
 ## Operating Context
 
 - Live site: https://m2coach-ai.github.io/ (GitHub Pages, project repository `m2coach-ai.github.io`, main branch `main`; the question-led version is developed on `question-first`, the desk-and-book version on `enhancements`).
-- Static HTML, CSS and JavaScript with Three.js loaded from jsDelivr for an optional WebGL homepage.
+- Static HTML, CSS and JavaScript with no build step and no external libraries.
 - Coursework and its source material live in a separate local folder; module READMEs there map units, files, marks and feedback. The master notes file for marks and feedback is `_portfolio-notes/Dig portfolio things essex modules webpage.docx`, with `marks-and-feedback-transcribed.md` for screenshots (per that folder's CLAUDE.md).
 - Evidence is published as separate pages per artefact so each can be linked directly.
 
@@ -36,7 +36,7 @@ An e-portfolio for Mark Martin's postgraduate computing and artificial intellige
 - The site must work without WebGL, without JavaScript beyond progressive enhancement, and under reduced motion. All assessed content and navigation stay reachable in every case.
 - Direct links to individual evidence pages must be preserved.
 - GitHub Pages limits: static files only, no server code, files over 100 MB are not hosted ("too large for GitHub, embed instead").
-- No new framework and no new animation library. The existing desk-and-book WebGL homepage is retained.
+- No new framework and no new animation library.
 - Confirmed publishing rules carried over from the coursework folder's instructions:
   - Private or extenuating-circumstances documents are never opened, described or published.
   - Classmates' posts and names are not published (peer content). The author's own reply text may appear once edited.
@@ -47,8 +47,8 @@ An e-portfolio for Mark Martin's postgraduate computing and artificial intellige
 
 ## Brand Commitments
 
-- The desk-and-book homepage identity stays: a record book under a lamp that opens and turns a page per chapter.
-- Existing name line: "Mark Martin / E-portfolio", with the small ribbon-bookmark mark.
+- The homepage is built on one question, "It ran. Can it be trusted?", with one scene per module (decided 11 Nov 2026). The earlier desk-and-book homepage is retired and kept only on the `enhancements` branch.
+- Existing name line: "Mark Martin / E-portfolio", with a small red dot.
 - The three-link site structure (About, Modules, Learning Loop) and the homepage chapters ("A record of learning.", "Practice meets inquiry.", "Evidence, not decoration.", "Across the programme.") are established voice.
 - The site must not become a generic AI start-up page, a design-agency page, a personal-brand site or a commercial landing page.
 
@@ -78,7 +78,7 @@ In practice:
 1. **Evidence before presentation.** Every claim of learning points to a page a reader can open directly.
 2. **Show the difficulty.** Mistakes, failed approaches, feedback and revision are first-class content, not appendices.
 3. **Assessors first, transfer visible.** Serve the outcome-by-outcome reader first, then make professional transfer to teaching and AI practice plain without turning the site into a résumé.
-4. **The book is the way in, never the way through.** The WebGL homepage is an optional entrance; all essential content and navigation work without it.
+4. **The question is the way in, never the way through.** The landing page and its demonstrations are an entrance; all essential content and navigation work without them and without JavaScript.
 5. **Never invent academic content.** Content that does not exist yet is left out: no page tells a reader that something is still to be added (decided 10 Nov 2026, replacing the earlier "shown as missing" rule).
 
 ## Accessibility & Inclusion

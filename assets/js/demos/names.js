@@ -34,9 +34,17 @@
   function run() {
     var names = input.value.split(/[,\n]/).map(function (s) { return s.trim(); }).filter(Boolean);
     var a = original(names), b = modified(names), extra = a.length - b.length;
-    out('original').textContent = a.join(', '); count('original').textContent = plural(a.length, 'entry', 'entries');
+    // the duplicated names are underlined: any name whose lower-case form appears more than once in the output
+    var seenLower = {}; a.forEach(function (x) { var k = x.toLowerCase(); seenLower[k] = (seenLower[k] || 0) + 1; });
+    var box = out('original'); box.textContent = '';
+    a.forEach(function (x, i) {
+      if (i) box.appendChild(document.createTextNode(', '));
+      if (seenLower[x.toLowerCase()] > 1) { var m = document.createElement('mark'); m.textContent = x; box.appendChild(m); }
+      else box.appendChild(document.createTextNode(x));
+    });
+    count('original').textContent = plural(a.length, 'entry', 'entries');
     out('modified').textContent = b.join(', '); count('modified').textContent = plural(b.length, 'entry', 'entries');
-    verdict.textContent = extra > 0 ? 'No error. ' + plural(extra, 'entry is a duplicate', 'entries are duplicates') + ' the script did not catch.'
+    verdict.textContent = extra > 0 ? 'No error. ' + plural(extra, 'entry is a duplicate', 'entries are duplicates') + ' the script did not catch, underlined above.'
       : 'No duplicates slipped through this time.';
     root.classList.toggle('is-clean', extra === 0);
   }

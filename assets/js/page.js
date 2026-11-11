@@ -3,6 +3,14 @@
 (function () {
   'use strict';
 
+  // Arrows are small drawn icons, not text characters, and are hidden from screen readers.
+  var ARROWS = { left: 'M13 8H3M7 4 3 8l4 4', right: 'M3 8h10M9 4l4 4-4 4', up: 'M8 13V3M4 7l4-4 4 4' };
+  function arrow(dir) { return '<svg class="arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="' + ARROWS[dir] + '"/></svg>'; }
+  function label(el, dir, text, after) {
+    el.textContent = text;
+    el.insertAdjacentHTML(after ? 'beforeend' : 'afterbegin', arrow(dir));
+  }
+
   // 0. Arriving from the book: the homepage leaves a note in sessionStorage when it hands its paper layer over.
   //    Tag the view transition so the page replaces the desk at once, under the paper layer, instead of letting
   //    the darkened desk show through while the page fades in (see page.css).
@@ -40,11 +48,11 @@
       sheet.insertBefore(rail, sheet.firstChild);
     }
     var box = document.createElement('div'); box.className = 'rail-back';
-    if (hub) { var a = document.createElement('a'); a.href = hub.getAttribute('href'); a.textContent = '\u2190 ' + (/hub/i.test(hub.textContent) ? 'Back to module hub' : hub.textContent.trim()); box.appendChild(a); }
-    var up = document.createElement('a'); up.href = '#main'; up.textContent = '\u2191 Back to top';
+    if (hub) { var a = document.createElement('a'); a.href = hub.getAttribute('href'); label(a, 'left', /hub/i.test(hub.textContent) ? 'Back to module hub' : hub.textContent.trim()); box.appendChild(a); }
+    var up = document.createElement('a'); up.href = '#main'; label(up, 'up', 'Back to top');
     up.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0 }); var m = document.getElementById('main'); if (m) { m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); } });
     box.appendChild(up); rail.insertBefore(box, rail.firstChild);
-    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'to-top'; btn.textContent = '\u2191 Top'; btn.setAttribute('aria-label', 'Back to top');
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'to-top'; label(btn, 'up', 'Top'); btn.setAttribute('aria-label', 'Back to top');
     btn.addEventListener('click', function () { window.scrollTo({ top: 0 }); });
     document.body.appendChild(btn);
     var tick = function () { btn.classList.toggle('on', window.scrollY > 700); };
@@ -89,10 +97,10 @@
       for (var i = 0; i < chapters.length; i++) if (chapters[i] === el || chapters[i].contains(el)) return i;
       return -1;
     };
-    var label = function (b, dir, i) {
+    var turnLabel = function (b, back, i) {
       b.hidden = i < 0 || i >= chapters.length; if (b.hidden) return;
       b.innerHTML = '<span class="dir"></span><span class="name"></span>';
-      b.firstChild.textContent = dir; b.lastChild.textContent = title(i);
+      label(b.firstChild, back ? 'left' : 'right', back ? 'Previous page' : 'Next page', !back); b.lastChild.textContent = title(i);
     };
     var render = function () {
       root.classList.toggle('paged', !all);
@@ -103,7 +111,7 @@
       prev.hidden = next.hidden = folio.hidden = mark.hidden = all;
       fill.style.width = ((current + 1) / chapters.length * 100) + '%';
       if (!all) {
-        label(prev, '← Previous page', current - 1); label(next, 'Next page →', current + 1);
+        turnLabel(prev, true, current - 1); turnLabel(next, false, current + 1);
         folio.textContent = 'Page ' + (current + 1) + ' of ' + chapters.length;
       }
       toggle.textContent = all ? 'Read one page at a time' : 'Show everything on one page';
