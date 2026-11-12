@@ -23,4 +23,4 @@ A static postgraduate computing and artificial intelligence e-portfolio, publish
 
 Plain HTML, CSS and JavaScript with no build step. Every page works without JavaScript. The demonstrations on the landing page show the artefact's real result in the HTML; the scripts only let a reader try other inputs. Each script lists its figures and the page they came from.
 
-`assets/js/experience.js`, `assets/css/experience.css`, `assets/css/global.css`, `assets/models/` and `assets/textures/` belong to an earlier desk-and-book landing page, kept on the `enhancements` branch. This version does not load them. The journal, lamp, pen and wood in that scene are CC0 assets from Poly Haven (polyhaven.com).
+An earlier desk-and-book landing page, with its 3D scene, models and textures, is kept on the `enhancements` branch. Its files are not part of this version.
