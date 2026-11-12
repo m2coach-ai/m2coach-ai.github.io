@@ -440,3 +440,5 @@ body.page {
 .arrow { flex: none; width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.14em; }
 .rail-back a, .to-top { gap: .4em; }
 .leaf-turn .dir { display: inline-flex; align-items: center; gap: .35em; }
+/* A page with no breadcrumb line (404): the number starts level with the title */
+@media (min-width: 48rem) { .page--desk .opening:not(:has(> .crumbs)):has(> .opening-no) > .opening-no { grid-row: 1 / span 6; } }
