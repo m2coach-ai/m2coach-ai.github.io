@@ -109,7 +109,7 @@
         if (!all && indexOf(a.getAttribute('href').slice(1)) === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
       });
       prev.hidden = next.hidden = folio.hidden = mark.hidden = all;
-      fill.style.width = ((current + 1) / chapters.length * 100) + '%';
+      fill.style.transform = 'scaleX(' + ((current + 1) / chapters.length) + ')';
       if (!all) {
         turnLabel(prev, true, current - 1); turnLabel(next, false, current + 1);
         folio.textContent = 'Page ' + (current + 1) + ' of ' + chapters.length;

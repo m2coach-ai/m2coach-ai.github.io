@@ -33,9 +33,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--paper); -webkit-text-size-adjust: 100%; scrollbar-color: var(--ink) var(--paper); }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; scrollbar-color: var(--ink) var(--paper); overflow-x: clip; }
 body.page {
-  margin: 0; color: var(--ink); font: 400 1rem/1.65 var(--sans); overflow-wrap: break-word;
+  margin: 0; overflow-x: clip; color: var(--ink); font: 400 1rem/1.65 var(--sans); overflow-wrap: break-word;
   background-color: var(--paper);
 }
 .page img, .page svg { max-width: 100%; display: block; }
@@ -409,8 +409,11 @@ body.page {
 .leafnav [hidden] { display: none; }
 /* The bookmark: a ribbon across the top of the leaf that grows as the pages are turned */
 .leaf-mark { height: 5px; margin: 0 var(--gutter); background: rgba(21, 23, 28, .1); border-radius: 0 0 3px 3px; overflow: hidden; }
-.leaf-mark span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .5s var(--ease-out); }
+.leaf-mark span { display: block; height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; transition: transform .5s var(--ease-out); }
 .leaf-mark[hidden] { display: none; }
+/* Pressed: a small push in, so a tap on a phone shows it landed */
+.page .pill:active, .page .resource-link:active, .rail-back a:active, .leaf-all:active { transform: scale(.97); }
+.leaf-turn:active, .leaf-next:active, .leaf-prev:active { transform: scale(.98); }
 .paged .chapters > .chapter:not(.is-current) { display: none; }
 .paged .chapter.is-current .chapter-head { margin-top: 1.6rem; }
 @media (prefers-reduced-motion: no-preference) {

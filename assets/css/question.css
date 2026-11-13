@@ -17,9 +17,9 @@
   color-scheme: light;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; background: var(--paper); scrollbar-color: var(--ink) var(--paper); }
+html { -webkit-text-size-adjust: 100%; background: var(--paper); scrollbar-color: var(--ink) var(--paper); overflow-x: clip; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem / 1.6 var(--sans); }
+body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font: 400 1rem / 1.6 var(--sans); }
 a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px; }
 ::selection { background: var(--blue); color: #fff; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
@@ -38,7 +38,7 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px
 .q-nav .q-nav-mark:hover { background: #fff; }
 
 /* Hero: the question, on a field of red */
-.q-hero { min-height: min(88vh, 54rem); display: flex; flex-direction: column; justify-content: center; padding: clamp(3rem, 9vw, 7rem) var(--edge) clamp(2.5rem, 6vw, 4.5rem); background: var(--red); color: #fff; }
+.q-hero { min-height: min(88vh, 54rem); min-height: min(88svh, 54rem); display: flex; flex-direction: column; justify-content: center; padding: clamp(3rem, 9vw, 7rem) var(--edge) clamp(2.5rem, 6vw, 4.5rem); background: var(--red); color: #fff; }
 .q-hero :focus-visible { outline-color: #fff; }
 .q-hero ::selection { background: #fff; color: var(--red-deep); }
 .q-hero h1 { margin: 0; max-width: 15ch; font: 500 clamp(3.2rem, 10.5vw, 6rem) / .98 var(--serif); letter-spacing: -.03em; text-wrap: balance; }
@@ -51,6 +51,10 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px
 .q-button:hover { background: var(--ink); border-color: var(--ink); color: #fff; transform: translateY(-2px); }
 .q-button--quiet { background: none; color: #fff; border-color: rgba(255, 255, 255, .6); }
 .q-button--quiet:hover { background: #fff; border-color: #fff; color: var(--red-deep); }
+/* Pressed: a small push in, so a tap on a phone shows it landed */
+.q-button:active { transform: translateY(0) scale(.98); }
+.q-nav a:active, .scene-more a:active, .demo-stops label:active span { transform: scale(.97); }
+.door:active { transform: translateY(-1px); }
 .q-byline { margin: clamp(2.5rem, 6vw, 4rem) 0 0; font-size: .95rem; color: #ffe1dc; }
 .q-trail { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.8rem; margin: .9rem 0 0; padding: 1.1rem 0 0; border-top: 1px solid var(--on-field); max-width: 46rem; }
 .q-trail a { display: inline-flex; align-items: baseline; gap: .55rem; min-height: 2.8rem; text-decoration: none; color: #ffe1dc; font-size: .95rem; }
