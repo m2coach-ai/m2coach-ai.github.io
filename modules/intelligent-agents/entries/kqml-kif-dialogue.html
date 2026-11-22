@@ -49,6 +49,7 @@
         <li><a href="#about-this-activity">About this activity</a></li>
         <li><a href="#the-dialogue">The dialogue</a></li>
         <li><a href="#extension">Extension</a></li>
+        <li><a href="#my-understanding">My understanding</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="#the-code-as-written">The code as written</a></li>
         <li><a href="#learning-outcomes">Learning outcomes for this activity</a></li>
@@ -153,6 +154,15 @@
   :content    (and (television ?p)
                    (screen-size ?p 50)
                    (hdmi-ports ?p ?n)))</code></pre>
+        </div>
+      </section>
+
+      <section class="chapter" id="my-understanding" aria-labelledby="h-my-understanding">
+        <div class="chapter-head"><h2 id="h-my-understanding">My understanding</h2></div>
+        <div class="chapter-body">
+          <p>I came to understand KQML as the envelope used to carry a message between agents. It identifies the sender and receiver, states the type of communication, and names the language and ontology needed to interpret the content. KIF is the language used to write the actual question or fact inside the envelope.</p>
+          <p>The main catch is that speaking the same language does not guarantee that words have the same meaning. Two agents may both understand KIF but still interpret <code>stock-level</code> differently. One might mean products physically in the warehouse, while another might include products that have been ordered but not yet received.</p>
+          <p>The ontology solves this problem by acting as a shared dictionary. It defines the specialized terms and the rules attached to them. In short, KQML organizes the communication, KIF provides the grammar, and the ontology provides the agreed meaning.</p>
         </div>
       </section>
 
