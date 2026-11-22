@@ -8,6 +8,15 @@
         "value": "inter",
         "createdAt": "2026-11-11T01:02:39.444Z",
         "reason": "user confirmed: Inter is the site's body font by design"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "modules/intelligent-agents/index.html"
+        ],
+        "createdAt": "2026-11-22T02:36:07.117Z",
+        "reason": "Claude verified in browser: flagged #b8bdc9 and #a9bcff sit on the dark opening band rgb(21,23,28), not #f5f6f8; contrast about 10:1"
       }
     ]
   }

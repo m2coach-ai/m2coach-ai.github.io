@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Module 4, Unit 6: an agent dialogue in KQML and KIF between Alice, a procurement agent, and Bob, a warehouse stock agent, about 50 inch televisions and their HDMI ports.">
+<title>Alice, Bob and the Black Friday TVs | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page page--bands" data-paged>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Home</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Intelligent Agents</a> / <span aria-current="page">KQML and KIF dialogue</span></nav>
+      <p class="page-label">Unit 6 / Formative activity</p>
+    </div>
+    <h1 class="display" id="page-title">Alice, Bob and the Black Friday TVs</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Two agents, one deadline and six messages, written in KQML with KIF inside.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#about-this-activity">About this activity</a></li>
+        <li><a href="#the-dialogue">The dialogue</a></li>
+        <li><a href="#extension">Extension</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#the-code-as-written">The code as written</a></li>
+        <li><a href="#learning-outcomes">Learning outcomes for this activity</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+
+      <section class="chapter" id="about-this-activity" aria-labelledby="h-about-this-activity">
+        <div class="chapter-head"><h2 id="h-about-this-activity">About this activity</h2></div>
+        <div class="chapter-body">
+          <p><strong>The task:</strong> Create an agent dialogue, using KQML and KIF, between two agents (named Alice and Bob).</p>
+          <p>Alice is an agent designed to procure stock and Bob is an agent that controls the stock levels for a warehouse. This dialogue should see Alice asking Bob about the available stock of 50 inch televisions, and also querying the number of HDMI slots the televisions have.</p>
+          <p><strong>Alice, Procurement agent.</strong> Always in a hurry. Has to fill the Black Friday flyer with a 50 inch TV deal by Monday.</p>
+          <p><strong>Bob, Warehouse stock agent.</strong> Knows every shelf and every count. Only says what he actually knows. Never guesses.</p>
+          <p><strong>The brief:</strong> the flyer headline is <em>"Plug in your console AND your soundbar."</em>
+    So Alice needs a 50 inch TV that is in stock <em>and</em> has enough HDMI ports. Only Bob can tell her.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="the-dialogue" aria-labelledby="h-the-dialogue">
+        <div class="chapter-head"><h2 id="h-the-dialogue">The dialogue</h2></div>
+        <div class="chapter-body">
+          <h3>Alice · ask-all · q1</h3>
+          <p>Bob! What 50 inch TVs have you got, and how many of each?</p>
+          <pre class="code-block"><code>(ask-all
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q1
+  :content    (and (television ?p)
+                   (screen-size ?p 50)
+                   (stock-level ?p ?qty)))</code></pre>
+          <h3>Bob · tell · re q1</h3>
+          <p>Two models. TV50-A: 120 on the shelf. TV50-B: 35.</p>
+          <pre class="code-block"><code>(tell
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q1
+  :content     (and
+                 (television TV50-A)
+                 (screen-size TV50-A 50)
+                 (stock-level TV50-A 120)
+                 (television TV50-B)
+                 (screen-size TV50-B 50)
+                 (stock-level TV50-B 35)))</code></pre>
+          <p><em>Alice does the maths: 120 + 35 is plenty for the flyer. Now, the ports…</em></p>
+          <h3>Alice · ask-one · q2</h3>
+          <p>How many HDMI ports on TV50-A?</p>
+          <pre class="code-block"><code>(ask-one
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q2
+  :content    (hdmi-ports TV50-A ?n))</code></pre>
+          <h3>Bob · tell · re q2</h3>
+          <p>Four.</p>
+          <pre class="code-block"><code>(tell
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q2
+  :content     (hdmi-ports TV50-A 4))</code></pre>
+          <p><em>Console, soundbar and two to spare. TV50-A passes.</em></p>
+          <h3>Alice · ask-one · q3</h3>
+          <p>And TV50-B?</p>
+          <pre class="code-block"><code>(ask-one
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q3
+  :content    (hdmi-ports TV50-B ?n))</code></pre>
+          <h3>Bob · sorry · re q3</h3>
+          <p>Got your question. No spec sheet on file for that one, so I won't guess.</p>
+          <pre class="code-block"><code>(sorry
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q3
+  :content     (hdmi-ports TV50-B ?n))</code></pre>
+          <p><em>Alice puts TV50-A on the flyer. 120 units, four HDMI ports. Deal done.</em></p>
+        </div>
+      </section>
+
+      <section class="chapter" id="extension" aria-labelledby="h-extension">
+        <div class="chapter-head"><h2 id="h-extension">Extension</h2></div>
+        <div class="chapter-body">
+          <h3>Alice · ask-all · q4</h3>
+          <pre class="code-block"><code>(ask-all
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q4
+  :content    (and (television ?p)
+                   (screen-size ?p 50)
+                   (hdmi-ports ?p ?n)))</code></pre>
+        </div>
+      </section>
+
+      <section class="chapter" id="how-it-works" aria-labelledby="h-how-it-works">
+        <div class="chapter-head"><h2 id="h-how-it-works">How it works</h2></div>
+        <div class="chapter-body">
+          <div class="table-wrap block"><table class="data-table">
+            <caption class="visually-hidden">The three layers of each message: KQML performative, KIF content and ontology</caption>
+            <thead><tr><th scope="col">Layer</th><th scope="col">Job</th><th scope="col">Here</th></tr></thead>
+            <tbody><tr><td>KQML performative</td><td>What kind of move is this?</td><td><code>ask-all</code>, <code>ask-one</code>, <code>tell</code>, <code>sorry</code></td></tr><tr><td>KIF content</td><td>What exactly is being said?</td><td>Logic sentences. Questions hold <code>?variables</code>; answers are ground facts.</td></tr><tr><td>Ontology</td><td>What do the words mean?</td><td><code>warehouse-stock</code>, shared by both agents</td></tr></tbody>
+          </table></div>
+          <p><code>ask-all</code> opens the conversation because Alice doesn't know how many 50 inch models exist. Once she wants one specific fact, she switches to <code>ask-one</code>. Each question carries a <code>:reply-with</code> label and each answer quotes it back in <code>:in-reply-to</code>, so answers match questions even when many conversations run at once. Bob's <code>sorry</code> means "understood, but I don't know", which is different from <code>error</code>, meaning "your message was broken".</p>
+          <h3>The shared dictionary (ontology), in KIF</h3>
+          <pre class="code-block"><code>(forall (?p ?s)
+  (=&gt; (screen-size ?p ?s)
+      (and (television ?p) (&gt; ?s 0))))
+
+(forall (?p ?q)
+  (=&gt; (stock-level ?p ?q)
+      (and (integer ?q) (&gt;= ?q 0))))
+
+(forall (?p ?n)
+  (=&gt; (hdmi-ports ?p ?n)
+      (and (television ?p) (integer ?n) (&gt;= ?n 0))))</code></pre>
+          <p>Screen size is in inches. That's a design choice, and the ontology is where it gets written down so both agents agree.</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="the-code-as-written" aria-labelledby="h-the-code-as-written">
+        <div class="chapter-head"><h2 id="h-the-code-as-written">The code as written</h2></div>
+        <div class="chapter-body">
+          <pre class="code-block"><code>(ask-all
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q1
+  :content    (and (television ?p)
+                   (screen-size ?p 50)
+                   (stock-level ?p ?qty)))
+
+(tell
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q1
+  :content     (and
+                 (television TV50-A)
+                 (screen-size TV50-A 50)
+                 (stock-level TV50-A 120)
+                 (television TV50-B)
+                 (screen-size TV50-B 50)
+                 (stock-level TV50-B 35)))
+; Sender and receiver have swapped places.
+; :reply-with became :in-reply-to with the same label.
+; Every ? variable has been replaced with a real value.
+; Those three changes happen in every answer.
+
+(ask-one
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q2
+  :content    (hdmi-ports TV50-A ?n))
+
+(tell
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q2
+  :content     (hdmi-ports TV50-A 4))
+
+(ask-one
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q3
+  :content    (hdmi-ports TV50-B ?n)) 
+
+(sorry
+  :sender      Bob
+  :receiver    Alice
+  :language    KIF
+  :ontology    warehouse-stock
+  :in-reply-to q3
+  :content     (hdmi-ports TV50-B ?n))
+  
+(ask-all
+  :sender     Alice
+  :receiver   Bob
+  :language   KIF
+  :ontology   warehouse-stock
+  :reply-with q4
+  :content    (and (television ?p)
+                   (screen-size ?p 50)
+                   (hdmi-ports ?p ?n)))</code></pre>
+          <ul class="resources">
+            <li class="resource">
+              <a class="resource-link" href="../files/kqml-dialogue.lisp" download>
+                <span class="resource-title">Download the dialogue (kqml-dialogue.lisp)</span>
+                <span class="resource-meta"><span class="resource-type">KQML and KIF</span> <span class="resource-size">1.7 KB</span></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter" id="learning-outcomes" aria-labelledby="h-learning-outcomes">
+        <div class="chapter-head"><h2 id="h-learning-outcomes">Learning outcomes for this activity</h2></div>
+        <div class="chapter-body">
+          <ul>
+            <li>An understanding of the motivations for, and appropriate use of, agent-based computing.</li>
+            <li>An understanding of the main agent models in use today and their grounding in artificial intelligence research.</li>
+          </ul>
+          <p>On the module page this is evidence for:</p>
+          <ul>
+            <li>Apply and critically evaluate intelligent agent techniques to real-world problems, particularly where technical risk and uncertainty is involved. <a href="../#outcome-2">See it on the module page</a></li>
+            <li>Deploy critically appropriate software tools and skills for the design and implementation of an agent-based system, bearing in mind applicable legal, social, ethical and professional issues. <a href="../#outcome-3">See it on the module page</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+          <p>Product codes and figures are invented for the example.</p>
+          <ul>
+            <li>Finin, T. et al. (1994) 'KQML as an agent communication language', <em>CIKM '94</em>.</li>
+            <li>Genesereth, M.R. and Fikes, R.E. (1992) <em>Knowledge Interchange Format, Version 3.0 Reference Manual</em>. Stanford Logic Group.</li>
+            <li>Wooldridge, M. (2009) <em>An Introduction to MultiAgent Systems</em>. 2nd edn. Wiley.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="team-meeting-notes.html" rel="prev"><span class="dir">Previous</span><span class="name">Team working record</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Intelligent Agents</a></p>
+</footer>
+</body>
+</html>
