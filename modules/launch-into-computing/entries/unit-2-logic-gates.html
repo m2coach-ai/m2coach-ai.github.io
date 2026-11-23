@@ -12,7 +12,7 @@
 <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
 <script src="../../../assets/js/page.js"></script>
 </head>
-<body class="page page--bands">
+<body class="page page--bands" data-paged>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
@@ -49,6 +49,7 @@
         <li><a href="#task-a-my-post">Task A: my post</a></li>
         <li><a href="#task-a-references">References for Task A</a></li>
         <li><a href="#task-b-pizza-oven-circuit">Task B: the pizza oven circuit</a></li>
+        <li><a href="#looking-back-the-emergency-gate">Looking back: the emergency gate</a></li>
       </ol>
     </nav>
     <div class="chapters">
@@ -95,6 +96,24 @@
     <p>Columns: inputs D, T, P and E; intermediate values S = D AND T AND P and not E; output H = S AND not E; and a status message. The logic shown is S = D AND T AND P; not E = NOT E; H = S AND not E.</p><p>H is 1 in one row only: D, T and P are 1 and E is 0, marked as perfect. When D, T and P are 1 and E is 1, H is 0, marked as emergency override. Every other row gives H = 0.</p>
   </details>
 </figure>
+        </div>
+      </section>
+      <section class="chapter" id="looking-back-the-emergency-gate" aria-labelledby="h-looking-back-the-emergency-gate">
+        <div class="chapter-head"><h2 id="h-looking-back-the-emergency-gate">Looking back: the emergency gate</h2></div>
+        <div class="chapter-body">
+        <p>The truth table and the expression H=DTP and not {E} are correct. The circuit is not. It feeds S and E into a NAND gate, which outputs 0 only when both inputs are 1, so it turns the oven on in 15 of the 16 input combinations. Both screenshots show cases where S is 1, the only cases a NAND gets right.</p>
+        <div class="table-wrap block"><table class="data-table">
+          <caption class="visually-hidden">What the NAND circuit gives compared with the truth table, for each combination of S and E</caption>
+          <thead><tr><th scope="col">Situation</th><th scope="col">S</th><th scope="col">E</th><th scope="col">NAND circuit gives H</th><th scope="col">Truth table H</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Ready, emergency pressed</th><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><th scope="row">Ready, no emergency</th><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+            <tr><th scope="row">Door open, no emergency</th><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            <tr><th scope="row">Door open, emergency pressed</th><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+          </tbody>
+        </table></div>
+        <h3>What I learned</h3>
+        <p>This activity taught me that a correct Boolean expression must be implemented with gates in exactly the same order. I initially treated S NAND E as if it meant S AND NOT E, but a NAND gate negates the result of the whole AND operation. This caused the heater to turn on when the safety conditions were false. The fix is to apply a NOT gate to the emergency input first and then feed S and NOT E into an AND gate. I also learned that testing only the normal operating states can hide a logic error. Testing all truth-table combinations, particularly unsafe inputs such as an open door, is necessary to confirm that a safety circuit behaves correctly.</p>
         </div>
       </section>
     </div>
