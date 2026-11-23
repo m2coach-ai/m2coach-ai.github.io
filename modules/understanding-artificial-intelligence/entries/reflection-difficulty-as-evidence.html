@@ -66,6 +66,14 @@
         <div class="chapter-body">
         <p>Module 2 moved me from recognizing a technical problem to diagnosing why it occurred. In Instantiating the Smallest Defensible Model, I attempted to determine whether Random Forest improves enough on an interpretable logistic regression baseline to justify its greater complexity. My first approach produced a misleading tie: both models reached 96.5 per cent accuracy. That exposed a weakness in my testing, because accuracy hid the distribution of errors, including the false negatives that matter most. The <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">analysis of outputs</a> shows where that figure stopped being enough.</p>
         <p>Instead of removing the unsuccessful attempt, I used it to trace the problem. I compared the confusion matrices, ran an exact McNemar test on the paired errors, and checked per-fold recall against a dummy baseline. I identified that a one-case difference on 42 malignant test cases could not support a winner (p = 1.000), and I revised my conclusion to a narrower claim: “this test shows no advantage sufficient to justify escalation.”</p>
+        <aside class="evidence-note" aria-label="Where to see the evidence for this passage">
+          <p class="evidence-note-label">Where to see it</p>
+          <ul>
+            <li><strong>The 96.5 per cent tie and the hidden false negatives:</strong> <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">Unit 12: analysis of outputs</a></li>
+            <li><strong>Confusion matrices, the exact McNemar test and per-fold recall against a dummy baseline:</strong> <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">Unit 12: analysis of outputs</a> and <a href="unit-12-instantiating-the-model.html#appendix-a-supplementary-notebook-evidence">Appendix A: supplementary notebook evidence</a></li>
+            <li><strong>The narrower claim:</strong> <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">Unit 12: analysis of outputs</a></li>
+          </ul>
+        </aside>
         </div>
       </section>
       <section class="chapter" id="so-what" aria-labelledby="h-so-what">
@@ -73,6 +81,14 @@
         <div class="chapter-body">
         <p>The important learning was not simply that the revised method worked. I began to see an error as information about my reasoning. It showed where I had made an assumption, skipped a check or relied on an explanation that was more confident than the evidence allowed. The threshold analysis in the same section showed one such assumption: “The operating point moves the costly error more than the choice between these two algorithms does.”</p>
         <p>This changed the standard I applied to my own work. Completion answered, “Did I produce a result?” Evaluation asked, “What makes that result worth trusting?” The second question required evidence of testing, limitations and reproducibility. The <a href="unit-12-instantiating-the-model.html#transfer-to-the-unit-9-problem">transfer section</a> sets out which validation methods this study did not run and why.</p>
+        <aside class="evidence-note" aria-label="Where to see the evidence for this passage">
+          <p class="evidence-note-label">Where to see it</p>
+          <ul>
+            <li><strong>The threshold analysis:</strong> <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">Unit 12: analysis of outputs</a></li>
+            <li><strong>Validation methods the study did not run:</strong> <a href="unit-12-instantiating-the-model.html#transfer-to-the-unit-9-problem">Unit 12: transfer to the Unit 9 problem</a></li>
+            <li><strong>Where the marker asked for more:</strong> <a href="unit-12-instantiating-the-model.html#feedback">Marker’s feedback on the Unit 12 report</a></li>
+          </ul>
+        </aside>
         </div>
       </section>
       <section class="chapter" id="now-what" aria-labelledby="h-now-what">

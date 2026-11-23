@@ -12,7 +12,7 @@
 <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
 <script src="../../../assets/js/page.js"></script>
 </head>
-<body class="page page--bands">
+<body class="page page--bands" data-paged>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
@@ -39,10 +39,19 @@
     </div>
     <h1 class="display" id="page-title">Collaborative Learning Discussion 2</h1>
     <div class="opening-rule" aria-hidden="true"></div>
-    <p class="lede">Two models, the same task, and the argument that the decisive question in a clinic is whether a wrong call can be questioned. The initial post, then the summary post that tested it. Only my own text appears. Peers’ posts are not published.</p>
+    <p class="lede">Two models, the same task, and the argument that the decisive question in a clinic is whether a wrong call can be questioned. The initial post, my replies, then the summary post that tested it. Only my own text appears. Peers’ posts are not published.</p>
   </section>
 
   <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#initial-post">Initial post</a></li>
+        <li><a href="#replies-in-my-thread">Replies in my thread</a></li>
+        <li><a href="#replies-on-other-threads">Replies on other threads</a></li>
+        <li><a href="#summary-post">Summary post</a></li>
+      </ol>
+    </nav>
     <div class="chapters">
       <section class="chapter" id="initial-post" aria-labelledby="h-initial-post">
         <div class="chapter-head"><h2 id="h-initial-post">Initial post</h2></div>
@@ -57,6 +66,44 @@
           <li>Leo XIV (2026b) 'Presentation of the Encyclical Letter "Magnifica Humanitas"'. Address, Synod Hall, Vatican City, 25 May. Available at: <a rel="noopener" href="https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-magnifica-humanitas-presentation-ai-disarmament.html">https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-magnifica-humanitas-presentation-ai-disarmament.html</a> (Accessed: 31 May 2026).</li>
           <li>Olah, C. (2026) 'Anthropic co-founder Chris Olah's remarks on Pope Leo XIV's encyclical "Magnifica Humanitas"'. Anthropic, 25 May. Available at: <a rel="noopener" href="https://www.anthropic.com/news/chris-olah-pope-leo-encyclical">https://www.anthropic.com/news/chris-olah-pope-leo-encyclical</a> (Accessed: 31 May 2026).</li>
         </ul>
+        </div>
+      </section>
+      <section class="chapter" id="replies-in-my-thread" aria-labelledby="h-replies-in-my-thread">
+        <div class="chapter-head"><h2 id="h-replies-in-my-thread">Replies in my thread</h2></div>
+        <div class="chapter-body">
+          <p>Two peers replied to my initial post. These are my answers, posted on 4 June 2026. Peers’ names are removed or replaced in square brackets.</p>
+          <h3>Reply to the first peer</h3>
+          <p><em>The peer pointed out that a CNN is not silent, because Grad-CAM shows where it looked, and that a model whose reasoning can be seen can still be wrong.</em></p>
+          <p>You're right that the CNN is not silent, and that makes the argument stronger, not weaker. A CNN can use saliency maps or Grad-CAM to show which part of the blood smear it focused on. The question is whether that picture reflects how it actually decided. Adebayo et al. (2018) found that some saliency methods return almost the same heatmap even after a model's weights are scrambled. If the highlight barely changes when the model is broken, it is not really showing the model's reasoning. A heatmap that looks like a reason but is not one may be more dangerous than no explanation, because it invites a clinician to trust something that was never there. This is why Rudin (2019) argues that, in high-stakes settings, we should not explain black boxes after the fact when interpretable models can be built from the start.</p>
+          <p>Your second point corrects something I ran together. Seeing a model's reasoning does not make that reasoning right. An SVM built on the wrong features is easy to follow and still wrong. Transparency was never a promise of accuracy. What it gives, at best, is a wrong answer that can be traced back to a human design choice. A wrong CNN may leave too little to trace, and too many places for responsibility to dissolve.</p>
+          <p>So the real question was never only which model is clearer or more accurate. It is whether a human can still be held responsible when the system gets it wrong. [The second peer] pushes this harder, arguing that the model is never where accountability itself sits, and I think he is right about that. I take that up more directly in my reply to him. But your point still matters here: transparency helps keep a person in the chain. A convincing but empty explanation is dangerous because it can fake that chain after the person has gone.</p>
+          <h3>Reply to the second peer</h3>
+          <p><em>The peer argued that accountability never sits inside the model, and that the answer is to choose the best tool and take responsibility for that choice.</em></p>
+          <p>You're right, and I'll concede the main thing first: “ethics before technical” was me trying to tie things up in a bow. If being answerable means tracing the model's inner workings, that is really a rule about which models are allowed, so the ethics was riding on a technical choice. And forcing a clinician to answer for a black box does not make them accountable. It makes them what Elish (2019) calls a moral crumple zone: like the part of a car built to crush in a crash, the nearest person absorbs the impact while the system is shielded.</p>
+          <p>Where I would push back is on your fix. “Pick the best tool and answer for that decision” does not fully escape that crumple zone. If the tool is something no one can inspect, then when it fails the blame may simply shift to whoever approved or deployed it. The zone has not disappeared. It has moved from the operator to the buyer. Santoni de Sio and van den Hoven (2018) make the stronger requirement explicit: meaningful human control depends on outcomes being traceable to human agents in the chain. A system’s weaknesses can be tested from the outside, but they are harder to explain, contest, or assign responsibility for if no one can inspect how its outputs were produced. So inspectability is not the opposite of governance. It is what stops governance becoming a rubber stamp, or liability becoming mere blame allocation.</p>
+          <p>[The first peer]'s point, which you rightly extend, hits for me too: transparency alone will not carry the moral weight, but that does not make the chain back to a human optional. So I would drop “ethics before technical,” and I would not say “pick the explainable model” either. Choosing the tool and answering for it are one act, and answering is only possible while a person's decision remains traceable in the chain.</p>
+          <h3>References</h3>
+          <ul>
+            <li>Adebayo, J., Gilmer, J., Muelly, M., Goodfellow, I., Hardt, M. and Kim, B. (2018) ‘Sanity checks for saliency maps’, <em>Advances in Neural Information Processing Systems</em>, 31, pp. 9525–9536.</li>
+            <li>Elish, M.C. (2019) ‘Moral crumple zones: cautionary tales in human-robot interaction’, <em>Engaging Science, Technology, and Society</em>, 5, pp. 40–60.</li>
+            <li>Rudin, C. (2019) ‘Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead’, <em>Nature Machine Intelligence</em>, 1(5), pp. 206–215.</li>
+            <li>Santoni de Sio, F. and van den Hoven, J. (2018) ‘Meaningful human control over autonomous systems: a philosophical account’, <em>Frontiers in Robotics and AI</em>, 5, Article 15.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="chapter" id="replies-on-other-threads" aria-labelledby="h-replies-on-other-threads">
+        <div class="chapter-head"><h2 id="h-replies-on-other-threads">Replies on other threads</h2></div>
+        <div class="chapter-body">
+          <p>Each row is one reply I posted in this discussion. The peers’ posts are described by their points, not quoted or named.</p>
+          <div class="table-wrap block"><table class="data-table">
+            <caption class="visually-hidden">My replies on peers’ threads in this discussion</caption>
+            <thead><tr><th scope="col">Date</th><th scope="col">The peer’s point</th><th scope="col">What my reply added</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">3 June 2026</th><td>A peer argued that Isolation Forest’s advantage for fault detection is that it needs no labelled faults.</td><td>I argued that it finds anomalies, not faults, so the labelling moves “from before training to after output”, and its misses can stay hidden.</td></tr>
+              <tr><th scope="row">9 June 2026</th><td>A peer weighed Isolation Forest for surveillance and a deep neural network for fraud detection, and closed on performance.</td><td>I argued that the weakness the post placed last, whether a person flagged by the system can see and contest the decision, is the deciding factor in both domains.</td></tr>
+              <tr><th scope="row">15 June 2026</th><td>A peer favoured decision trees over neural networks for interpretability, and another peer argued that ensembles and attribution methods blur that line.</td><td>I argued that attribution methods approximate what a model probably did rather than recording what it did: “The gap narrowed. It did not close.”</td></tr>
+            </tbody>
+          </table></div>
         </div>
       </section>
       <section class="chapter" id="summary-post" aria-labelledby="h-summary-post">
