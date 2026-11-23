@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python to R: translation sheet</title>
+<style>
+:root{
+  --paper:#F4F6F8;
+  --card:#FFFFFF;
+  --ink:#16202B;
+  --soft:#5A6875;
+  --line:#DBE2E8;
+  --indigo:#3F3D91;
+  --indigo-pale:#E7E7F4;
+  --amber:#9A5B00;
+  --amber-pale:#FBF0DE;
+  --dark:#131C26;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px}
+
+header.top{background:var(--dark);color:#fff;margin:0 -24px 36px;padding:52px 24px 40px}
+header.top .inner{max-width:1032px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:#8E9FB2;margin:0 0 14px}
+header.top h1{font-family:var(--mono);font-size:clamp(26px,4.6vw,40px);font-weight:600;letter-spacing:-.02em;margin:0 0 12px;line-height:1.1}
+header.top h1 b{color:#7B79D6;font-weight:600}
+header.top p{margin:0;color:#B8C6D2;max-width:640px}
+
+h2{font-family:var(--mono);font-size:20px;font-weight:600;margin:52px 0 4px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+h2 .n{color:var(--indigo);margin-right:10px;font-weight:400}
+.lede{color:var(--soft);margin:0 0 20px;font-size:15.5px}
+
+code{font-family:var(--mono);font-size:.88em;background:var(--indigo-pale);color:#2B2A6B;padding:1px 5px;border-radius:3px;white-space:nowrap}
+
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:left;background:var(--dark);color:#C3D0DC;padding:11px 14px;font-weight:600}
+td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+td:first-child,td:nth-child(2){font-family:var(--mono);font-size:13.5px}
+td code{background:none;padding:0;color:inherit;white-space:normal}
+tr.trap td{background:var(--amber-pale)}
+tr.trap td:first-child::after{content:" ⚠";color:var(--amber)}
+.note{color:var(--soft);font-size:14px;font-family:var(--sans)}
+
+.traps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin:0 0 30px}
+.trap-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:8px;padding:18px 20px}
+.trap-card h3{font-family:var(--mono);font-size:15px;margin:0 0 10px;font-weight:600}
+.trap-card p{margin:0 0 10px;font-size:15px}
+.trap-card p:last-child{margin-bottom:0}
+.trap-card pre{margin:10px 0 0}
+
+pre{background:var(--dark);color:#DDE7F0;font-family:var(--mono);font-size:13px;line-height:1.65;padding:14px 16px;border-radius:6px;overflow-x:auto;margin:0 0 20px}
+pre .c{color:#6F8296;font-style:italic}
+pre .r{color:#E0955C}
+
+.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--soft);margin:0 0 34px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.legend b{color:var(--amber)}
+
+:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:640px){
+  body{font-size:15px}
+  table{font-size:13.5px}
+  td:first-child,td:nth-child(2){font-size:12.5px}
+  th,td{padding:9px 10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top"><div class="inner">
+  <p class="eyebrow">Reference sheet</p>
+  <h1>Python <b>&rarr;</b> R</h1>
+  <p>For someone fluent in Python, NumPy and pandas who is new to R. This is a diff, not a tutorial. It assumes you already know what a vector, a data frame and a group-by are, and only covers where R disagrees with what you would expect.</p>
+</div></header>
+
+<div class="legend">
+  <span><b>&#9888;</b> marks rows where the same syntax is <b>legal in both languages and means different things</b>. Those are the ones that cost hours, because nothing errors.</span>
+</div>
+
+<h2><span class="n">01</span> The six that will actually bite you</h2>
+<p class="lede">Everything else on this sheet you can look up. These you have to internalise, because Python habits produce silently wrong answers rather than exceptions.</p>
+
+<div class="traps">
+
+  <div class="trap-card">
+    <h3>Negative indexing is exclusion</h3>
+    <p>In Python <code>x[-1]</code> is the last element. In R it is <em>everything except the first</em>. Both return a value, neither errors.</p>
+<pre><span class="c"># Python</span>
+x[-1]      <span class="c"># last element</span>
+<span class="c"># R</span>
+x[-1]      <span class="c"># all but the first</span>
+x[length(x)]   <span class="c"># the actual last</span>
+tail(x, 1)     <span class="c"># clearer</span></pre>
+  </div>
+
+  <div class="trap-card">
+    <h3>1-indexed, and ranges include the end</h3>
+    <p><code>1:3</code> is three elements, not two. <code>x[1]</code> is the first. Every off-by-one instinct you have is calibrated wrong.</p>
+<pre><span class="c"># Python: 3 elements, 0 1 2</span>
+range(3)
+<span class="c"># R: 3 elements, 1 2 3</span>
+1:3</pre>
+  </div>
+
+  <div class="trap-card">
+    <h3><code>1:n</code> when n is 0</h3>
+    <p>The single most common R loop bug. <code>1:0</code> counts <em>down</em> and yields <code>c(1, 0)</code>, so an empty-collection loop runs twice. Python's <code>range(0)</code> is simply empty.</p>
+<pre>n &lt;- 0
+1:n            <span class="c"># 1 0  (runs twice!)</span>
+seq_len(n)     <span class="c"># integer(0)  correct</span>
+seq_along(x)   <span class="c"># use for indices</span></pre>
+  </div>
+
+  <div class="trap-card">
+    <h3>Recycling is not broadcasting</h3>
+    <p>NumPy refuses incompatible shapes. R repeats the shorter vector and only warns if the longer length is not a clean multiple. Compatible-but-wrong runs silently.</p>
+<pre>c(1,2,3,4) + c(10,20)
+<span class="c"># 11 22 13 24, no warning</span>
+c(1,2,3) + c(10,20)
+<span class="c"># 11 22 13, with a warning</span></pre>
+  </div>
+
+  <div class="trap-card">
+    <h3>Strings are atomic, not sequences</h3>
+    <p>You cannot index into a string. <code>"hello"[1]</code> returns the whole string, because R sees a length-1 character vector and you asked for its first element.</p>
+<pre>"hello"[1]           <span class="c"># "hello"</span>
+substr("hello",1,1)  <span class="c"># "h"</span>
+nchar("hello")       <span class="c"># 5, not length()</span>
+length("hello")      <span class="c"># 1</span></pre>
+  </div>
+
+  <div class="trap-card">
+    <h3>Out-of-bounds does not raise</h3>
+    <p>Reading past the end gives <code>NA</code>. Writing past the end silently grows the vector and pads with <code>NA</code>. Python raises <code>IndexError</code> for both.</p>
+<pre>x &lt;- c(1,2,3)
+x[10]        <span class="c"># NA</span>
+x[6] &lt;- 99   <span class="c"># length is now 6</span>
+x            <span class="c"># 1 2 3 NA NA 99</span></pre>
+  </div>
+
+</div>
+
+<h2><span class="n">02</span> Syntax basics</h2>
+<table>
+<thead><tr><th style="width:31%">Python</th><th style="width:31%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>x = 5</td><td>x &lt;- 5</td><td class="note"><code>=</code> also works at top level but names arguments inside calls. Keep them visually distinct.</td></tr>
+<tr><td>True / False / None</td><td>TRUE / FALSE / NULL</td><td class="note">Fully capitalised. <code>T</code> and <code>F</code> work but are reassignable variables, so avoid them.</td></tr>
+<tr><td>and / or / not</td><td>&amp;&amp; / || / !</td><td class="note">Scalar versions. Use <code>&amp;</code> and <code>|</code> for element-wise on vectors.</td></tr>
+<tr><td>x in items</td><td>x %in% items</td><td class="note">Returns a logical vector, so it feeds straight into subsetting.</td></tr>
+<tr><td>len(x)</td><td>length(x)</td><td class="note">On a data frame, <code>length()</code> gives the column count, not the row count. Use <code>nrow()</code>.</td></tr>
+<tr><td># comment</td><td># comment</td><td class="note">Same. No block-comment syntax in R.</td></tr>
+<tr><td>f"{n} items"</td><td>sprintf("%d items", n)</td><td class="note">Or <code>paste0(n, " items")</code>. The <code>glue</code> package gives f-string-like interpolation.</td></tr>
+<tr><td>type(x)</td><td>class(x)</td><td class="note"><code>typeof()</code> exists too and reports the lower-level storage type. <code>class()</code> is usually what you want.</td></tr>
+<tr><td>x += 1</td><td>x &lt;- x + 1</td><td class="note">No compound assignment operators in R.</td></tr>
+<tr><td>help(f) / f?</td><td>?f</td><td class="note"><code>??term</code> searches all installed help.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">03</span> Sequences and indexing</h2>
+<table>
+<thead><tr><th style="width:31%">Python</th><th style="width:31%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr class="trap"><td>x[0]</td><td>x[1]</td><td class="note">First element.</td></tr>
+<tr class="trap"><td>x[-1]</td><td>x[length(x)] or tail(x, 1)</td><td class="note">R's <code>x[-1]</code> means drop the first.</td></tr>
+<tr class="trap"><td>x[1:]</td><td>x[-1]</td><td class="note">Same characters, opposite meaning in each direction.</td></tr>
+<tr><td>x[0:3]</td><td>x[1:3]</td><td class="note">Both give three elements. Python excludes the endpoint, R includes it.</td></tr>
+<tr><td>x[[0, 2]] <span class="note">(numpy)</span></td><td>x[c(1, 3)]</td><td class="note">Index by a vector of positions.</td></tr>
+<tr><td>x[x &gt; 5]</td><td>x[x &gt; 5]</td><td class="note">Identical. Boolean masking and logical indexing are the same idea.</td></tr>
+<tr><td>range(n)</td><td>seq_len(n)</td><td class="note">Not <code>1:n</code>. See the <code>n = 0</code> trap above.</td></tr>
+<tr><td>range(2, 20, 3)</td><td>seq(2, 20, by = 3)</td><td class="note">R also has <code>seq(from, to, length.out=)</code>.</td></tr>
+<tr><td>enumerate(x)</td><td>seq_along(x)</td><td class="note">Gives indices; fetch the value with <code>x[i]</code> inside the loop.</td></tr>
+<tr><td>x.append(y)</td><td>x &lt;- c(x, y)</td><td class="note">Copies the whole vector each time. Preallocate for anything in a loop.</td></tr>
+<tr><td>sorted(x)</td><td>sort(x)</td><td class="note"><code>order(x)</code> returns the permutation of indices, which is what you need for data frames.</td></tr>
+<tr><td>reversed(x)</td><td>rev(x)</td><td class="note"></td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">04</span> Data structures</h2>
+<p class="lede">R's vector is the atom. A list is the heterogeneous container, and a data frame is a list of equal-length vectors with a class attached.</p>
+<table>
+<thead><tr><th style="width:31%">Python</th><th style="width:31%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>np.array([1,2,3])</td><td>c(1, 2, 3)</td><td class="note">The default R vector already behaves like a 1-D NumPy array. No import needed.</td></tr>
+<tr><td>[1, "a", True]</td><td>list(1, "a", TRUE)</td><td class="note">A plain <code>c()</code> would coerce all three to character. Lists hold mixed types.</td></tr>
+<tr><td>{"a": 1, "b": 2}</td><td>list(a = 1, b = 2)</td><td class="note">Access with <code>$a</code> or <code>[["a"]]</code>. Named vectors also work for homogeneous values.</td></tr>
+<tr><td>d["k"]</td><td>d[["k"]]</td><td class="note"><code>d["k"]</code> with single brackets returns a sub-list, not the element. This distinction has no Python analogue.</td></tr>
+<tr><td>d.keys()</td><td>names(d)</td><td class="note"></td></tr>
+<tr><td>np.zeros((3,4))</td><td>matrix(0, nrow = 3, ncol = 4)</td><td class="note">R fills column-first by default; NumPy fills row-first. Pass <code>byrow = TRUE</code> to match.</td></tr>
+<tr><td>a.shape</td><td>dim(a)</td><td class="note"><code>dim()</code> is <code>NULL</code> for a plain vector, which is how you tell a vector from a 1-column matrix.</td></tr>
+<tr><td>pd.DataFrame({...})</td><td>data.frame(...)</td><td class="note">No index concept. Row names exist but are rarely used and best ignored.</td></tr>
+<tr><td>y = x <span class="note">then mutate</span></td><td>y &lt;- x <span class="note">then mutate</span></td><td class="note">R copies on modify, so <code>x</code> is unaffected. This is the one place R is safer than Python by default.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">05</span> pandas to R</h2>
+<p class="lede">Base R on the left of the R column, dplyr underneath where the base version is unpleasant. The book uses both, so you will meet both.</p>
+<table>
+<thead><tr><th style="width:34%">pandas</th><th style="width:38%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>pd.read_csv("f.csv")</td><td>read.csv("f.csv")</td><td class="note">Add <code>na.strings = c("", ".", "NA")</code> and <code>strip.white = TRUE</code> as a default habit.</td></tr>
+<tr><td>df.head()</td><td>head(df)</td><td class="note"></td></tr>
+<tr><td>df.info()</td><td>str(df)</td><td class="note">The single most useful function in R. Run it on every object you did not create yourself.</td></tr>
+<tr><td>df.describe()</td><td>summary(df)</td><td class="note">Also works on a single vector.</td></tr>
+<tr><td>df.shape</td><td>dim(df)</td><td class="note"><code>nrow()</code>, <code>ncol()</code> for one dimension.</td></tr>
+<tr><td>df.columns</td><td>names(df)</td><td class="note"><code>colnames()</code> is a synonym here.</td></tr>
+<tr><td>df["col"] / df.col</td><td>df$col / df[["col"]]</td><td class="note">Returns the underlying vector.</td></tr>
+<tr class="trap"><td>df[df.col &gt; 5]</td><td>df[df$col &gt; 5, ]</td><td class="note">The trailing comma is mandatory. Without it R subsets <em>columns</em> and you get an unrecognisable object rather than an error.</td></tr>
+<tr><td>df.loc[0]</td><td>df[1, ]</td><td class="note">Row one, all columns.</td></tr>
+<tr><td>df.iloc[1, 2]</td><td>df[2, 3]</td><td class="note">Both offsets shift by one.</td></tr>
+<tr><td>df["z"] = df.x / 100</td><td>df$z &lt;- df$x / 100</td><td class="note"></td></tr>
+<tr><td>df.drop(columns="z")</td><td>df$z &lt;- NULL</td><td class="note">Assigning <code>NULL</code> deletes. Assigning <code>NA</code> does not.</td></tr>
+<tr><td>df.sort_values("y")</td><td>df[order(df$y), ]</td><td class="note">Sorting a single column with <code>sort()</code> detaches it from its row. That is a data-corruption bug, not a style issue.</td></tr>
+<tr><td>df.groupby("g")["y"].mean()</td><td>aggregate(y ~ g, df, mean)<br>tapply(df$y, df$g, mean)</td><td class="note">Formula notation <code>y ~ g</code> reads as "y explained by g" and recurs throughout R's modelling functions.</td></tr>
+<tr><td>df.groupby("g").agg(...)</td><td>df |&gt; group_by(g) |&gt; summarise(...)</td><td class="note">dplyr. Needs <code>install.packages("dplyr")</code> once and <code>library(dplyr)</code> per session.</td></tr>
+<tr><td>df.merge(other, on="id")</td><td>merge(df, other, by = "id")</td><td class="note">Defaults to an inner join. <code>all = TRUE</code> for a full outer.</td></tr>
+<tr><td>pd.melt(df, ...)</td><td>tidyr::pivot_longer(df, ...)</td><td class="note">Base R's <code>reshape()</code> exists and is unpleasant. Use tidyr.</td></tr>
+<tr><td>df.isna().sum()</td><td>colSums(is.na(df))</td><td class="note"></td></tr>
+<tr><td>df.dropna()</td><td>na.omit(df)</td><td class="note">Drops any row with a missing value anywhere. Check what it cost you with <code>nrow()</code>.</td></tr>
+<tr><td>df.value_counts()</td><td>table(df$col)</td><td class="note">Include <code>useNA = "ifany"</code> to see missing values in the count.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">06</span> Missing values</h2>
+<p class="lede">Python has two absence concepts. R has four, and they are not interchangeable.</p>
+<table>
+<thead><tr><th style="width:22%">R value</th><th style="width:30%">Closest Python</th><th>Means</th></tr></thead>
+<tbody>
+<tr><td>NA</td><td>pd.NA / np.nan in a column</td><td class="note">A value exists but is unknown. This is the one you will use.</td></tr>
+<tr><td>NULL</td><td>None</td><td class="note">Absence of an object. Assigning it to a list element or column removes that element.</td></tr>
+<tr><td>NaN</td><td>float("nan")</td><td class="note">Result of an undefined numeric operation such as <code>0/0</code>. <code>is.na(NaN)</code> is <code>TRUE</code>.</td></tr>
+<tr><td>NULL vs character(0)</td><td>None vs []</td><td class="note">An empty vector is not a missing one. <code>length()</code> distinguishes them.</td></tr>
+<tr class="trap"><td>x == NA</td><td>x == None</td><td class="note">Both are wrong, but Python's returns <code>False</code> and R's returns <code>NA</code> for every position, so an R filter built on it silently returns nothing. Use <code>is.na(x)</code>.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">07</span> Control flow and functions</h2>
+<table>
+<thead><tr><th style="width:38%">Python</th><th style="width:38%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>def f(a, b=1):<br>&nbsp;&nbsp;&nbsp;&nbsp;return a + b</td><td>f &lt;- function(a, b = 1) {<br>&nbsp;&nbsp;a + b<br>}</td><td class="note">The last evaluated expression is returned automatically. Explicit <code>return()</code> exists and is used for early exits.</td></tr>
+<tr><td>for i in range(n):</td><td>for (i in seq_len(n)) {</td><td class="note">Braces, not indentation. Indentation is style only.</td></tr>
+<tr><td>if a &gt; b:</td><td>if (a &gt; b) {</td><td class="note">Parentheses required. <code>if</code> is not vectorised.</td></tr>
+<tr class="trap"><td>np.where(c, a, b)</td><td>ifelse(c, a, b)</td><td class="note">Use <code>ifelse()</code> on vectors. Passing a vector to plain <code>if</code> errors in current R, and in versions before 4.2 it silently used only the first element.</td></tr>
+<tr><td>[f(i) for i in x]</td><td>sapply(x, f)</td><td class="note">Returns a simplified vector when it can. Type depends on the data, which is a real source of surprise.</td></tr>
+<tr><td>list(map(f, x))</td><td>lapply(x, f)</td><td class="note">Always returns a list. Predictable, so prefer it when the type matters.</td></tr>
+<tr><td>&nbsp;</td><td>vapply(x, f, numeric(1))</td><td class="note">Like <code>sapply</code> but you declare the return type, so a surprise fails loudly. Closest to a typed map.</td></tr>
+<tr><td>df.pipe(f).pipe(g)</td><td>df |&gt; f() |&gt; g()</td><td class="note">Native pipe, R 4.1 and later. The older <code>%&gt;%</code> comes from magrittr via dplyr and behaves slightly differently.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">08</span> Environment and tooling</h2>
+<table>
+<thead><tr><th style="width:34%">Python</th><th style="width:34%">R</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>pip install pkg</td><td>install.packages("pkg")</td><td class="note">Once per machine. Belongs in the console, never in a shared script.</td></tr>
+<tr class="trap"><td>import pkg</td><td>library(pkg)</td><td class="note">Not equivalent. <code>library()</code> dumps every exported function into the global search path with no namespace prefix, so later packages silently mask earlier ones. Loading dplyr masks <code>stats::filter</code>.</td></tr>
+<tr><td>import pkg; pkg.f()</td><td>pkg::f()</td><td class="note">Explicit and collision-proof. Worth using for anything ambiguous.</td></tr>
+<tr><td>venv + requirements.txt</td><td>renv</td><td class="note">Same job. Not needed for coursework, worth knowing exists.</td></tr>
+<tr><td>Project folder + relative paths</td><td>RStudio Project (.Rproj)</td><td class="note">Opening the project sets the working directory. Replaces <code>setwd()</code> entirely.</td></tr>
+<tr><td>Jupyter notebook</td><td>Quarto (.qmd) or R Markdown</td><td class="note">Text source rather than JSON, so it diffs cleanly in Git. Renders to HTML, PDF or Word.</td></tr>
+<tr><td>matplotlib / seaborn</td><td>base plot() / ggplot2</td><td class="note">ggplot2 is a grammar of graphics rather than a plotting API. Closer to Vega-Lite than to matplotlib.</td></tr>
+<tr><td>black / ruff</td><td>styler / lintr</td><td class="note"></td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">09</span> Things with no Python equivalent</h2>
+<p class="lede">Four R concepts that will not map onto anything you already know, so learn them as new rather than as translations.</p>
+<table>
+<thead><tr><th style="width:24%">Concept</th><th>What it is and why it matters</th></tr></thead>
+<tbody>
+<tr><td>factor</td><td class="note">A categorical vector stored as integer codes plus a lookup table of levels. Level order controls the reference group in models and the category order on plots, and defaults to alphabetical. <code>as.numeric()</code> on a factor returns the internal codes, not the labels: use <code>as.numeric(as.character(f))</code>. Closest analogue is <code>pandas.Categorical</code>, but factors are far more central in R.</td></tr>
+<tr><td>formula, <code>y ~ x</code></td><td class="note">A first-class object capturing "response explained by predictors". It is the shared interface across <code>t.test</code>, <code>aggregate</code>, <code>boxplot</code>, <code>lm</code>, <code>glm</code> and most modelling packages. Learning it once unlocks all of them.</td></tr>
+<tr><td>attributes</td><td class="note">Arbitrary metadata attached to any object. <code>dim</code>, <code>names</code>, <code>class</code> and <code>levels</code> are all just attributes, which is why setting <code>dim()</code> on a vector turns it into a matrix in place.</td></tr>
+<tr><td>generic dispatch</td><td class="note"><code>summary()</code>, <code>print()</code> and <code>plot()</code> change behaviour based on the class of their argument. <code>summary()</code> on a vector, a data frame and a fitted model return three different things. This is why the same handful of function names does so much work.</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">10</span> A first session, translated</h2>
+<p class="lede">The same small analysis written both ways.</p>
+<pre><span class="c"># Python</span>
+import pandas as pd
+
+df = pd.read_csv("data/trees.csv")
+df.info()
+print(df.height.isna().sum())
+
+df["ratio"] = df.height / df.dbh
+oaks = df[df.species == "oak"]
+print(oaks.height.mean())
+print(len(oaks))
+
+df.groupby("species")["height"].agg(["count", "mean", "std"])</pre>
+
+<pre><span class="c"># R</span>
+trees &lt;- read.csv("data/trees.csv")
+str(trees)
+sum(is.na(trees$height))
+
+trees$ratio &lt;- trees$height / trees$dbh
+oaks &lt;- trees[trees$species == "oak", ]     <span class="r"># note the comma</span>
+mean(oaks$height, na.rm = TRUE)             <span class="r"># note na.rm</span>
+nrow(oaks)
+
+aggregate(height ~ species, trees, function(v)
+  c(n = length(v), mean = mean(v), sd = sd(v)))</pre>
+
+<p class="lede" style="margin-top:26px">Two differences carry most of the weight. The comma in <code>trees[trees$species == "oak", ]</code> is the difference between selecting rows and selecting columns, and R will not tell you which one you asked for. And <code>na.rm = TRUE</code> is not optional noise: pandas skips missing values by default when computing a mean, R propagates them, so the same code returns a number in Python and <code>NA</code> in R. Neither behaviour is wrong, but assuming pandas' default in R gets you <code>NA</code>, and assuming R's default in pandas gets you a mean over an unknown subset.</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COVID-19 India: Beginner R Plotting Guide</title>
+<style>
+:root{--navy:#17324d;--blue:#1f6f9f;--pale:#eef7fb;--green:#e8f6ee;--amber:#fff5d9;--red:#fdebec;--ink:#1e2933;--muted:#52616b;--line:#ccd9e2}*{box-sizing:border-box}body{margin:0;font:17px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f5f7f9}header{background:linear-gradient(135deg,#17324d,#1f6f9f);color:white;padding:3.2rem 1.3rem}header div,main{max-width:980px;margin:auto}h1{font-size:2.35rem;line-height:1.15;margin:0 0 .8rem}h2{color:var(--navy);border-bottom:3px solid #61a8ca;padding-bottom:.35rem;margin-top:2.4rem}h3{color:#155b80;margin-top:1.8rem}main{background:white;padding:1.3rem 3rem 4rem;box-shadow:0 4px 22px #17324d18}.toc{background:var(--pale);border-left:6px solid var(--blue);padding:1rem 1.4rem}.toc a{color:#124e72;text-decoration:none}.box,.check,.warn,.stop,.meaning{padding:1rem 1.2rem;margin:1rem 0;border-radius:8px}.box{background:var(--pale);border-left:5px solid var(--blue)}.check{background:var(--green);border-left:5px solid #278552}.warn{background:var(--amber);border-left:5px solid #d39712}.stop{background:var(--red);border-left:5px solid #c94048}.meaning{background:#f3effa;border-left:5px solid #7555a6}pre{background:#14212b;color:#eef6fa;padding:1rem 1.2rem;border-radius:8px;overflow:auto;white-space:pre-wrap}code{font-family:Consolas,Monaco,monospace}p code,li code{background:#eaf0f4;padding:.1rem .3rem;border-radius:4px;color:#8b1d3d}.tag{font-weight:800;color:#0d5278}.steps li{margin:.55rem 0}.small{font-size:.92rem;color:var(--muted)}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--line);padding:.65rem;text-align:left;vertical-align:top}th{background:#e8f3f8}.script{border:2px solid #9fc3d5}.pill{display:inline-block;background:#d8ebf5;color:#17324d;padding:.15rem .55rem;border-radius:999px;font-weight:700}details{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;margin:.8rem 0}summary{font-weight:750;cursor:pointer}.footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted)}@media(max-width:700px){main{padding:1rem 1.1rem}h1{font-size:1.8rem}}@media print{body{background:white}main{box-shadow:none;max-width:none}.toc{break-after:page}details{display:block}summary{list-style:none}}
+</style></head><body><header><div><div class="pill">Offline beginner guide</div><h1>COVID-19 India: Basic Data Visualization in R</h1><p>Bar chart, pie chart, histogram, and line chart using base R</p><p class="small" style="color:#eaf6fb">Dataset: Covid19 India (Jan 20 Mar 20).csv | Coverage: 30 January to 21 March 2020</p></div></header><main>
+<div class="warn"><strong>How to use this guide:</strong> Complete one checkpoint at a time. Do not jump ahead. If your result differs, stop and use the matching troubleshooting box.</div>
+<nav class="toc"><strong>Contents</strong><ol><li><a href="#orientation">RStudio orientation</a></li><li><a href="#setup">Beginning setup and diagnostic</a></li><li><a href="#inspect">Import and inspect the dataset</a></li><li><a href="#task1">Task 1: Bar chart</a></li><li><a href="#task2">Task 2: Pie chart</a></li><li><a href="#task3">Task 3: Histogram</a></li><li><a href="#task4">Task 4: Line chart</a></li><li><a href="#verify">Final verification</a></li><li><a href="#portfolio">E-portfolio notes</a></li><li><a href="#script">Complete clean script</a></li><li><a href="#trouble">Troubleshooting</a></li></ol></nav>
+<h2 id="orientation">1. Know the three RStudio areas</h2>
+<table><tr><th>Area</th><th>Purpose</th><th>What you should expect</th></tr><tr><td><strong>Script Editor</strong> (upper-left)</td><td>Write and save your assignment code.</td><td>Code stays here until you highlight it and press <strong>Ctrl + Enter</strong>.</td></tr><tr><td><strong>Console</strong> (lower-left)</td><td>R runs code here and displays results, warnings, and errors.</td><td>A blue <code>&gt;</code> prompt means R is ready.</td></tr><tr><td><strong>Environment</strong> (upper-right)</td><td>Stores objects you create.</td><td>Objects such as <code>covid</code> and <code>state_frequency</code> should appear here after successful creation.</td></tr></table>
+<div class="box"><strong>Key rule:</strong> A line containing <code>&lt;-</code> usually creates or changes an object. No printed Console output is often normal. Look in the Environment.</div>
+<h2 id="setup">2. Beginning setup and diagnostic</h2>
+<h3>Assignment identification</h3><ul><li><strong>Section:</strong> Basic data visualization</li><li><strong>Current step:</strong> Prepare and verify the supplied CSV before plotting</li><li><strong>Prerequisites:</strong> RStudio open; the CSV saved in a known folder; a new R script open</li></ul>
+<h3>2.1 Put the file in a simple folder</h3><ol class="steps"><li>Create a folder you can find, for example <code>Documents/R/COVID_Plotting</code>.</li><li>Place <strong>Covid19 India (Jan 20 Mar 20).csv</strong> in that folder.</li><li>In RStudio choose <strong>File &gt; New File &gt; R Script</strong>.</li><li>Save the script in the same folder as <code>COVID_Plotting_Assignment.R</code>.</li><li>Choose <strong>Session &gt; Set Working Directory &gt; To Source File Location</strong>.</li></ol>
+<div class="warn"><strong>Common miss:</strong> Saving the script does not automatically import the CSV. Setting the working directory only tells R where to look.</div>
+<h3>2.2 Verify that R sees the file</h3><p><span class="tag">PASTE</span> under a heading in the Script Editor:</p><pre><code># STEP 1: Check that R can see the supplied CSV file
+list.files()</code></pre><p><span class="tag">HIGHLIGHT</span> only <code>list.files()</code>, then press <strong>Ctrl + Enter</strong>.</p><ul><li><strong>Console output expected:</strong> Yes. The filename should be listed.</li><li><strong>New Environment object expected:</strong> No.</li></ul>
+<div class="check"><strong>Checkpoint 1:</strong> Continue only if the Console lists <code>Covid19 India (Jan 20 Mar 20).csv</code>. The spelling, spaces, and parentheses matter.</div>
+<details><summary>What every symbol means</summary><ul><li><code>#</code> starts a comment. R does not run the words after it.</li><li><code>list.files</code> is the function name. It asks R to list files in the working directory.</li><li><code>()</code> means “run this function.” The parentheses are empty because no extra instruction is needed.</li></ul></details>
+<h2 id="inspect">3. Import and inspect the dataset</h2>
+<h3>3.1 Create the data-frame object</h3><pre><code># STEP 2: Import the COVID-19 CSV as a data frame
+covid &lt;- read.csv("Covid19 India (Jan 20 Mar 20).csv")</code></pre><p><span class="tag">HIGHLIGHT</span> the complete line beginning <code>covid &lt;-</code>. Press <strong>Ctrl + Enter</strong>.</p><ul><li><strong>Console output expected:</strong> No printed table is expected.</li><li><strong>New Environment object expected:</strong> Yes, <code>covid</code> should appear with <strong>270 observations and 7 variables</strong>.</li></ul>
+<div class="stop"><strong>Do not type only <code>covid</code> before running the creation line.</strong> That causes <code>Error: object 'covid' not found</code>.</div>
+<details><summary>Code explained</summary><ul><li><code>covid</code> is the object name we chose.</li><li><code>&lt;-</code> means “store the result on the right inside the object on the left.”</li><li><code>read.csv</code> reads a comma-separated data file.</li><li>Quotation marks tell R that the filename is text, not an object name.</li></ul></details>
+<h3>3.2 Inspect structure, names, and missing values</h3><pre><code># STEP 3: Inspect the imported dataset
+str(covid)
+names(covid)
+colSums(is.na(covid))</code></pre><p>Run <strong>one complete line at a time</strong> with Ctrl + Enter.</p><ul><li><code>str(covid)</code>: output expected; no new object.</li><li><code>names(covid)</code>: output expected; no new object.</li><li><code>colSums(is.na(covid))</code>: output expected; no new object.</li></ul>
+<div class="box"><strong>Expected checks:</strong> 270 rows, 7 columns, and zero missing values in every column. Because <code>read.csv()</code> makes names safe for R, <code>State/UnionTerritory</code> becomes <code>State.UnionTerritory</code>. The other required names remain <code>ConfirmedIndianNational</code>, <code>ConfirmedForeignNational</code>, <code>Cured</code>, and <code>Date</code>.</div>
+<details><summary>New symbols explained</summary><ul><li><code>is.na(covid)</code> checks each cell and marks whether it is missing.</li><li><code>colSums(...)</code> adds the missing-value marks separately for each column.</li><li>The inner parentheses run first. R checks for missing values, then totals them.</li></ul></details>
+<div class="check"><strong>Checkpoint 2:</strong> Continue only if <code>covid</code> exists and the column names match. If they do not, do not guess. Recheck the filename and import.</div>
+<h2 id="task1">4. Task 1: Bar chart of report frequency</h2>
+<p><strong>What the bars mean:</strong> the number of dataset rows, or reports, recorded under each state/union territory label. This is not the number of people.</p>
+<h3>4.1 Create the frequency table first</h3><pre><code># TASK 1: Count the number of reports for each state or union territory
+state_frequency &lt;- table(covid$State.UnionTerritory)</code></pre><p>Highlight and run the complete line.</p><ul><li><strong>Printed output expected:</strong> No.</li><li><strong>Environment object expected:</strong> Yes, <code>state_frequency</code>.</li></ul>
+<p>Now display it:</p><pre><code>state_frequency</code></pre><p>Highlight that line and run it. Printed output is expected. No new object is created.</p>
+<details><summary>Code explained</summary><ul><li><code>table()</code> counts how often each distinct label occurs.</li><li><code>$</code> means “select this column from this data frame.”</li><li><code>covid$State.UnionTerritory</code> means the state/territory column inside <code>covid</code>.</li></ul></details>
+<h3>4.2 Verify the count before plotting</h3><pre><code># Check that all report frequencies add back to the 270 dataset rows
+sum(state_frequency)
+length(state_frequency)
+sort(state_frequency, decreasing = TRUE)</code></pre><p>Run one line at a time. Expected results: total <strong>270</strong>, <strong>27 distinct labels</strong>, and Kerala as the largest frequency with <strong>52 reports</strong>.</p>
+<div class="warn"><strong>Data-quality observation:</strong> Some places use more than one label, such as <code>Ladakh</code> and <code>Union Territory of Ladakh</code>. There are also spelling variants such as <code>Chattisgarh</code>/<code>Chhattisgarh</code> and <code>Pondicherry</code>/<code>Puducherry</code>. For this beginner activity, the chart preserves the supplied labels. Mention this limitation rather than silently changing the data.</div>
+<h3>4.3 Draw the bar chart</h3><pre><code># Draw a horizontal bar chart so long place names remain readable
+barplot(sort(state_frequency),
+        horiz = TRUE,
+        las = 1,
+        cex.names = 0.65,
+        col = "steelblue",
+        main = "Frequency of COVID-19 Reports by State/Union Territory",
+        xlab = "Number of reports")</code></pre><p><span class="tag">HIGHLIGHT</span> the entire command from <code>barplot(</code> through the final <code>)</code>. Press Ctrl + Enter.</p><ul><li><strong>Output expected:</strong> Yes, in the <strong>Plots pane</strong>.</li><li><strong>Environment object expected:</strong> No.</li></ul>
+<div class="meaning"><strong>Interpretation:</strong> Kerala has the greatest number of reports because it appears across the longest portion of this dataset. A taller bar does not necessarily mean more individual cases.</div>
+<div class="check"><strong>Checkpoint 3:</strong> Confirm that the chart has horizontal bars, readable place names, and Kerala at 52.</div>
+<h2 id="task2">5. Task 2: Pie chart of case-severity levels</h2>
+<div class="warn"><strong>Important assignment ambiguity:</strong> The file contains Indian and foreign confirmed counts, but it does not contain a variable named “severity.” This guide makes the method explicit: total confirmed cases per report are calculated, then grouped as <strong>Low = 0–5</strong>, <strong>Moderate = 6–20</strong>, and <strong>High = 21+</strong>. These are learning categories, not medical severity classifications.</div>
+<h3>5.1 Create total confirmed cases for each report</h3><pre><code># TASK 2: Add Indian and foreign confirmed cases for each report
+covid$TotalConfirmed &lt;- covid$ConfirmedIndianNational +
+                        covid$ConfirmedForeignNational</code></pre><p>Highlight both lines together and run them.</p><ul><li><strong>Printed output expected:</strong> No.</li><li><strong>Environment change expected:</strong> Yes. <code>covid</code> should now have 8 variables.</li></ul>
+<details><summary>Code explained</summary><ul><li><code>covid$TotalConfirmed</code> names a new column inside <code>covid</code>.</li><li><code>+</code> adds the two values on each row.</li><li>The line break after <code>+</code> is allowed because R can see the calculation is unfinished.</li></ul></details>
+<h3>5.2 Create and count the categories</h3><pre><code># Group each report into a transparent learning category
+covid$SeverityLevel &lt;- cut(
+  covid$TotalConfirmed,
+  breaks = c(-Inf, 5, 20, Inf),
+  labels = c("Low (0-5)", "Moderate (6-20)", "High (21+)"),
+  right = TRUE
+)
+
+# Create the frequency table before trying to display it
+severity_frequency &lt;- table(covid$SeverityLevel)
+severity_frequency</code></pre><p>First highlight the whole <code>cut(...)</code> command and run it. Then run the creation line for <code>severity_frequency</code>. Only after that, run the display line.</p><ul><li>After <code>cut(...)</code>: no printed output; <code>covid</code> should have 9 variables.</li><li>After <code>severity_frequency &lt;- ...</code>: no output; a new Environment object should appear.</li><li>After <code>severity_frequency</code>: output expected.</li></ul>
+<div class="box"><strong>Expected counts:</strong> Low = 177, Moderate = 75, High = 18. They must total 270.</div>
+<details><summary>Symbols and arguments explained</summary><ul><li><code>cut()</code> divides numerical values into groups.</li><li><code>breaks =</code> supplies the category boundaries.</li><li><code>c()</code> combines several values into one ordered set.</li><li><code>-Inf</code> and <code>Inf</code> mean negative infinity and positive infinity, ensuring all values fit.</li><li>Commas separate the instructions given to a function.</li><li><code>right = TRUE</code> means the upper boundary belongs to the category. Therefore 5 is Low and 20 is Moderate.</li></ul></details>
+<h3>5.3 Draw and verify the pie chart</h3><pre><code># Verify the severity counts and draw the pie chart
+sum(severity_frequency)
+round(100 * prop.table(severity_frequency), 1)
+
+pie(severity_frequency,
+    labels = paste(names(severity_frequency),
+                   round(100 * prop.table(severity_frequency), 1), "%"),
+    col = c("lightgreen", "gold", "tomato"),
+    main = "Distribution of Confirmed-Case Levels")</code></pre><p>Run the two verification lines separately. Then highlight the entire <code>pie(...)</code> command and run it.</p><ul><li>Expected total: <strong>270</strong>.</li><li>Expected percentages: approximately <strong>65.6%</strong> Low, <strong>27.8%</strong> Moderate, and <strong>6.7%</strong> High.</li><li>The pie chart should appear in the Plots pane. No new object is created by <code>pie()</code>.</li></ul>
+<div class="meaning"><strong>Interpretation:</strong> Most state/date reports fall in the Low category under the stated thresholds. This describes reports, not unique patients, and the category names are analytical bins rather than clinical severity.</div>
+<div class="check"><strong>Checkpoint 4:</strong> Confirm the three counts total 270 and the pie chart has three labelled slices.</div>
+<h2 id="task3">6. Task 3: Histogram of recovery numbers</h2>
+<p>The dataset calls the recovery column <code>Cured</code>. A histogram groups numerical recovery values into intervals and counts how many reports fall into each interval.</p>
+<h3>6.1 Inspect the values first</h3><pre><code># TASK 3: Inspect recovery values before drawing the histogram
+summary(covid$Cured)
+table(covid$Cured, useNA = "ifany")</code></pre><p>Run one line at a time.</p><ul><li><strong>Output expected:</strong> Yes.</li><li><strong>New Environment object expected:</strong> No.</li></ul>
+<div class="box"><strong>Expected check:</strong> minimum 0, maximum 9, and 215 of the 270 reports have <code>Cured = 0</code>. There are no missing values.</div>
+<details><summary>New argument explained</summary><p><code>useNA = "ifany"</code> tells <code>table()</code> to show missing values if any exist, guarding against the common mistake of overlooking missing data.</p></details>
+<h3>6.2 Draw the histogram</h3><pre><code># Draw a histogram of recovery counts
+hist(covid$Cured,
+     breaks = seq(-0.5, 9.5, by = 1),
+     col = "seagreen3",
+     border = "white",
+     main = "Distribution of Recovery Numbers",
+     xlab = "Number cured in a report",
+     ylab = "Frequency of reports")</code></pre><p>Highlight the complete command and press Ctrl + Enter.</p><ul><li><strong>Output expected:</strong> Yes, a histogram in the Plots pane.</li><li><strong>New Environment object expected:</strong> No.</li></ul>
+<details><summary>Code explained</summary><ul><li><code>hist()</code> draws a histogram.</li><li><code>seq(-0.5, 9.5, by = 1)</code> creates evenly spaced boundaries so each whole-number recovery count has its own bin.</li><li><code>col</code> controls the fill colour; <code>border</code> controls bar outlines.</li><li><code>xlab</code> and <code>ylab</code> label the axes.</li></ul></details>
+<div class="meaning"><strong>Interpretation:</strong> The distribution is strongly concentrated at zero. During this early period, most state/date reports recorded no cured cases. The histogram counts reports, so it must not be interpreted as 215 different groups of patients.</div>
+<div class="check"><strong>Checkpoint 5:</strong> The tallest bar should be at 0, and the x-axis should run through 9.</div>
+<h2 id="task4">7. Task 4: Line chart of total cases over time</h2>
+<p>Each row is one place on one date. To plot the national trend, first convert the text dates into real R dates, then add total confirmed counts across all rows sharing a date.</p>
+<h3>7.1 Convert the date correctly</h3><pre><code># TASK 4: Convert day-month-year text into R Date values
+covid$DateConverted &lt;- as.Date(covid$Date, format = "%d-%m-%Y")</code></pre><p>Highlight the complete line and run it.</p><ul><li><strong>Printed output expected:</strong> No.</li><li><strong>Environment change expected:</strong> Yes. <code>covid</code> should now have 10 variables.</li></ul>
+<div class="warn"><strong>Why the format matters:</strong> <code>30-01-2020</code> is day-month-year. Using a month-day-year instruction would fail for dates such as the 30th and could create missing values.</div>
+<h3>7.2 Verify the conversion</h3><pre><code># Confirm that date conversion worked and created no missing dates
+range(covid$DateConverted)
+sum(is.na(covid$DateConverted))</code></pre><p>Expected range: <strong>2020-01-30 to 2020-03-21</strong>. Expected missing dates: <strong>0</strong>. Output is expected; no new objects.</p>
+<h3>7.3 Create daily totals</h3><pre><code># Add the total confirmed counts across all reports on each date
+daily_total &lt;- aggregate(TotalConfirmed ~ DateConverted,
+                         data = covid,
+                         FUN = sum)</code></pre><p>Highlight the whole command and run it.</p><ul><li><strong>Printed output expected:</strong> No.</li><li><strong>Environment object expected:</strong> Yes, <code>daily_total</code> with 52 observations and 2 variables.</li></ul>
+<details><summary>Formula and symbols explained</summary><ul><li><code>aggregate()</code> combines rows into groups.</li><li><code>TotalConfirmed ~ DateConverted</code> means “calculate TotalConfirmed separately for each DateConverted.”</li><li><code>~</code> separates the value being summarized from the grouping variable.</li><li><code>data = covid</code> tells R where those columns are.</li><li><code>FUN = sum</code> tells R to add the values in each date group.</li></ul></details>
+<h3>7.4 Verify totals and draw the line chart</h3><pre><code># Check the beginning and end of the daily series
+head(daily_total)
+tail(daily_total)
+
+# Draw the daily total-confirmed trend
+plot(daily_total$DateConverted,
+     daily_total$TotalConfirmed,
+     type = "o",
+     pch = 16,
+     col = "firebrick",
+     main = "Trend of Total Confirmed Cases Over Time",
+     xlab = "Date",
+     ylab = "Total confirmed cases")</code></pre><p>Run <code>head()</code> and <code>tail()</code> separately. Then highlight the entire <code>plot(...)</code> command and run it.</p><ul><li><strong>Expected final daily total:</strong> 283 on 2020-03-21.</li><li><strong>Plot output expected:</strong> Yes.</li><li><strong>New Environment object from plot:</strong> No.</li></ul>
+<div class="warn"><strong>Do not use <code>sum(covid$TotalConfirmed)</code> as the number of unique people across the entire file.</strong> The rows are repeated date-based reports and later reports include earlier ongoing cases. Summing all 270 rows gives 1,858 report-level case counts, which double-counts cases across dates.</div>
+<div class="meaning"><strong>Interpretation:</strong> The daily combined confirmed count rises slowly at first and then increases more rapidly in the second half of March, reaching 283 on 21 March 2020. This is a trend in cumulative state/date reporting, not a count of newly diagnosed cases per day.</div>
+<div class="check"><strong>Checkpoint 6:</strong> Confirm there are 52 dates, no missing converted dates, and the line ends at 283.</div>
+<h2 id="verify">8. Final independent verification</h2>
+<pre><code># FINAL CHECKS: These results should all be TRUE
+nrow(covid) == 270
+sum(state_frequency) == nrow(covid)
+sum(severity_frequency) == nrow(covid)
+sum(is.na(covid$DateConverted)) == 0
+nrow(daily_total) == length(unique(covid$DateConverted))
+tail(daily_total$TotalConfirmed, 1) == 283</code></pre><p>Run each line separately. Each should print <code>TRUE</code>.</p><details><summary>Symbols explained</summary><ul><li><code>==</code> asks whether two values are equal. It performs a check.</li><li><code>=</code> supplies a named instruction inside a function, such as <code>data = covid</code>.</li><li><code>&lt;-</code> stores a result in an object. These three symbols do different jobs.</li><li><code>tail(..., 1)</code> asks for the final one value.</li></ul></details>
+<h2 id="portfolio">9. E-portfolio evidence and reflection</h2>
+<div class="warn"><strong>Only use findings after your own R output matches the checkpoints.</strong> Rewrite the reflection in your own voice rather than copying it unchanged.</div>
+<h3>Evidence to save</h3><ul><li>Your complete R script.</li><li>A screenshot or exported image of each of the four plots.</li><li>Console evidence for the final verification lines.</li><li>A brief note about the inconsistent location labels and how they affect Task 1.</li></ul>
+<h3>Verified findings</h3><ul><li>The dataset has 270 state/date reports from 30 January to 21 March 2020.</li><li>Kerala has the highest report frequency at 52 rows.</li><li>Using the stated learning thresholds, 177 reports are Low, 75 Moderate, and 18 High.</li><li>Recovery counts are concentrated at zero: 215 reports record no cured cases.</li><li>The daily combined confirmed total reaches 283 on 21 March 2020.</li></ul>
+<h3>Reflection draft to personalize</h3><div class="box"><p>In this activity, I used base R to create four visualizations from an early COVID-19 dataset. I first verified the file, imported it as a data frame, and checked its structure and missing values. I learned that the chart type must match the kind of question being asked. A bar chart displayed frequencies for a categorical variable, a pie chart displayed proportions after I created stated analytical categories, a histogram showed the distribution of a numerical variable, and a line chart showed change over time.</p><p>One important lesson was that I needed to create objects before displaying or plotting them. I also learned to distinguish reports from people. The dataset contains repeated cumulative observations for places across dates, so adding every row would double-count cases over time. I checked my work by confirming totals, missing values, expected row counts, and the final daily total. I also noticed inconsistent place names, which could split one location into several bars and should be treated as a data-quality limitation.</p></div>
+<h2 id="script">10. Complete clean R script</h2><p>This script exactly matches the walkthrough. Keep the headings so your future self can understand the purpose of each section.</p>
+<pre class="script"><code># COVID-19 INDIA: BASIC DATA VISUALIZATION
+# Dataset: Covid19 India (Jan 20 Mar 20).csv
+
+# STEP 1: Check that R can see the supplied CSV file
+list.files()
+
+# STEP 2: Import the COVID-19 CSV as a data frame
+covid &lt;- read.csv("Covid19 India (Jan 20 Mar 20).csv")
+
+# STEP 3: Inspect the imported dataset
+str(covid)
+names(covid)
+colSums(is.na(covid))
+
+# TASK 1: Count reports and draw a state/territory bar chart
+state_frequency &lt;- table(covid$State.UnionTerritory)
+state_frequency
+sum(state_frequency)
+length(state_frequency)
+sort(state_frequency, decreasing = TRUE)
+
+barplot(sort(state_frequency),
+        horiz = TRUE,
+        las = 1,
+        cex.names = 0.65,
+        col = "steelblue",
+        main = "Frequency of COVID-19 Reports by State/Union Territory",
+        xlab = "Number of reports")
+
+# TASK 2: Calculate total confirmed cases for every report
+covid$TotalConfirmed &lt;- covid$ConfirmedIndianNational +
+                        covid$ConfirmedForeignNational
+
+# Create transparent learning categories, not medical severity classes
+covid$SeverityLevel &lt;- cut(
+  covid$TotalConfirmed,
+  breaks = c(-Inf, 5, 20, Inf),
+  labels = c("Low (0-5)", "Moderate (6-20)", "High (21+)"),
+  right = TRUE
+)
+
+severity_frequency &lt;- table(covid$SeverityLevel)
+severity_frequency
+sum(severity_frequency)
+round(100 * prop.table(severity_frequency), 1)
+
+pie(severity_frequency,
+    labels = paste(names(severity_frequency),
+                   round(100 * prop.table(severity_frequency), 1), "%"),
+    col = c("lightgreen", "gold", "tomato"),
+    main = "Distribution of Confirmed-Case Levels")
+
+# TASK 3: Inspect and plot the distribution of recovery counts
+summary(covid$Cured)
+table(covid$Cured, useNA = "ifany")
+
+hist(covid$Cured,
+     breaks = seq(-0.5, 9.5, by = 1),
+     col = "seagreen3",
+     border = "white",
+     main = "Distribution of Recovery Numbers",
+     xlab = "Number cured in a report",
+     ylab = "Frequency of reports")
+
+# TASK 4: Convert dates, create daily totals, and draw the trend
+covid$DateConverted &lt;- as.Date(covid$Date, format = "%d-%m-%Y")
+range(covid$DateConverted)
+sum(is.na(covid$DateConverted))
+
+daily_total &lt;- aggregate(TotalConfirmed ~ DateConverted,
+                         data = covid,
+                         FUN = sum)
+head(daily_total)
+tail(daily_total)
+
+plot(daily_total$DateConverted,
+     daily_total$TotalConfirmed,
+     type = "o",
+     pch = 16,
+     col = "firebrick",
+     main = "Trend of Total Confirmed Cases Over Time",
+     xlab = "Date",
+     ylab = "Total confirmed cases")
+
+# FINAL CHECKS: Every result should be TRUE
+nrow(covid) == 270
+sum(state_frequency) == nrow(covid)
+sum(severity_frequency) == nrow(covid)
+sum(is.na(covid$DateConverted)) == 0
+nrow(daily_total) == length(unique(covid$DateConverted))
+tail(daily_total$TotalConfirmed, 1) == 283</code></pre>
+<h2 id="trouble">11. Troubleshooting common beginner misses</h2>
+<details><summary>Error: object 'covid' not found</summary><p>The creation line was not run successfully. Return to Step 3.1, highlight the full <code>covid &lt;- read.csv(...)</code> line, and press Ctrl + Enter. Confirm <code>covid</code> appears in the Environment before displaying or using it.</p></details>
+<details><summary>Cannot open file / no such file or directory</summary><p>R is looking in the wrong folder, or the filename differs. Run <code>list.files()</code>. Compare the printed filename character by character. Set the working directory to the folder containing both the script and CSV.</p></details>
+<details><summary>Unexpected symbol or unexpected end of input</summary><p>You may have highlighted only part of a multiline command or omitted a comma, quote, or parenthesis. Highlight from the function name through its final closing <code>)</code> and run the whole command again.</p></details>
+<details><summary>The Console shows a plus sign instead of &gt;</summary><p>A <code>+</code> prompt means R thinks the command is unfinished, often because a closing quote or parenthesis is missing. Press <strong>Esc</strong>, return to the Script Editor, correct the command, highlight the entire command, and rerun it.</p></details>
+<details><summary>The code ran, but nothing was printed</summary><p>If the line contains <code>&lt;-</code>, no printed output is usually normal. Check the Environment for the object. To display it, run its name only after creating it.</p></details>
+<details><summary>object 'State.UnionTerritory' not found</summary><p>Use <code>names(covid)</code> to inspect the exact imported names. The original slash normally becomes a period after <code>read.csv()</code>. Do not use spaces or a slash in the R column reference unless you deliberately use special quoting.</p></details>
+<details><summary>The date conversion produced NA values</summary><p>Confirm the format is exactly <code>"%d-%m-%Y"</code>. Here <code>%d</code> means day, <code>%m</code> means month, and <code>%Y</code> means four-digit year. Also confirm you imported the correct file.</p></details>
+<details><summary>The bar chart labels are crowded</summary><p>Confirm <code>horiz = TRUE</code>, <code>las = 1</code>, and <code>cex.names = 0.65</code>. Make the Plots pane larger and rerun the whole <code>barplot()</code> command.</p></details>
+<details><summary>My totals differ from the guide</summary><p>Stop rather than changing numbers manually. Check that you used the supplied 270-row file, did not filter rows, used row-wise addition for <code>TotalConfirmed</code>, and created <code>daily_total</code> by date. Restarting R and rerunning the clean script from top to bottom can expose an out-of-order step.</p></details>
+<div class="footer"><strong>Learning outcome connection:</strong> You selected plots suited to categorical frequency, proportional grouping, numerical distribution, and time trends. You also applied counting, grouping, aggregation, missing-value checks, and interpretation limits to support evidence-based conclusions.</div>
+</main></body></html>
