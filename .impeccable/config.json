@@ -17,6 +17,24 @@
         ],
         "createdAt": "2026-11-22T02:36:07.117Z",
         "reason": "Claude verified in browser: flagged #b8bdc9 and #a9bcff sit on the dark opening band rgb(21,23,28), not #f5f6f8; contrast about 10:1"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/launch-into-computing/entries/unit-2-logic-gates.html"
+        ],
+        "createdAt": "2026-11-23T00:45:52.185Z",
+        "reason": "Claude verified in browser: flags come from .page-label (left divider only, 0.9rem padding, no right border) and a visually-hidden table caption; visible cells have 14px padding"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/understanding-artificial-intelligence/entries/unit-9-smallest-defensible-model.html"
+        ],
+        "createdAt": "2026-11-23T00:45:52.435Z",
+        "reason": "Claude verified in browser: flags come from .page-label (left divider only, 0.9rem padding, no right border) and a visually-hidden table caption; visible cells have 14px padding"
       }
     ]
   }
