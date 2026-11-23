@@ -65,7 +65,7 @@
       <section class="chapter" id="presentation-details" aria-labelledby="h-presentation-details">
         <div class="chapter-head"><h2 id="h-presentation-details">About this presentation</h2></div>
         <div class="chapter-body">
-        <div class="note"><strong>About this page:</strong> The presentation was delivered over slides. This is the narrated text, word for word. Slide content is not reproduced here, so where the narration says “the slide”, the slide itself is not shown.</div>
+        <div class="note"><strong>About this page:</strong> The presentation was delivered over slides. This is the narrated text, word for word. Two slides the narration points to are shown below the paragraphs that refer to them, taken from the recorded presentation. The descriptive-statistics table is not shown, because it does not appear in the recording.</div>
         <ul class="resources">
           <li class="resource">
             <a class="resource-link" href="../files/diabetes_analysis.R" download>
@@ -116,6 +116,22 @@
         <p>The visible glucose difference survived testing. Women who later developed diabetes averaged 142.3 milligrams per decilitre, compared with 110.6 among those who did not. The difference was 31.7, with an interval of about 28 to 36, and Cohen's d was 1.19. Welch's t-test and Mann-Whitney supported the same conclusion.</p>
         <p>Most correlations were weak. The main exceptions were skin thickness with BMI, glucose with insulin, and age with pregnancies. The pairwise-complete approach preserved more data, but different correlations used different numbers of women.</p>
         <p>Age group and BMI category were both associated with five-year onset. The slide gives the test statistics and effect sizes. The important decision was that the original BMI chi-square failed because the underweight group was too small. I merged underweight with normal for the main test and used Fisher's exact test on the original table as a check. Both supported the same conclusion.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/u12-tests-slide.webp" width="1280" height="540" alt="Presentation slide titled Conditions, not variable labels, chose the test: a table of four questions, the condition found for each, and the test used with its result." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1</span> The slide with the test statistics and effect sizes, from the recorded presentation.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1</summary>
+    <div class="table-wrap"><table class="data-table">
+      <thead><tr><th scope="col">Question</th><th scope="col">Condition found</th><th scope="col">Test used, result</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Pregnancies by outcome</th><td>Tied, right-skewed count</td><td>Mann-Whitney primary; Welch t agrees, p &lt; .001</td></tr>
+        <tr><th scope="row">Age group and onset</th><td>Expected counts all above 5</td><td>χ²(3, N = 768) = 69.92, p &lt; .001, V = .30</td></tr>
+        <tr><th scope="row">BMI category and onset</th><td>Underweight expected counts 2.6 and 1.4</td><td>Merged with Normal: χ²(2, N = 757) = 76.98, V = .32; Fisher check</td></tr>
+        <tr><th scope="row">Glucose across age groups</th><td>Levene p = .032, unequal variances</td><td>Welch F(3, 247.6) = 20.25; Kruskal-Wallis χ²(3) = 59.04; Holm: all pairs differ except 30–39 vs 40–49</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+</figure>
         <p>For glucose across age groups, Levene's test indicated unequal variances, so I selected Welch ANOVA. Kruskal-Wallis agreed. The Holm-adjusted follow-up showed that the under-30 group had lower glucose than every older group, and the 50-plus group had higher glucose than every younger group. Only the 30-to-39 and 40-to-49 groups did not differ. Glucose rose with age, with a plateau through the thirties and forties.</p>
         </div>
       </section>
@@ -146,6 +162,14 @@
         <p>The BMI-by-age interaction asks whether BMI's association with diabetes changes across age. In the raw model, the lower-order coefficients were evaluated when the other variable equalled zero. That describes an impossible reference case.</p>
         <p>After centring BMI and age at their means, the main effects became readable again. Centring changed the reference point, not the interaction evidence.</p>
         <p>The likelihood-ratio and Wald tests were both non-significant, and the interaction odds-ratio interval crossed one. The exact figures are on the slide. Following Greenland and colleagues (2016), I conclude that there was no detectable interaction on the log-odds scale. I do not conclude that no interaction exists.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/u12-interaction-slide.webp" width="600" height="330" alt="Panel from a presentation slide headed BMI × Age interaction, listing the test results for the interaction term." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2</span> The interaction figures from the slide, from the recorded presentation.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2</summary>
+    <p>BMI × Age interaction. Likelihood-ratio p = .183 · Wald p = .188. OR 1.0017, 95% CI 0.9992 to 1.0041. No detectable interaction on the log-odds scale. Not proof that none exists.</p>
+  </details>
+</figure>
         <p>The assignment's Model 1 added pregnancies to BMI, age and glucose. Model 2 added BMI by age. The interaction did not improve fit, and Model 1 had the lower AIC, so I kept the simpler model.</p>
         <p>In Model 1, glucose, BMI and pregnancies were significant; age was not. That does not mean age stopped mattering. Age and pregnancies correlated at .54, so adding pregnancy count reduced the unique information assigned to age, similar to the lecturecast example where related predictors changed one another's coefficients.</p>
         </div>
