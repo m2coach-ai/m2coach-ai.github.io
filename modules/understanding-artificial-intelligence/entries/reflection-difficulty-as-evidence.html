@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A reflection on Module 2, written for the e-portfolio: how a misleading accuracy tie in the Unit 12 implementation became evidence about my own reasoning.">
+<title>Learning to use difficulty as evidence | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page page--bands" data-paged>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Home</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Understanding Artificial Intelligence</a> / <span aria-current="page">Reflection</span></nav>
+      <p class="page-label">Portfolio reflection</p>
+    </div>
+    <h1 class="display" id="page-title">Learning to use difficulty as evidence</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">Module 2 moved me from recognizing a technical problem to diagnosing why it occurred.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#about-this-reflection">About this reflection</a></li>
+        <li><a href="#what">What</a></li>
+        <li><a href="#so-what">So what</a></li>
+        <li><a href="#now-what">Now what</a></li>
+        <li><a href="#contribution-statement">Contribution statement</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="about-this-reflection" aria-labelledby="h-about-this-reflection">
+        <div class="chapter-head"><h2 id="h-about-this-reflection">About this reflection</h2></div>
+        <div class="chapter-body">
+        <div class="note"><strong>About this page:</strong> Written for this e-portfolio after the module. It was not part of a submitted assessment. It follows the What, So What, Now What structure, and each claim links to the artefact passage that supports it.</div>
+        </div>
+      </section>
+      <section class="chapter" id="what" aria-labelledby="h-what">
+        <div class="chapter-head"><h2 id="h-what">What</h2></div>
+        <div class="chapter-body">
+        <p>Module 2 moved me from recognizing a technical problem to diagnosing why it occurred. In Instantiating the Smallest Defensible Model, I attempted to determine whether Random Forest improves enough on an interpretable logistic regression baseline to justify its greater complexity. My first approach produced a misleading tie: both models reached 96.5 per cent accuracy. That exposed a weakness in my testing, because accuracy hid the distribution of errors, including the false negatives that matter most. The <a href="unit-12-instantiating-the-model.html#analysis-of-outputs">analysis of outputs</a> shows where that figure stopped being enough.</p>
+        <p>Instead of removing the unsuccessful attempt, I used it to trace the problem. I compared the confusion matrices, ran an exact McNemar test on the paired errors, and checked per-fold recall against a dummy baseline. I identified that a one-case difference on 42 malignant test cases could not support a winner (p = 1.000), and I revised my conclusion to a narrower claim: “this test shows no advantage sufficient to justify escalation.”</p>
+        </div>
+      </section>
+      <section class="chapter" id="so-what" aria-labelledby="h-so-what">
+        <div class="chapter-head"><h2 id="h-so-what">So what</h2></div>
+        <div class="chapter-body">
+        <p>The important learning was not simply that the revised method worked. I began to see an error as information about my reasoning. It showed where I had made an assumption, skipped a check or relied on an explanation that was more confident than the evidence allowed. The threshold analysis in the same section showed one such assumption: “The operating point moves the costly error more than the choice between these two algorithms does.”</p>
+        <p>This changed the standard I applied to my own work. Completion answered, “Did I produce a result?” Evaluation asked, “What makes that result worth trusting?” The second question required evidence of testing, limitations and reproducibility. The <a href="unit-12-instantiating-the-model.html#transfer-to-the-unit-9-problem">transfer section</a> sets out which validation methods this study did not run and why.</p>
+        </div>
+      </section>
+      <section class="chapter" id="now-what" aria-labelledby="h-now-what">
+        <div class="chapter-head"><h2 id="h-now-what">Now what</h2></div>
+        <div class="chapter-body">
+        <p>I will carry this diagnostic approach into the next module. For every major artefact, I will document at least one verification step, retain evidence of a meaningful correction and identify one limitation that the final result does not resolve. This will help me distinguish confidence earned through checking from confidence borrowed from a plausible-looking output.</p>
+        </div>
+      </section>
+      <section class="chapter" id="contribution-statement" aria-labelledby="h-contribution-statement">
+        <div class="chapter-head"><h2 id="h-contribution-statement">Contribution statement</h2></div>
+        <div class="chapter-body">
+        <p>The experience, professional connection and final judgement are my own. Foody (2023) informed the argument that a single accuracy figure conceals class-level behaviour, and Dietterich (1998) informed the McNemar test of paired errors. Generative AI (Anthropic, 2026) assisted with brainstorming the project topic, guidance on the Jupyter environment, report structuring, the workflow diagram, and flagging syntax mistakes or logical oversights when prompted. The full use is set out in the <a href="unit-12-instantiating-the-model.html#appendix-c-ai-use-and-academic-integrity-declaration">AI-use declaration</a>. I independently checked each suggestion, decided whether it was appropriate and revised the final work.</p>
+        </div>
+      </section>
+      <section class="chapter" id="references" aria-labelledby="h-references">
+        <div class="chapter-head"><h2 id="h-references">References</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>Anthropic (2026) Claude (Opus 4.8) [Large language model]. Available at: https://claude.ai (Accessed: 13 July 2026).</li>
+          <li>Dietterich, T.G. (1998) ‘Approximate statistical tests for comparing supervised classification learning algorithms’, Neural Computation, 10(7), pp. 1895–1923.</li>
+          <li>Foody, G.M. (2023) ‘Challenges in the real world use of classification accuracy metrics: from recall and precision to the Matthews correlation coefficient’, PLOS ONE, 18(10), e0291908.</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="unit-12-instantiating-the-model.html" rel="prev"><span class="dir">Previous</span><span class="name">Instantiating the Smallest Defensible Model</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Understanding Artificial Intelligence</a></p>
+</footer>
+</body>
+</html>
