@@ -35,6 +35,15 @@
         ],
         "createdAt": "2026-11-23T00:45:52.435Z",
         "reason": "Claude verified in browser: flags come from .page-label (left divider only, 0.9rem padding, no right border) and a visually-hidden table caption; visible cells have 14px padding"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/understanding-artificial-intelligence/entries/cld-1-why-ai-and-deployment-readiness.html"
+        ],
+        "createdAt": "2026-11-23T12:00:00.000Z",
+        "reason": "Same pattern as Unit 2 and Unit 9: new replies table has a visually-hidden caption; .data-table cells have .75rem/.9rem padding"
       }
     ]
   }
