@@ -59,6 +59,14 @@
         <div class="chapter-head"><h2 id="h-the-silent-failure">The silent failure</h2></div>
         <div class="chapter-body">
         <p><em>This page is an excerpt from Part A1. One paragraph, which compares how readable the two languages are, is left out here because Part A2 develops that comparison. The scripts, submitted as appendices, appear under The scripts.</em></p>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/part-a1-full.pdf" download>
+              <span class="resource-title">Download the full Part A1 as submitted (part-a1-full.pdf)</span>
+              <span class="resource-meta"><span class="resource-type">PDF, 9 pages</span> <span class="resource-size">195 KB</span></span>
+            </a>
+          </li>
+        </ul>
         <p>Both scripts contain the most dangerous kind of error: a logic error. The two scripts are designed to sort names. They collect them into a data structure called a set, which removes duplicate entries, then return the remaining names in alphabetical order. In testing, duplicates persisted in the output. This is because versions of the same name written in different capitalisation are treated as entirely separate entries by the code, when in reality they represent the same person. The code runs without crashing. It just produces the wrong result silently, and that is what makes a logic error more dangerous than a crash. Without case normalisation checks in place, records with capitalisation variants survive into the output undetected. In a payroll system this could mean someone gets paid twice. In a hospital database a patient could end up with duplicate records or be incorrectly discharged. Any count of how many people a system has served also becomes unreliable.</p>
         <figure class="figure block">
   <img src="../../../assets/img/module-1/a1-python-original-output.webp" width="740" height="24" alt="Terminal output from the original Python script. The processed list has eight entries, with Alice and alice, bob and BOB, and Charlie and charlie each listed separately." loading="lazy" decoding="async">
