@@ -44,6 +44,15 @@
         ],
         "createdAt": "2026-11-23T12:00:00.000Z",
         "reason": "Same pattern as Unit 2 and Unit 9: new replies table has a visually-hidden caption; .data-table cells have .75rem/.9rem padding"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/understanding-artificial-intelligence/entries/reflection-difficulty-as-evidence.html"
+        ],
+        "createdAt": "2026-11-23T14:00:00.000Z",
+        "reason": "Same pattern: action plan table has a visually-hidden caption; .data-table cells have .75rem/.9rem padding"
       }
     ]
   }
