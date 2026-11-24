@@ -98,6 +98,15 @@
         ],
         "createdAt": "2026-11-23T17:00:00.000Z",
         "reason": "Same pattern as CLD 1: replies table has a visually-hidden caption; .data-table cells have .75rem/.9rem padding"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/numerical-analysis/entries/unit-8-nonparametric-tests.html"
+        ],
+        "createdAt": "2026-11-23T18:00:00.000Z",
+        "reason": "Same pattern as Unit 2 and Unit 9: .page-label (left divider only) and the results table's visually-hidden caption; .data-table cells have .75rem/.9rem padding"
       }
     ]
   }
