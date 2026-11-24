@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Unit 8 data activity in R: describing participant age, a Mann-Whitney U test and a Kruskal-Wallis test on health data from 210 participants.">
+<title>Nonparametric Tests Using Health Data | Mark Martin E-portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../../assets/css/page.css">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<script src="../../../assets/js/page.js"></script>
+</head>
+<body class="page page--bands" data-paged>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="../../../">Mark Martin / E-portfolio</a>
+  <nav class="site-actions" aria-label="Site">
+    <a class="pill" href="../../../#portfolio">Home</a>
+    <a class="pill" href="../">Module hub</a>
+    <details class="pill-menu">
+      <summary class="pill">Modules</summary>
+      <ul>
+        <li><a href="../../../modules/launch-into-computing/">Launch into Computing</a></li>
+        <li><a href="../../../modules/understanding-artificial-intelligence/">Understanding Artificial Intelligence</a></li>
+        <li><a href="../../../modules/numerical-analysis/">Numerical Analysis</a></li>
+        <li><a href="../../../modules/intelligent-agents/">Intelligent Agents</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" aria-labelledby="page-title">
+    <div class="crumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../../">Home</a> / <a href="../">Numerical Analysis</a> / <span aria-current="page">Nonparametric Tests Using Health Data</span></nav>
+      <p class="page-label">R analysis</p>
+    </div>
+    <h1 class="display" id="page-title">Nonparametric Tests Using Health Data</h1>
+    <div class="opening-rule" aria-hidden="true"></div>
+    <p class="lede">The Unit 8 data activity in R: three questions about 210 participants, answered with descriptive statistics, a Mann-Whitney U test and a Kruskal-Wallis test.</p>
+  </section>
+
+  <div class="sheet">
+    <nav class="rail" aria-label="Sections on this page">
+      <p class="rail-label">On this page</p>
+      <ol>
+        <li><a href="#context">Context</a></li>
+        <li><a href="#results-at-a-glance">Results at a Glance</a></li>
+        <li><a href="#task-1">Task 1: Describing Participant Age</a></li>
+        <li><a href="#task-2">Task 2: Diastolic Blood Pressure and Diabetes Status</a></li>
+        <li><a href="#task-3">Task 3: Systolic Blood Pressure and Occupation</a></li>
+        <li><a href="#overall-reflection">Overall Reflection</a></li>
+        <li><a href="#script">Script</a></li>
+        <li><a href="#source">Source</a></li>
+      </ol>
+    </nav>
+    <div class="chapters">
+      <section class="chapter" id="context" aria-labelledby="h-context">
+        <div class="chapter-head"><h2 id="h-context">Context</h2></div>
+        <div class="chapter-body">
+        <p>In this activity, I used R to examine health data from 210 participants. The data was supplied as an SPSS .sav file, so I used the haven package to import it into R.</p>
+        <p>Before beginning the analysis, I checked the dimensions of the dataset, examined the relevant variables, and converted the coded diabetes and occupation variables into labelled factors.</p>
+        <p>One useful lesson came before the statistical analysis even began. I initially treated the SPSS file as though it needed to be opened directly in RStudio. I learned that the file instead needed to be placed in the RStudio Project folder and imported into an R object using read_sav().</p>
+        <p>This helped me understand the difference between a data file stored on my computer and a dataset loaded into the R Environment.</p>
+        <p>I also learned that coded categorical data needs to be checked rather than assumed. In this dataset, diabetes was coded as 1 = Yes and 2 = No. If I had guessed what the numbers represented, I could easily have interpreted the groups incorrectly.</p>
+        </div>
+      </section>
+      <section class="chapter" id="results-at-a-glance" aria-labelledby="h-results-at-a-glance">
+        <div class="chapter-head"><h2 id="h-results-at-a-glance">Results at a Glance</h2></div>
+        <div class="chapter-body">
+          <div class="table-wrap block"><table class="data-table">
+            <caption class="visually-hidden">Each task, the method used, the result and the decision</caption>
+            <thead><tr><th scope="col">Task</th><th scope="col">Method</th><th scope="col">Result</th><th scope="col">Decision</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">1. Participant age</th><td>Descriptive statistics</td><td>Mean = 26.51, median = 27, mode = 26</td><td>The age distribution was roughly symmetrical</td></tr>
+              <tr><th scope="row">2. Diastolic blood pressure by diabetes status</th><td>Mann-Whitney U test</td><td>W = 3804.5, p = 0.80</td><td>No statistically significant difference</td></tr>
+              <tr><th scope="row">3. Systolic blood pressure by occupation</th><td>Kruskal-Wallis test</td><td>H(3) = 0.78, p = 0.85</td><td>No statistically significant difference</td></tr>
+            </tbody>
+          </table></div>
+          <p>The table provides a brief overview of my results. The following sections explain the method, evidence, and interpretation for each task in more detail.</p>
+        </div>
+      </section>
+      <section class="chapter" id="task-1" aria-labelledby="h-task-1">
+        <div class="chapter-head"><h2 id="h-task-1">Task 1: Describing Participant Age</h2></div>
+        <div class="chapter-body">
+        <h3>The question</h3>
+        <p>What do the mean, median, and mode tell me about the ages of the 210 participants?</p>
+        <h3>The method and why I used it</h3>
+        <p>This task required descriptive statistics rather than a hypothesis test. I calculated the mean, median, and mode because each provides a slightly different way of identifying a typical participant age.</p>
+        <p>I also created a histogram to examine the overall shape and spread of the age data.</p>
+        <h3>Key numbers</h3>
+        <p>The results were:</p>
+        <ul>
+          <li>Mean age: 26.51 years</li>
+          <li>Median age: 27 years</li>
+          <li>Mode: 26 years</li>
+          <li>Number of participants aged 26: 16</li>
+          <li>Age range: 6 to 45 years</li>
+        </ul>
+        <p>I initially expected R’s mode() function to calculate the most frequent age. However, it returned "numeric" because R uses mode() to identify the type of data rather than calculate the statistical mode.</p>
+        <p>I therefore used table() to count the ages and identify the age that appeared most frequently.</p>
+        <h3>Interpretation</h3>
+        <p>The mean, median, and mode are all within approximately one year of one another. The histogram also appears reasonably balanced around the middle.</p>
+        <p>Taken together, these results suggest that participant age is roughly symmetrical rather than being strongly pulled toward much younger or older values.</p>
+        <h3>Plain-language finding</h3>
+        <p>A typical participant was approximately 26 to 27 years old, and 26 was the most common age in the dataset.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/u8-age-histogram.webp" width="1544" height="753" alt="Histogram titled Age of participants, with age in years on the horizontal axis and frequency on the vertical axis. The bars rise to a peak in the mid-twenties and fall away towards both ends." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 1.</span> Distribution of participant age. The ages range from 6 to 45 years and are concentrated around the mid-to-late twenties.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 1.</summary>
+    <p>The histogram groups ages into two-year bars from 6 to 46. The two tallest bars, for ages 24 to 26 and 26 to 28, each reach a frequency of 24. The bars are low at both ends, with 1 to 3 participants in each of the youngest and oldest bars, and there is no long tail on either side.</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="task-2" aria-labelledby="h-task-2">
+        <div class="chapter-head"><h2 id="h-task-2">Task 2: Diastolic Blood Pressure and Diabetes Status</h2></div>
+        <div class="chapter-body">
+        <h3>The question</h3>
+        <p>Is median diastolic blood pressure different between participants with diabetes and participants without diabetes?</p>
+        <h3>The test and why I chose it</h3>
+        <p>I used a Mann-Whitney U test, which R reports as a Wilcoxon rank-sum test.</p>
+        <p>This test was appropriate because I was comparing two separate groups:</p>
+        <ul>
+          <li>participants with diabetes</li>
+          <li>participants without diabetes</li>
+        </ul>
+        <p>The analysis also indicated that the data was not normally distributed. The Shapiro-Wilk normality test for diastolic blood pressure in the non-diabetic group produced a p-value below 0.05:</p>
+        <p>W = 0.96409, p = 0.0002865</p>
+        <p>Because the normality assumption was not met, I chose a rank-based nonparametric test rather than an independent-samples t-test.</p>
+        <p>Instead of comparing the groups using their means, the Mann-Whitney test ranks the observations from lowest to highest and examines whether one group generally has higher values than the other.</p>
+        <h3>Hypotheses</h3>
+        <p>Null hypothesis, H₀: Diastolic blood pressure has the same distribution and median in participants with and without diabetes.</p>
+        <p>Alternative hypothesis, H₁: Diastolic blood pressure differs between participants with and without diabetes.</p>
+        <h3>Key numbers</h3>
+        <ul>
+          <li>Participants with diabetes: n = 45</li>
+          <li>Median for participants with diabetes: 83 mmHg</li>
+          <li>Participants without diabetes: n = 165</li>
+          <li>Median for participants without diabetes: 82 mmHg</li>
+          <li>Test statistic: W = 3804.5</li>
+          <li>p-value: p = 0.7999, reported as p = 0.80</li>
+        </ul>
+        <h3>Decision</h3>
+        <p>The p-value of 0.80 is considerably higher than the significance level of 0.05. I therefore failed to reject H₀.</p>
+        <p>The analysis found no statistically significant difference in diastolic blood pressure between participants with and without diabetes.</p>
+        <p>This does not prove that the two populations are identical. It means that this sample did not provide sufficient evidence of a difference.</p>
+        <h3>Plain-language finding</h3>
+        <p>The typical diastolic blood pressure was almost the same in the two groups, and the small observed difference could reasonably be explained by normal variation in the sample.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/u8-dbp-by-diabetes.webp" width="1544" height="753" alt="Box plot titled Diastolic BP by diabetes status, comparing participants with diabetes (Yes) and without (No). The two boxes sit at almost the same height with almost the same median line." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 2.</span> Diastolic blood pressure by diabetes status. The two groups have similar medians and strongly overlapping distributions.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 2.</summary>
+    <p>Two box plots of diastolic blood pressure in mmHg. For participants with diabetes, the median is 83, the box runs from about 75 to 90 and the whiskers from 60 to 105. For participants without diabetes, the median is 82, the box runs from about 74 to 90 and the whiskers from 60 to 113, with one outlier near 115.</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="task-3" aria-labelledby="h-task-3">
+        <div class="chapter-head"><h2 id="h-task-3">Task 3: Systolic Blood Pressure and Occupation</h2></div>
+        <div class="chapter-body">
+        <h3>The question</h3>
+        <p>Does systolic blood pressure differ across the four occupational groups in the dataset?</p>
+        <h3>The test and why I chose it</h3>
+        <p>I used a Kruskal-Wallis test because this task compares systolic blood pressure across four separate occupational groups.</p>
+        <p>A standard one-way ANOVA compares means and assumes that the group data is approximately normally distributed. The normality checks indicated that systolic blood pressure was not normally distributed across the occupational groups, with Shapiro-Wilk p-values below 0.05.</p>
+        <p>A rank-based Kruskal-Wallis test was therefore more appropriate. The test ranks all systolic blood pressure values and evaluates whether the ranks are distributed differently across the four groups.</p>
+        <h3>Hypotheses</h3>
+        <p>Null hypothesis, H₀: Systolic blood pressure has the same distribution across all four occupational groups.</p>
+        <p>Alternative hypothesis, H₁: At least one occupational group has a different systolic blood pressure distribution.</p>
+        <h3>Key numbers</h3>
+        <p>The group results were:</p>
+        <ul>
+          <li>Government job: median = 125.5 mmHg, n = 60</li>
+          <li>Private job: median = 120 mmHg, n = 49</li>
+          <li>Business: median = 122 mmHg, n = 49</li>
+          <li>Other: median = 123 mmHg, n = 52</li>
+        </ul>
+        <p>The Kruskal-Wallis result was:</p>
+        <ul>
+          <li>Test statistic: H = 0.77906</li>
+          <li>Degrees of freedom: df = 3</li>
+          <li>p-value: p = 0.8545</li>
+        </ul>
+        <p>For a concise report, this can be written as:</p>
+        <p>H(3) = 0.78, p = 0.85</p>
+        <h3>Decision</h3>
+        <p>The p-value of 0.85 is higher than the significance level of 0.05. I therefore failed to reject H₀.</p>
+        <p>The analysis found no statistically significant difference in systolic blood pressure across the four occupational groups.</p>
+        <p>Because the overall Kruskal-Wallis test was not significant, there was no justification for conducting additional pairwise comparisons.</p>
+        <h3>Plain-language finding</h3>
+        <p>Although the four occupational groups had slightly different median readings, the differences were small enough that they could reasonably have resulted from normal variation in the sample.</p>
+        <figure class="figure block">
+  <img src="../../../assets/img/module-3/u8-sbp-by-occupation.webp" width="1544" height="753" alt="Box plot titled Systolic BP by occupation, with four boxes for government job, private job, business and others. The boxes overlap heavily and their median lines sit close together." loading="lazy" decoding="async">
+  <figcaption><span class="figure-label">Figure 3.</span> Systolic blood pressure across occupational groups. The group medians range from 120 to 125.5 mmHg, but their distributions overlap considerably.</figcaption>
+  <details class="figure-text">
+    <summary>Text description of Figure 3.</summary>
+    <p>Four box plots of systolic blood pressure in mmHg. Government job: median 125.5, box about 116 to 142, with two outliers near 186 and 190. Private job: median 120, box about 110 to 145. Business: median 122, box about 111 to 140, with one outlier near 195. Others: median 123, box about 114 to 140. The lower whiskers end between about 91 and 100, and the upper whiskers between about 172 and 176.</p>
+  </details>
+</figure>
+        </div>
+      </section>
+      <section class="chapter" id="overall-reflection" aria-labelledby="h-overall-reflection">
+        <div class="chapter-head"><h2 id="h-overall-reflection">Overall Reflection</h2></div>
+        <div class="chapter-body">
+        <p>This activity reinforced that statistical analysis involves more than running a test and reporting a p-value. I first needed to confirm that R could locate the file, import the SPSS data correctly, identify the required variables, and interpret the category labels accurately.</p>
+        <p>The diabetes coding was a particularly useful reminder that numbers in a dataset do not always mean what I might initially assume. In this case, 1 represented “Yes” and 2 represented “No.” Checking the labels before interpreting the results prevented a potentially serious error.</p>
+        <p>I also developed a clearer understanding of what a non-significant result means. Failing to reject a null hypothesis does not prove that the groups are identical. It means that the available data does not provide convincing evidence of a difference.</p>
+        <p>That distinction matters when statistical findings are communicated to people who might otherwise interpret “not statistically significant” as meaning “exactly the same.”</p>
+        </div>
+      </section>
+      <section class="chapter" id="script" aria-labelledby="h-script">
+        <div class="chapter-head"><h2 id="h-script">Script</h2></div>
+        <div class="chapter-body">
+        <p>The R script for this activity, as saved. It reads the Health_Data file, which is not published here.</p>
+        <ul class="resources">
+          <li class="resource">
+            <a class="resource-link" href="../files/unit8_nonparametric.R" download>
+              <span class="resource-title">Download the Unit 8 script (unit8_nonparametric.R)</span>
+              <span class="resource-meta"><span class="resource-type">R script</span> <span class="resource-size">1.1 KB</span></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </section>
+      <section class="chapter" id="source" aria-labelledby="h-source">
+        <div class="chapter-head"><h2 id="h-source">Source</h2></div>
+        <div class="chapter-body">
+        <ul>
+          <li>University of Essex Online (2026) Health_Data [Dataset]. Supplied in ‘Data Activity 6’, NA_PCOM7E Numerical Analysis, Unit 8. University of Essex Online. Available at: <a href="https://www.my-course.co.uk/mod/page/view.php?id=1374031" rel="noopener">https://www.my-course.co.uk/mod/page/view.php?id=1374031</a> (Accessed: 21 September 2026).</li>
+        </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav class="pagenav" aria-label="Page sequence">
+    <a class="prev" href="discussion-misinterpreting-statistical-information.html" rel="prev"><span class="dir">Previous</span><span class="name">When statistical measures create false confidence</span></a>
+    <a class="next" href="r-scripts-and-plots.html" rel="next"><span class="dir">Next</span><span class="name">R scripts and plots</span></a>
+  </nav>
+</main>
+
+<footer>
+  <p><a href="../">Return to Numerical Analysis</a></p>
+</footer>
+</body>
+</html>
