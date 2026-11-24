@@ -89,6 +89,15 @@
         ],
         "createdAt": "2026-11-23T16:00:00.000Z",
         "reason": "Claude measured in browser: only h1.display and the .brand link sit below 1.3; both are design-system display type, body text is unaffected"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "modules/launch-into-computing/entries/unit-4-discussion.html"
+        ],
+        "createdAt": "2026-11-23T17:00:00.000Z",
+        "reason": "Same pattern as CLD 1: replies table has a visually-hidden caption; .data-table cells have .75rem/.9rem padding"
       }
     ]
   }
